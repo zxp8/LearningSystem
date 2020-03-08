@@ -1,4 +1,4 @@
-/Song.Site/Bin/*.pdb
+﻿/Song.Site/Bin/*.pdb
 /Song.Site/Bin/Song.Site.dll
 /Song.Site/Bin/*.xml
 /Song.Site/Bin/Song.*.dll
@@ -47,6 +47,7 @@ _ReSharper*/
 .vs/
 #Nuget packages folder
 packages/
+/Backup/
 /Song.Site/Song.Site.Publish.xml
 /文档/开发文档/~$学习平台-数据字典.doc
 ~$*.*
