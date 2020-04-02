@@ -1294,7 +1294,6 @@
     <Content Include="Templates\Web\Gov\Teacher\Styles\Startpage.css" />
     <Content Include="Templates\Web\Gov\Test.htm" />
     <Content Include="Templates\Web\Gov\TestScene.htm" />
-    <Content Include="Templates\Web\Gov\Training.htm" />
     <Content Include="Templates\Web\Gov\_self.xml" />
     <Content Include="Templates\Web\Neimeng\CoreScripts\ajaxfileupload.js" />
     <Content Include="Templates\Web\Neimeng\CourseBuy.htm" />
@@ -1841,7 +1840,6 @@
     <Content Include="Templates\Web\Neimeng\Teacher\Styles\Startpage.css" />
     <Content Include="Templates\Web\Neimeng\Test.htm" />
     <Content Include="Templates\Web\Neimeng\TestScene.htm" />
-    <Content Include="Templates\Web\Neimeng\Training.htm" />
     <Content Include="Templates\Web\School\About.htm" />
     <Content Include="Templates\Web\School\Admin\Images\login-banner.jpg" />
     <Content Include="Templates\Web\School\Admin\Images\main-banner.jpg" />
@@ -2048,7 +2046,6 @@
     <Content Include="Templates\Web\School\Teacher\Styles\Startpage.css" />
     <Content Include="Templates\Web\School\Test.htm" />
     <Content Include="Templates\Web\School\TestScene.htm" />
-    <Content Include="Templates\Web\School\Training.htm" />
     <Content Include="Templates\Web\School\_self.xml" />
     <Content Include="Utility\Ckplayer\ckplayer\ckplayer.js" />
     <Content Include="Utility\Ckplayer\ckplayer\ckplayer.swf" />
