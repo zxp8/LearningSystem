@@ -68,6 +68,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\System.Net.Http.dll</HintPath>
@@ -132,6 +133,7 @@
     <Compile Include="Methods\Account.cs" />
     <Compile Include="Methods\Course.cs" />
     <Compile Include="Methods\Live.cs" />
+    <Compile Include="Methods\Notice.cs" />
     <Compile Include="Methods\Organ.cs" />
     <Compile Include="Methods\Outline.cs" />
     <Compile Include="Methods\Platform.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultCache.cs" />
     <Compile Include="VExcept.cs" />
+    <Compile Include="ViewMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">

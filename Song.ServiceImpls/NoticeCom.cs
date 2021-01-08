@@ -26,11 +26,19 @@ namespace Song.ServiceImpls
                 entity.Org_ID = org.Org_ID;
                 entity.Org_Name = org.Org_Name;
             }
+            if (entity.No_StartTime != null)            
+                entity.No_StartTime = ((DateTime)entity.No_StartTime).Date;
+            if (entity.No_EndTime != null)
+                entity.No_EndTime = ((DateTime)entity.No_EndTime).Date;
             Gateway.Default.Save<Notice>(entity);
         }
 
         public void Save(Notice entity)
         {
+            if (entity.No_StartTime != null)
+                entity.No_StartTime = ((DateTime)entity.No_StartTime).Date;
+            if (entity.No_EndTime != null)
+                entity.No_EndTime = ((DateTime)entity.No_EndTime).Date;
             Gateway.Default.Save<Notice>(entity);
         }
 
@@ -150,7 +158,31 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<Notice>(wc);
             return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc).ToArray<Notice>(size, (index - 1) * size);
         }
+        /// <summary>
+        /// 获取通知公告
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="type">1为普通通知，2为弹窗通知</param>
+        /// <param name="forpage">弹窗所在页</param>    
+        /// <param name="time">当前时间</param>
+        /// <param name="isShow">是否显示</param>
+        /// <param name="count">取多少条</param>
+        /// <returns></returns>
+        public Notice[] List(int orgid, int type, string forpage, DateTime? time, bool? isShow, int count)
+        {
+            WhereClip wc = new WhereClip();
+            wc &= Notice._.No_Type == type;
+            if (orgid > 0) wc &= Notice._.Org_ID == orgid;
+            if (isShow != null) wc &= Notice._.No_IsShow == (bool)isShow;
+            if (!string.IsNullOrWhiteSpace(forpage)) wc &= Notice._.No_Page == forpage;
+            if (time != null)
+            {
+                DateTime date = ((DateTime)time).Date;
+                wc &= Notice._.No_StartTime <= date && Notice._.No_EndTime >= date;
+            }
+            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc).ToArray<Notice>(count);
+        }
         #endregion
-        
+
     }
 }

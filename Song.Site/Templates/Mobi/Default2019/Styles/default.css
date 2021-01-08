@@ -2,10 +2,12 @@
 	background-color: #f2f2f2;
 	overflow-x: hidden;
 }
-html,body{
-	width:100%;
-	height:100%;	
+
+html, body {
+	width: 100%;
+	height: 100%;
 }
+
 a {
 	color: gray;
 }
@@ -215,9 +217,9 @@ a {
 	text-align: center;
 	width: 100%;
 	margin-bottom: 50px;
-	 display: flex;
-     flex-direction: row;
-     flex-wrap: wrap;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 .cour-list .loading {
@@ -260,7 +262,7 @@ a {
 }
 
 .cour-list .cour-box {
-	width: 44%;	
+	width: 44%;
 	text-align: center;
 	position: relative;
 }
@@ -404,4 +406,11 @@ live {
 	font-family: iconfont;
 	font-size: 16px;
 	margin-right: 5px;
+}
+
+/*通知公告的弹出*/
+
+[v-cloak] {
+	display: none;
+	
 }

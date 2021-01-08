@@ -247,6 +247,15 @@
     <Content Include="Download\App.aspx" />
     <Content Include="Download\DesktopApp\readme.txt" />
     <Content Include="favicon.ico" />
+    <Content Include="Help\API\Index.htm" />
+    <Content Include="Help\API\Scripts\Default.js" />
+    <Content Include="Help\API\Scripts\Index.js" />
+    <Content Include="Help\API\Styles\Index.css" />
+    <Content Include="Help\Datas\Index.htm" />
+    <Content Include="Help\Datas\Scripts\index.js" />
+    <Content Include="Help\Datas\Styles\index.css" />
+    <Content Include="Help\Default.htm" />
+    <Content Include="Help\Styles\Default.css" />
     <Content Include="License.aspx" />
     <Content Include="Manage\Admin\Courses.aspx" />
     <Content Include="Manage\Admin\Departs_Edit.aspx" />
@@ -442,8 +451,11 @@
     <Content Include="Manage\Questions\Questions_Edit6.aspx" />
     <Content Include="Manage\Scripts\Public.js" />
     <Content Include="Manage\Scripts\Console.js" />
+    <Content Include="Manage\Site\Notice_Edit.html" />
+    <Content Include="Manage\Site\Scripts\Notice_Edit.js" />
     <Content Include="Manage\Site\SSOApi.aspx" />
     <Content Include="Manage\Site\SSOApi_Edit.aspx" />
+    <Content Include="Manage\Site\Styles\Notice_Edit.css" />
     <Content Include="Manage\SMS\Scripts\SMSSetup.js" />
     <Content Include="Manage\SMS\Scripts\SMSSetup_Edit.js" />
     <Content Include="Manage\SMS\SMSSetup_Edit.aspx" />
@@ -1045,7 +1057,6 @@
     <Content Include="Templates\Web\Neimeng\Teacher\Register.htm" />
     <Content Include="Templates\Web\Neimeng\Teacher\Scripts\Register.js" />
     <Content Include="Templates\Web\Neimeng\Teacher\Styles\Register.css" />
-    <Content Include="Templates\Web\NetSchool\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\NetSchool\CourseChannel.htm" />
     <Content Include="Templates\Web\NetSchool\Images\bar01.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\cou_nophoto.jpg" />
@@ -1074,10 +1085,8 @@
     <Content Include="Templates\Web\Gov\Admin\Images\login-banner.jpg" />
     <Content Include="Templates\Web\Gov\Admin\Images\main-banner.jpg" />
     <Content Include="Templates\Web\Gov\Admin\Index.htm" />
-    <Content Include="Templates\Web\Gov\Admin\Panel.htm" />
     <Content Include="Templates\Web\Gov\Admin\Scripts\Index.js" />
     <Content Include="Templates\Web\Gov\Admin\Styles\index.css" />
-    <Content Include="Templates\Web\Gov\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\Gov\Article.htm" />
     <Content Include="Templates\Web\Gov\Contactus.htm" />
     <Content Include="Templates\Web\Gov\CoreScripts\ajaxfileupload.js" />
@@ -1287,7 +1296,6 @@
     <Content Include="Templates\Web\NetSchool\Admin\Images\login-banner.jpg" />
     <Content Include="Templates\Web\NetSchool\Admin\Images\main-banner.jpg" />
     <Content Include="Templates\Web\NetSchool\Admin\Index.htm" />
-    <Content Include="Templates\Web\NetSchool\Admin\Panel.htm" />
     <Content Include="Templates\Web\NetSchool\Admin\Scripts\Index.js" />
     <Content Include="Templates\Web\NetSchool\Admin\Styles\index.css" />
     <Content Include="Templates\Web\NetSchool\Article.htm" />
@@ -1341,6 +1349,9 @@
     <Content Include="Templates\Web\School\Styles\News.css" />
     <Content Include="Templates\Web\School\CourseChannel.htm" />
     <Content Include="Templates\Web\School\Styles\CourseChannel.css" />
+    <Content Include="Templates\Web\_Public\Admin\Panel.htm" />
+    <Content Include="Templates\Web\_Public\Admin\Scripts\panel.js" />
+    <Content Include="Templates\Web\_Public\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\_Public\CoreScripts\ajaxfileupload.js" />
     <Content Include="Templates\Web\_Public\CoreScripts\dexie.js" />
     <Content Include="Templates\Web\_Public\CoreScripts\Node.js" />
@@ -1450,9 +1461,6 @@
     <Content Include="Templates\Web\_Public\Module\Accounts\PwFind.css" />
     <Content Include="Templates\Web\_Public\Module\Accounts\PwFind.htm" />
     <Content Include="Templates\Web\_Public\Module\Accounts\PwFind.js" />
-    <Content Include="Templates\Web\_Public\Module\Admin\Panel.css" />
-    <Content Include="Templates\Web\_Public\Module\Admin\Panel.htm" />
-    <Content Include="Templates\Web\_Public\Module\Admin\panel.js" />
     <Content Include="Templates\Web\_Public\Module\Course\Images\liveSnapshot.jpg" />
     <Content Include="Templates\Web\_Public\Module\Course\Sheet.css" />
     <Content Include="Templates\Web\_Public\Module\Course\Buy.css" />
@@ -1552,6 +1560,11 @@
     <Content Include="Templates\Web\_Public\CourseStudy_.htm" />
     <Content Include="Templates\Web\_Public\Styles\CourseStudy_.css" />
     <Content Include="Templates\Web\_Public\Styles\CourseChat.css" />
+    <Content Include="Templates\Web\_Public\Teacher\Panel.htm" />
+    <Content Include="Templates\Web\_Public\Teacher\Scripts\panel.js" />
+    <Content Include="Templates\Web\_Public\Teacher\Startpage.htm" />
+    <Content Include="Templates\Web\_Public\Teacher\Styles\Panel.css" />
+    <Content Include="Templates\Web\_Public\Teacher\Styles\Startpage.css" />
     <Content Include="Templates\Web\_Public\Vue.htm" />
     <Content Include="Templates\Web\_Public\CourseChat.htm" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.js" />
@@ -1681,10 +1694,8 @@
     <Content Include="Templates\Web\Neimeng\Admin\Images\login-banner.jpg" />
     <Content Include="Templates\Web\Neimeng\Admin\Images\main-banner.jpg" />
     <Content Include="Templates\Web\Neimeng\Admin\Index.htm" />
-    <Content Include="Templates\Web\Neimeng\Admin\Panel.htm" />
     <Content Include="Templates\Web\Neimeng\Admin\Scripts\Index.js" />
     <Content Include="Templates\Web\Neimeng\Admin\Styles\index.css" />
-    <Content Include="Templates\Web\Neimeng\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\Neimeng\Article.htm" />
     <Content Include="Templates\Web\Neimeng\Contactus.htm" />
     <Content Include="Templates\Web\Neimeng\CoreScripts\Base64.js" />
@@ -1827,10 +1838,8 @@
     <Content Include="Templates\Web\School\Admin\Images\login-banner.jpg" />
     <Content Include="Templates\Web\School\Admin\Images\main-banner.jpg" />
     <Content Include="Templates\Web\School\Admin\Index.htm" />
-    <Content Include="Templates\Web\School\Admin\Panel.htm" />
     <Content Include="Templates\Web\School\Admin\Scripts\Index.js" />
     <Content Include="Templates\Web\School\Admin\Styles\index.css" />
-    <Content Include="Templates\Web\School\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\School\Article.htm" />
     <Content Include="Templates\Web\School\Contactus.htm" />
     <Content Include="Templates\Web\School\CoreScripts\Base64.js" />
@@ -2088,6 +2097,8 @@
     <Content Include="Utility\echarts\chart\wordCloud.js" />
     <Content Include="Utility\echarts\echarts-all.js" />
     <Content Include="Utility\echarts\echarts.js" />
+    <Content Include="Utility\editor\vue-html5-editor.css" />
+    <Content Include="Utility\editor\vue-html5-editor.js" />
     <Content Include="Utility\ElementUi\index.css" />
     <Content Include="Utility\ElementUi\index.html" />
     <Content Include="Utility\ElementUi\index.js" />
@@ -2232,6 +2243,7 @@
     <Content Include="Utility\Qiniuyun\demo1.html" />
     <Content Include="Utility\Qiniuyun\qiniu-web-player-1.2.2.js" />
     <Content Include="Utility\Qiniuyun\qiniu-web-player-1.2.3.js" />
+    <Content Include="Utility\Scripts\popup-notice.js" />
     <Content Include="Utility\Verify\Demo\1-1.htm" />
     <Content Include="Utility\Verify\Demo\1-2.htm" />
     <Content Include="Utility\Verify\Demo\2-1.htm" />
@@ -2454,14 +2466,6 @@
     </Compile>
     <Compile Include="Examing.ashx.cs">
       <DependentUpon>Examing.ashx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Help\API.ashx.cs">
-      <DependentUpon>API.ashx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Help\Default.ashx.cs">
-      <DependentUpon>Default.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Manage\Admin\Courses.aspx.cs">
@@ -5153,13 +5157,6 @@
     <Compile Include="Manage\Site\Notice.aspx.designer.cs">
       <DependentUpon>Notice.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Manage\Site\Notice_Edit.aspx.cs">
-      <DependentUpon>Notice_Edit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Manage\Site\Notice_Edit.aspx.designer.cs">
-      <DependentUpon>Notice_Edit.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Manage\Site\Vote.aspx.cs">
       <DependentUpon>Vote.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -5813,7 +5810,6 @@
     <Content Include="Manage\Site\MessageBoard.aspx" />
     <Content Include="Manage\Site\MessageBoard_Ans.aspx" />
     <Content Include="Manage\Site\Notice.aspx" />
-    <Content Include="Manage\Site\Notice_Edit.aspx" />
     <Content Include="Manage\Site\Vote.aspx" />
     <Content Include="Manage\Site\Vote_Edit.aspx" />
     <Content Include="Manage\SOAP\Depart.asmx" />
@@ -6591,8 +6587,7 @@
     <Content Include="Ajax\SelfCourse.ashx" />
     <Content Include="Ajax\SelfStudyLog.ashx" />
     <Content Include="API\API.ashx" />
-    <Content Include="Help\API.ashx" />
-    <Content Include="Help\Default.ashx" />
+    <Content Include="Help\Datas\Entitiy\entities.json" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
     <Content Include="Mobile\ExamReview.ashx" />
     <Content Include="Mobile\MyFriends.ashx" />
@@ -6694,6 +6689,8 @@
     <Content Include="Mobile\Weixin.ashx" />
     <Content Include="Utility\ElementUi\fonts\element-icons.ttf" />
     <Content Include="Utility\ElementUi\fonts\element-icons.woff" />
+    <Content Include="Utility\editor\fontawesome-webfont.woff" />
+    <Content Include="Utility\editor\fontawesome-webfont.woff2" />
     <None Include="Utility\PdfViewer\cmaps\78-EUC-H.bcmap" />
     <None Include="Utility\PdfViewer\cmaps\78-EUC-V.bcmap" />
     <None Include="Utility\PdfViewer\cmaps\78-H.bcmap" />
@@ -6979,7 +6976,6 @@
     <Folder Include="Manage\Utility\kindeditor\attached\" />
     <Folder Include="Upload\" />
     <Folder Include="Utility\Images\Mobi\" />
-    <Folder Include="Utility\VideoHandler\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

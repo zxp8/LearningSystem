@@ -16,8 +16,6 @@ namespace Song.Entities {
     		
     		protected Boolean _No_IsShow;
     		
-    		protected Boolean _No_IsOpen;
-    		
     		protected Boolean _No_IsTop;
     		
     		protected DateTime? _No_CrtTime;
@@ -35,6 +33,28 @@ namespace Song.Entities {
     		protected Int32 _Org_ID;
     		
     		protected String _Org_Name;
+    		
+    		protected String _No_Page;
+    		
+    		protected String _No_Interval;
+    		
+    		protected Int32 _No_Range;
+    		
+    		protected Int32 _No_OpenCount;
+    		
+    		protected Int32 _No_Width;
+    		
+    		protected Int32 _No_Height;
+    		
+    		protected String _No_BgImage;
+    		
+    		protected String _No_Linkurl;
+    		
+    		protected Int32 _No_Timespan;
+    		
+    		protected String _No_StudentSort;
+    		
+    		protected Int32 _No_Type;
     		
     		/// <summary>
     		/// False
@@ -85,19 +105,6 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.No_IsShow, _No_IsShow, value);
     				this._No_IsShow = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// False
-    		/// </summary>
-    		public Boolean No_IsOpen {
-    			get {
-    				return this._No_IsOpen;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.No_IsOpen, _No_IsOpen, value);
-    				this._No_IsOpen = value;
     			}
     		}
     		
@@ -209,6 +216,116 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String No_Page {
+    			get {
+    				return this._No_Page;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Page, _No_Page, value);
+    				this._No_Page = value;
+    			}
+    		}
+    		
+    		public String No_Interval {
+    			get {
+    				return this._No_Interval;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Interval, _No_Interval, value);
+    				this._No_Interval = value;
+    			}
+    		}
+    		
+    		public Int32 No_Range {
+    			get {
+    				return this._No_Range;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Range, _No_Range, value);
+    				this._No_Range = value;
+    			}
+    		}
+    		
+    		public Int32 No_OpenCount {
+    			get {
+    				return this._No_OpenCount;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_OpenCount, _No_OpenCount, value);
+    				this._No_OpenCount = value;
+    			}
+    		}
+    		
+    		public Int32 No_Width {
+    			get {
+    				return this._No_Width;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Width, _No_Width, value);
+    				this._No_Width = value;
+    			}
+    		}
+    		
+    		public Int32 No_Height {
+    			get {
+    				return this._No_Height;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Height, _No_Height, value);
+    				this._No_Height = value;
+    			}
+    		}
+    		
+    		public String No_BgImage {
+    			get {
+    				return this._No_BgImage;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_BgImage, _No_BgImage, value);
+    				this._No_BgImage = value;
+    			}
+    		}
+    		
+    		public String No_Linkurl {
+    			get {
+    				return this._No_Linkurl;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Linkurl, _No_Linkurl, value);
+    				this._No_Linkurl = value;
+    			}
+    		}
+    		
+    		public Int32 No_Timespan {
+    			get {
+    				return this._No_Timespan;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Timespan, _No_Timespan, value);
+    				this._No_Timespan = value;
+    			}
+    		}
+    		
+    		public String No_StudentSort {
+    			get {
+    				return this._No_StudentSort;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_StudentSort, _No_StudentSort, value);
+    				this._No_StudentSort = value;
+    			}
+    		}
+    		
+    		public Int32 No_Type {
+    			get {
+    				return this._No_Type;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Type, _No_Type, value);
+    				this._No_Type = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -240,7 +357,6 @@ namespace Song.Entities {
     					_.No_Ttl,
     					_.No_Context,
     					_.No_IsShow,
-    					_.No_IsOpen,
     					_.No_IsTop,
     					_.No_CrtTime,
     					_.No_StartTime,
@@ -249,7 +365,18 @@ namespace Song.Entities {
     					_.Acc_Name,
     					_.No_Organ,
     					_.Org_ID,
-    					_.Org_Name};
+    					_.Org_Name,
+    					_.No_Page,
+    					_.No_Interval,
+    					_.No_Range,
+    					_.No_OpenCount,
+    					_.No_Width,
+    					_.No_Height,
+    					_.No_BgImage,
+    					_.No_Linkurl,
+    					_.No_Timespan,
+    					_.No_StudentSort,
+    					_.No_Type};
     		}
     		
     		/// <summary>
@@ -261,7 +388,6 @@ namespace Song.Entities {
     					this._No_Ttl,
     					this._No_Context,
     					this._No_IsShow,
-    					this._No_IsOpen,
     					this._No_IsTop,
     					this._No_CrtTime,
     					this._No_StartTime,
@@ -270,7 +396,18 @@ namespace Song.Entities {
     					this._Acc_Name,
     					this._No_Organ,
     					this._Org_ID,
-    					this._Org_Name};
+    					this._Org_Name,
+    					this._No_Page,
+    					this._No_Interval,
+    					this._No_Range,
+    					this._No_OpenCount,
+    					this._No_Width,
+    					this._No_Height,
+    					this._No_BgImage,
+    					this._No_Linkurl,
+    					this._No_Timespan,
+    					this._No_StudentSort,
+    					this._No_Type};
     		}
     		
     		/// <summary>
@@ -288,9 +425,6 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.No_IsShow))) {
     				this._No_IsShow = reader.GetBoolean(_.No_IsShow);
-    			}
-    			if ((false == reader.IsDBNull(_.No_IsOpen))) {
-    				this._No_IsOpen = reader.GetBoolean(_.No_IsOpen);
     			}
     			if ((false == reader.IsDBNull(_.No_IsTop))) {
     				this._No_IsTop = reader.GetBoolean(_.No_IsTop);
@@ -318,6 +452,39 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Org_Name))) {
     				this._Org_Name = reader.GetString(_.Org_Name);
+    			}
+    			if ((false == reader.IsDBNull(_.No_Page))) {
+    				this._No_Page = reader.GetString(_.No_Page);
+    			}
+    			if ((false == reader.IsDBNull(_.No_Interval))) {
+    				this._No_Interval = reader.GetString(_.No_Interval);
+    			}
+    			if ((false == reader.IsDBNull(_.No_Range))) {
+    				this._No_Range = reader.GetInt32(_.No_Range);
+    			}
+    			if ((false == reader.IsDBNull(_.No_OpenCount))) {
+    				this._No_OpenCount = reader.GetInt32(_.No_OpenCount);
+    			}
+    			if ((false == reader.IsDBNull(_.No_Width))) {
+    				this._No_Width = reader.GetInt32(_.No_Width);
+    			}
+    			if ((false == reader.IsDBNull(_.No_Height))) {
+    				this._No_Height = reader.GetInt32(_.No_Height);
+    			}
+    			if ((false == reader.IsDBNull(_.No_BgImage))) {
+    				this._No_BgImage = reader.GetString(_.No_BgImage);
+    			}
+    			if ((false == reader.IsDBNull(_.No_Linkurl))) {
+    				this._No_Linkurl = reader.GetString(_.No_Linkurl);
+    			}
+    			if ((false == reader.IsDBNull(_.No_Timespan))) {
+    				this._No_Timespan = reader.GetInt32(_.No_Timespan);
+    			}
+    			if ((false == reader.IsDBNull(_.No_StudentSort))) {
+    				this._No_StudentSort = reader.GetString(_.No_StudentSort);
+    			}
+    			if ((false == reader.IsDBNull(_.No_Type))) {
+    				this._No_Type = reader.GetInt32(_.No_Type);
     			}
     		}
     		
@@ -366,11 +533,6 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field No_IsShow = new WeiSha.Data.Field<Notice>("No_IsShow");
     			
     			/// <summary>
-    			/// False - 字段名：No_IsOpen - 数据类型：Boolean
-    			/// </summary>
-    			public static WeiSha.Data.Field No_IsOpen = new WeiSha.Data.Field<Notice>("No_IsOpen");
-    			
-    			/// <summary>
     			/// 字段名：No_IsTop - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field No_IsTop = new WeiSha.Data.Field<Notice>("No_IsTop");
@@ -414,7 +576,61 @@ namespace Song.Entities {
     			/// 字段名：Org_Name - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Org_Name = new WeiSha.Data.Field<Notice>("Org_Name");
+    			
+    			/// <summary>
+    			/// 字段名：No_Page - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Page = new WeiSha.Data.Field<Notice>("No_Page");
+    			
+    			/// <summary>
+    			/// 字段名：No_Interval - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Interval = new WeiSha.Data.Field<Notice>("No_Interval");
+    			
+    			/// <summary>
+    			/// 字段名：No_Range - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Range = new WeiSha.Data.Field<Notice>("No_Range");
+    			
+    			/// <summary>
+    			/// 字段名：No_OpenCount - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field No_OpenCount = new WeiSha.Data.Field<Notice>("No_OpenCount");
+    			
+    			/// <summary>
+    			/// 字段名：No_Width - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Width = new WeiSha.Data.Field<Notice>("No_Width");
+    			
+    			/// <summary>
+    			/// 字段名：No_Height - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Height = new WeiSha.Data.Field<Notice>("No_Height");
+    			
+    			/// <summary>
+    			/// 字段名：No_BgImage - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field No_BgImage = new WeiSha.Data.Field<Notice>("No_BgImage");
+    			
+    			/// <summary>
+    			/// 字段名：No_Linkurl - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Linkurl = new WeiSha.Data.Field<Notice>("No_Linkurl");
+    			
+    			/// <summary>
+    			/// 字段名：No_Timespan - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Timespan = new WeiSha.Data.Field<Notice>("No_Timespan");
+    			
+    			/// <summary>
+    			/// 字段名：No_StudentSort - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field No_StudentSort = new WeiSha.Data.Field<Notice>("No_StudentSort");
+    			
+    			/// <summary>
+    			/// 字段名：No_Type - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Type = new WeiSha.Data.Field<Notice>("No_Type");
     		}
     	}
     }
-    
