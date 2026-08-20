@@ -1,0 +1,58 @@
+﻿@charset "utf-8";
+
+.clearfix {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    box-sizing: border-box;
+    padding-right: 35px;
+    line-height: 35px;
+}
+.clearfix button{
+    position: absolute;
+    right: 0px;
+    top: 5px;
+}
+.topbox {
+    margin: 10px 15px 10px 10px;
+    width: calc(100% - 25px);
+}
+
+.context {
+    margin: 0px !important;
+    width: 100%;
+    height: calc(100% - 65px);
+}
+
+.context>div {
+    height: 100%;
+}
+
+.box-card {
+    height: 100%;
+}
+
+.el-card__body {
+    padding: 5px 15px 15px 15px;
+    height: calc(100% - 85px);
+    overflow-y: auto;
+}
+
+/*课程项*/
+.item {
+    position: relative;
+    padding-right: 40px;
+    margin: 0px 0px 15px 0px;
+}
+
+.item button {
+    position: absolute;
+    right: 0px;
+    top: -5px;
+}
+
+.el-button--danger {
+    color: #f00;
+    background-color: #fff;
+    border-color: #F56C6C;
+}

@@ -1,0 +1,15 @@
+﻿@charset "utf-8";
+
+.verticalbar {
+    /*背景*/
+    --vbar-bgcolor: rgba(73, 73, 73, 0.8);
+    /*前景色*/
+    --vbar-color: #aaa;
+    --vbar-hr-color: #bbb;
+    /*鼠标滑过的颜色*/
+    --vbar-hover-color: #eee;
+    --vbar-hover-bgcolor: rgba(160, 160, 160, .4);
+    --vbar-hover-shadow: rgb(255, 255, 255);
+    /*面板*/
+    --vbar-panel-bgcolor: rgb(51, 51, 51);
+}

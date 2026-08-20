@@ -1,0 +1,133 @@
+.accountselect {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 350px;
+}
+
+.student_add {
+    padding: 0px 0px 0px 10px;
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+
+}
+
+.student_add header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.student_add header>*:last-child {
+    margin-right: 0px;
+}
+
+.student_add header>*:not(:last-child) {
+
+    margin-right: 10px;
+}
+
+.student_add .el-pagination {
+
+    margin-top: auto;
+}
+
+.student_add dl.list {
+    padding: 10px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.student_add icon[null] {
+    margin-top: 20px;
+}
+
+.student_add dl dd {
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.student_add dl dd::before {
+    content: attr(index);
+    margin-right: 10px;
+    display: inline-block;
+    min-width: 20px;
+    text-align: center;
+}
+
+.student_add dl dd, .student_add dl dd * {
+    line-height: 30px;
+}
+.student_add dl dd[info] *, .student_batadd dl dd[info] *{
+    color: #909399 !important;
+}
+.student_add dl dd .idcard, .student_add dl dd .phone {
+    margin-left: auto;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+/*批量添加*/
+.student_batadd {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 54px);
+}
+
+.student_batadd .btns {
+    margin: 10px 0px;
+}
+
+.student_batadd>*:last-child textarea {
+    height: 100%;
+}
+
+.student_batadd>*:last-child {
+    flex: 1;
+}
+
+.student_batadd>section.accounts {
+    box-sizing: border-box;
+    overflow-y: hidden;
+}
+
+.student_batadd>section.accounts header {
+    display: flex;
+    justify-content: space-between;
+    line-height: 30px;
+    height: 30px; 
+    background-color: #eee;
+    padding: 0px 10px;
+}
+.student_batadd>section.accounts header>*:first-child{
+    min-width: 30px;
+    text-align: center;
+} 
+.student_batadd>section.accounts dl {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100% - 30px);
+}
+
+.student_batadd>section.accounts dd {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 10px;
+}
+
+.student_batadd>section.accounts dd {
+    line-height: 30px;
+}
+.student_batadd>section.accounts dd .order{
+    min-width: 30px;
+    text-align: center;
+}
+.student_batadd>section.accounts dd .result{
+    min-width: 80px;
+    text-align: left;
+}

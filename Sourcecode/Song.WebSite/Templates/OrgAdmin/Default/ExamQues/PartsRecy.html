@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>回收站-试题分类</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="还原,删除" ref='btngroup'  @delete="remove" @recycle="recycle" idkey='Qp_ID'  :selects='selects'  table="datatables"></btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-tag type="success">
+                        <icon>&#xe750</icon>总计 {{total}} 个分类
+                    </el-tag>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.name" clearable placeholder="名称" style="width:100px"></el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+        <el-table ref="datatables" border resizable :data="datas" :stripe="true" tooltip-effect="dark"
+            style="width: 100%" v-loading="loading" @selection-change="val=>selects=val" row-key="Qp_ID">
+            <el-table-column type="selection" width="35">
+            </el-table-column>
+            <el-table-column type="index" width="50" align="center">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="试题分类">
+                <template slot-scope="scope">
+                    <span v-html="showsearch(scope.row.Qp_Name,form.name)" class="large"></span>
+                </template>
+            </el-table-column>
+            <el-table-column label="路径" min-width="150">
+                <template slot-scope="scope">
+                    <parents_path :part="scope.row" separator="->"></parents_path>
+                </template>
+            </el-table-column>
+            <el-table-column label="试题数" width="100" align="center">
+                <template slot-scope="scope">                  
+                    <questotal :part="scope.row"></questotal>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作" width="120" align="center">
+                <template slot-scope="scope">
+                    <span class="el-icon-loading" v-if="loadingid==scope.row.Qp_ID"></span>
+                    <el-button-group v-else>
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定还原吗？" @confirm="$refs.btngroup.events('recycle',scope.row.Qp_ID)">
+                            <el-link type="warning" plain slot="reference"> <icon>&#xa014</icon>还原
+                            </el-link>
+                        </el-popconfirm>
+
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="将永久删除该数据，确定吗？"  @confirm="$refs.btngroup.delete(scope.row.Qp_ID)">
+                            <el-link type="danger" plain icon="el-icon-delete" slot="reference"> 删除
+                            </el-link>
+                        </el-popconfirm>
+                    </el-button-group>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-size="form.size"
+                :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</body>
+
+</html>

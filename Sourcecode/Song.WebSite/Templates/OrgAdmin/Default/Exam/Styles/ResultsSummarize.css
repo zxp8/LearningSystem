@@ -1,0 +1,81 @@
+﻿@charset "utf-8";
+
+.exam_row {
+    box-sizing: border-box;
+    padding: 0px 10px 20px 20px;
+}
+
+.exam_row>div:first-child {
+    padding: 0px 0px 8px 0px;
+}
+
+.exam_row:last-child {
+    padding-bottom: 0px;
+}
+
+/*下拉菜单中学员组的参考人员数量*/
+.sortcount {
+    float: right;
+    color: #8492a6;
+    font-size: 13px
+}
+
+.link {
+    cursor: pointer;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.accountInfo {
+    line-height: 30px;
+    font-size: 18px;
+}
+
+.accountInfo .ws_avatar {
+
+    float: left;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+th div.cell, td div.cell {
+    text-align: center;
+}
+td.left div.cell{
+    text-align: left;
+}
+/*考试成绩得分*/
+.examscore {
+    color: #999;
+}
+
+.examscore span {
+    color: #333;
+    font-size: 14px;
+    line-height: 10px;
+}
+
+/*学员信息中的考试场次列表*/
+.acc_exam {
+    box-sizing: border-box;
+    display: flex;
+    font-size: 16px;
+    padding: 8px;
+    justify-content: space-between;
+}
+
+.acc_exam>div {
+    font-size: 16px;
+}
+.acc_exam span.score{
+    white-space: nowrap;
+}
+/*导出文件的样式*/
+.exportquery_sorts{
+    display: flex;
+    flex-direction: column;
+    height: 160px;
+    overflow-y: auto;
+}

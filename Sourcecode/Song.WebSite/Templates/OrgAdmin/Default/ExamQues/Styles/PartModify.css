@@ -1,0 +1,27 @@
+﻿@charset "utf-8";
+
+.panel {
+    height: calc(100% - 55px);
+}
+
+.el-form {
+    margin: 0px;
+    padding: 10px 20px 0px 0px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100% - 40px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.el-form>div {
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+.custom-tree-node {
+    max-width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

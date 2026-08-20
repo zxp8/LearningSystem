@@ -1,0 +1,8 @@
+﻿:root {
+    /*页面背景色*/
+    --bg-color: rgb(54, 54, 54);
+    /*管理界面的背景色*/
+    --admin-bg-color: rgb(55, 64, 68);
+    /*时间的颜色*/
+    --time-color:#ccc;
+}

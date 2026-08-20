@@ -1,0 +1,23 @@
+﻿context {
+	display: block;
+	width: 1200px;
+	min-height: 800px;
+	margin: 0px auto;
+	box-sizing: border-box;
+	padding: 100px;
+	text-align: center;
+}
+context>icon:first-child{
+	display: block;
+	font-size: 160px;
+	margin: 60px;
+	color: #999;
+}
+context>div{
+	font-size: 18px;
+	line-height: 40px;
+}
+a{
+	color: #409EFF;	
+	margin: auto 10px;
+}

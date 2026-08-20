@@ -1,0 +1,17 @@
+{
+  "Qp_ID": {
+    "mark": "试题分类ID",
+    "intro": "",
+    "relation": "QuesPart"
+  },
+  "Qqp_ID": {
+    "mark": "主键",
+    "intro": "",
+    "relation": ""
+  },
+  "Qus_ID": {
+    "mark": "试题ID",
+    "intro": "",
+    "relation": "Questions"
+  }
+}

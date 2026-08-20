@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>随机试卷</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <papertype type="2"></papertype>
+        <div class="panel">
+            <el-tabs type="border-card" v-model="activeName">
+                <el-tab-pane :name="tab.tab" v-for="(tab,i) in tabs">
+                    <span slot="label">
+                        <icon v-html="'&#x'+tab.icon"></icon> {{tab.name}}
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+            <el-form ref="form" :model="entity" :rules="rules" v-loading="loading" @submit.native.prevent
+                label-width="100px">
+                <div v-show="activeName=='general'" remark="基本信息" tab="general">
+                    <el-form-item label="试卷名称" prop="Etp_Name">
+                        <el-input v-model="entity.Etp_Name" maxlength="255"></el-input>
+                    </el-form-item>
+                    <el-form-item label="副标题" prop="Etp_SubName">
+                        <el-input v-model="entity.Etp_SubName" maxlength="255"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-switch v-model="entity.Etp_IsUse" active-color="#13ce66" active-text="启用">
+                        </el-switch>
+                        <el-switch v-model="entity.Etp_IsRec" active-color="#13ce66" active-text="推荐">
+                        </el-switch>
+                    </el-form-item>
+                    <el-form-item label="难度范围" prop="Etp_Diff">
+                        <el-row :gutter="20">
+                            <el-col :span="12">
+                                <el-slider v-model="Etp_Diff" :step="1" range show-stops :min="1" :max="5"
+                                    @change="diffChange">
+                                </el-slider>
+                            </el-col>
+                            <el-col :span="10">
+                                <el-tag type="info">{{entity.Etp_Diff}} - {{entity.Etp_Diff2}}</el-tag>
+                            </el-col>
+                        </el-row>
+                    </el-form-item>
+                    <el-form-item label="时长" prop="Etp_Span">
+                        <el-input placeholder="请输入内容" v-model.trim="entity.Etp_Span" type="number" style="width: 300px;">
+                            <template slot="prepend">限时</template>
+                            <template slot="append">分钟</template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="注意事项" prop="Etp_Remind">
+                        <editor :content="entity.Etp_Remind" id="range" :menubar="false" model="general"
+                            class="range_editor" upload="TestPaper" :dataid="entity.Etp_Id"
+                            @change="text=>entity.Etp_Remind=text"></editor>
+                    </el-form-item>
+
+                </div>
+                <div v-show="activeName=='range'" remark="出题范围" tab="range">
+                    <section class="range">
+                        <el-card shadow="never">
+                            <template slot="header">
+                                <span icon="&#xa015" large>按“试题分类”出题</span>
+                                <el-tag type="warning" v-if="parts?.length>0">
+                                     {{parts.length}} 分类，共 {{quescount.part}}道
+                                </el-tag>
+                                <el-button type="primary" plain @click="opensubwin('SelectParts','按 “试题分类” 出题','a015',600)">选择
+                                </el-button>
+                            </template>
+                            <icon null size="large" v-if="parts?.length<1">没有选择任何试题分类</icon>
+                            <el-tag v-else v-for="(p,i) in parts" :key="p.Qp_ID" closable type="success"
+                                @close="tag=>parts.splice(i,1)"> {{p.Qp_Name}} </el-tag>
+                        </el-card>
+                        <el-card shadow="never">
+                            <template slot="header">
+                                <span icon="&#xe841" large>按“关键字”出题</span>
+                                <el-tag type="warning" v-if="tags?.length>0">
+                                     {{tags.length}} 个关键字，共 {{quescount.tag}} 道
+                                </el-tag>
+                                <el-button type="primary" plain @click="opensubwin('SelectTag','按 “关键字” 出题','e841',500)">选择
+                                </el-button>
+                            </template>
+                            <icon null size="large" v-if="tags?.length<1">没有选择任何关键字</icon>
+                            <el-tag v-else v-for="(p,i) in tags" :key="p.Qtag_ID" closable type="success"
+                                @close="tag=>tags.splice(i,1)"> {{p.Qtag_Name}} </el-tag>
+                        </el-card>
+                        <el-card shadow="never">
+                            <template slot="header">
+                                <span icon="&#xe6fd" large>按“关联知识点”出题</span>
+                                <el-tag type="warning" v-if="knls?.length>0">
+                                    {{knls.length}} 个知识点，共 {{quescount.knl}} 道
+                                </el-tag>
+                                <el-button type="primary" plain @click="opensubwin('SelectKnl','按 “关联知识点” 出题','e6fd',600)">选择
+                                </el-button>
+                            </template>
+                            <icon null size="large" v-if="knls?.length<1">没有选择任何知识点</icon>
+                            <el-tag v-else v-for="(p,i) in knls" :key="p.Qk_ID" type="success" closable
+                                @close="tag=>knls.splice(i,1)">
+                                {{p.Qk_Name}} </el-tag>
+                        </el-card>
+                    </section>
+                    <!--题量，分数-->
+                    <section class="rangeright">
+                        <el-card shadow="never" type="info">
+                            <template slot="header">
+                                <span icon="&#xe829" huge>分数</span>
+                                <el-button type="primary" plain @click="opensubwin('SetupScore','设置随机试卷的分数','e841',900,'right')">更多设置
+                                </el-button>
+                            </template>
+                            <el-form-item label="" prop="Etp_Total" label-width="0">
+                                <el-input v-model="entity.Etp_Total" type="number" :min="1" @input="chanageTotal">
+                                    <template slot="prepend">满分</template>
+                                    <template slot="append">分</template>
+                                </el-input>
+                            </el-form-item>
+                            <el-form-item label="" prop="Etp_PassScore" label-width="0">
+                                <el-input v-model="entity.Etp_PassScore" type="number" :min="0" :max="entity.Etp_Total">
+                                    <template slot="prepend">及格</template>
+                                    <template slot="append">分</template>
+                                </el-input>
+                            </el-form-item>
+                        </el-card>
+                        <!--题型分数的分配-->
+                        <el-card shadow="never" type="info" class="qtype_card">
+                            <template slot="header">  
+                                <el-form-item label="" prop="total" label-width="40">
+                                    <span icon="&#xe75e" large>题型</span>                                    
+                                </el-form-item>
+                                <loading v-if="loadstate.total" bubble>loading...</loading>
+                                    <span v-else class="small option_count">
+                                        已选 <b count>{{ qtypeitems.reduce((a, b) => a +b.count,0)}}</b> 道 /
+                                        可选 <b total>{{ quescount.total}}</b> 道</span>
+                            </template>
+                            <div v-for="(m,idx) in qtypeitems" class="qtypeitems">                              
+                                    <ques_type :type="m.type" :types="types" :showicon="true" :showname="true">
+                                        <span class="small option_count">已选<b count>{{m.count}}</b>道</span>
+                                        <span :zero="m.total<1" class="small option_count"> / 可选 <b total>{{m.total}}</b>
+                                            道</span>
+                                            <span class="small option_score">(计<b>{{m.number}}</b>分)</span>
+                                    </ques_type>                               
+                                    <el-form-item label="" label-width="0">
+                                        <el-input v-model="m.byname"  prop="byname" >
+                                            <template slot="prepend">题型别名</template>                                           
+                                        </el-input>                      
+                                    </el-form-item>      
+                            </div>
+                        </el-card>
+                    </section>
+                </div>
+
+                <div v-show="activeName=='intro'" remark="简介" class="intro_editor" tab="intro">
+                    <editor :content="entity.Etp_Intro" id="intro" ref="intro" :menubar="false" model="general" upload="TestPaper"
+                        :dataid="entity.Etp_Id" @change="text=>entity.Etp_Intro=text"></editor>
+                </div>
+                <div v-show="activeName=='other'" remark="其它" tab="other">
+                    <el-form-item label="出卷人">
+                        <el-input v-model="entity.Etp_Author" style="width: 180px;"></el-input>
+                    </el-form-item>
+                    <el-form-item label="试卷Logo">
+                        <div class="img_tools">
+                            <upload-img @change="f=>upfile=f" :data="entity" size="1024" height="30" ext="jpg,png,gif">
+                                <el-tooltip content="允许的图片格式：jpg,png,gif" placement="right" effect="light">
+                                    <span style="cursor: pointer;">
+                                        <icon>&#xe6ea</icon>点击上传图片
+                                    </span>
+                                </el-tooltip>
+                            </upload-img>
+                            <template v-if="entity.Etp_Logo!='' || upfile!=null">
+                                <el-link type="primary" @click.stop="()=>{upfile=null;entity.Etp_Logo = '';}">清除图片
+                                </el-link>
+                            </template>
+                        </div>
+                        <div v-if="entity.Etp_Logo!='' || upfile!=null" class="img_div">
+                            <img v-if="upfile!=null" :src="upfile.base64" />
+                            <img v-else :src="entity.Etp_Logo" />
+                        </div>
+                    </el-form-item>
+                </div>
+                <div v-show="activeName=='help'" remark="帮助说明" tab="help">
+
+                </div>
+            </el-form>
+        </div>
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('form',true)">确认</el-button>
+            <el-button type="primary" define="apply" native-type="submit" :loading="loading" plain v-if="exist"
+                @click="btnEnter('form',false)">应用</el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
+    </div>
+</body>
+
+</html>

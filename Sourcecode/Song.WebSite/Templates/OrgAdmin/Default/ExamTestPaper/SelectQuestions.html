@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>选择固定试卷的试题</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="panel">
+            <el-tabs type="border-card" v-model="activeName">
+                <el-tab-pane :name="tab.tab" v-for="(tab,i) in tabs">
+                    <span slot="label">
+                        <icon v-html="'&#x'+tab.icon"></icon> {{tab.name}}
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+            <div v-show="activeName=='parts'" remark="按分类选题" tab="parts">
+                <selectparts :orgid="org.Org_ID" class="tree-box" @load="getpartques(1)" @select="p=>getpartques(1,p)">
+                </selectparts>
+                <div class="ques-box">
+                    <div class="ques-query">
+                        <query_panel :model="partsform" :width="45" :loading="loading" @search="getpartques(1)">
+                            <el-form-item label="题干">
+                                <el-input v-model.trim="partsform.search" clearable style="width:100px"
+                                    placeholder="搜索题干">
+                                </el-input>
+                            </el-form-item>
+                            <el-form-item label="题干">
+                                <diff @change="d=>partsform.diff=d" :value="partsform.diff"></diff>
+                            </el-form-item>
+                        </query_panel>
+                    </div>
+                    <div class="queslist">
+                        <loading v-if="loadstate.parts"></loading>
+                        <el-empty v-else-if="partsques.length<1" description="没有满足条件的数据"></el-empty>
+                        <selectques ref="selectques" v-else v-for="(ques,idx) in partsques" :ques="ques"
+                            :types="types" :admin="admin" :search="partsform.search"
+                            :serial="(partsform.index - 1) * partsform.size + idx + 1" @checked="changeselect"
+                            @collect="collect">
+                        </selectques>
+                    </div>
+                    <div class="pager-box">
+                        <el-pagination v-on:current-change="getpartques" :current-page="partsform.index"
+                            :page-size="partsform.size" :pager-count="8" layout="total, prev, pager, next, jumper"
+                            :total="partstotal">
+                        </el-pagination>
+                    </div>
+                </div>
+            </div>
+            <div v-show="activeName=='tags'" remark="按关键字选题" tab="tags">
+                <selecttags :orgid="org.Org_ID" class="tree-box" @load="gettagsques(1)" @select="p=>gettagsques(1,p)">
+                </selecttags>
+                <div class="ques-box">
+                    <div class="ques-query">
+                        <query_panel :model="tagsform" :width="45" :loading="loadstate.tags" @search="gettagsques(1)">
+                            <el-form-item label="题干">
+                                <el-input v-model.trim="tagsform.search" clearable style="width:100px"
+                                    placeholder="搜索题干">
+                                </el-input>
+                            </el-form-item>
+                            <el-form-item label="题干">
+                                <diff @change="d=>tagsform.diff=d" :value="tagsform.diff"></diff>
+                            </el-form-item>
+                        </query_panel>
+                    </div>
+                    <div class="queslist">
+                        <loading v-if="loadstate.tags"></loading>
+                        <el-empty v-else-if="tagsques.length<1" description="没有满足条件的数据"></el-empty>
+                        <selectques ref="selectques" v-else v-for="(ques,idx) in tagsques" :ques="ques" :types="types"
+                            :admin="admin" :search="tagsform.search"
+                            :serial="(tagsform.index - 1) * tagsform.size + idx + 1" @checked="changeselect"
+                            @collect="collect">
+                        </selectques>
+                    </div>
+                    <div class="pager-box">
+                        <el-pagination v-on:current-change="gettagsques" :current-page="knlsform.index"
+                            :page-size="tagsform.size" :pager-count="8" layout="total, prev, pager, next, jumper"
+                            :total="tagstotal">
+                        </el-pagination>
+                    </div>
+                </div>
+            </div>
+            <div v-show="activeName=='knls'" remark="按知识点选题" tab="knls">
+                <selectknl :orgid="org.Org_ID" class="tree-box" @load="getknlques(1)" @select="p=>getknlques(1,p)">
+                </selectknl>
+                <div class="ques-box">
+                    <div class="ques-query">
+                        <query_panel :model="knlsform" :width="45" :loading="loadstate.knls" @search="getknlques(1)">
+                            <el-form-item label="题干">
+                                <el-input v-model.trim="knlsform.search" clearable style="width:100px"
+                                    placeholder="搜索题干">
+                                </el-input>
+                            </el-form-item>
+                            <el-form-item label="题干">
+                                <diff @change="d=>knlsform.diff=d" :value="knlsform.diff"></diff>
+                            </el-form-item>
+                        </query_panel>
+                    </div>
+                    <div class="queslist">
+                        <loading v-if="loadstate.knls"></loading>
+                        <el-empty v-else-if="knlsques.length<1" description="没有满足条件的数据"></el-empty>
+                        <selectques ref="selectques" v-else v-for="(ques,idx) in knlsques" :ques="ques" :types="types"
+                            :admin="admin" :search="knlsform.search"
+                            :serial="(knlsform.index - 1) * knlsform.size + idx + 1" @checked="changeselect"
+                            @collect="collect">
+                        </selectques>
+                    </div>
+                    <div class="pager-box">
+                        <el-pagination v-on:current-change="getknlques" :current-page="knlsform.index"
+                            :page-size="knlsform.size" :pager-count="8" layout="total, prev, pager, next, jumper"
+                            :total="knltotal">
+                        </el-pagination>
+                    </div>
+                </div>
+            </div>
+            <div v-show="activeName=='collect'" remark="我的收藏" tab="collect">
+                <div class="ques-box">
+                    <div class="ques-query">
+                        <query_panel :model="collectform" :width="45" :loading="loadstate.collect"
+                            @search="getcollectques(1)">
+                            <el-form-item label="题干">
+                                <el-input v-model.trim="collectform.search" clearable style="width:100px"
+                                    placeholder="搜索题干">
+                                </el-input>
+                            </el-form-item>
+                            <el-form-item label="题干">
+                                <diff @change="d=>collectform.diff=d" :value="collectform.diff"></diff>
+                            </el-form-item>
+                        </query_panel>
+                    </div>
+                    <div class="queslist">
+                        <loading v-if="loadstate.collect"></loading>
+                        <el-empty v-else-if="collectques.length<1" description="没有满足条件的数据"></el-empty>
+                        <selectques ref="selectques" v-else v-for="(ques,idx) in collectques" :ques="ques"
+                            :types="types" :admin="admin" :search="collectform.search"
+                            :serial="(collectform.index - 1) * collectform.size + idx + 1" @checked="changeselect"
+                            @collect="collect">
+                        </selectques>
+                    </div>
+                    <div class="pager-box">
+                        <el-pagination v-on:current-change="getcollectques" :current-page="collectform.index"
+                            :page-size="collectform.size" :pager-count="8" layout="total, prev, pager, next, jumper"
+                            :total="collecttotal">
+                        </el-pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

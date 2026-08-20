@@ -1,0 +1,183 @@
+﻿@charset "utf-8";
+html,body{
+	text-align: left;
+	background-color: #f2f2f2;
+}
+.blur {
+	filter: url(blur.svg#blur);
+	/* FireFox, Chrome, Opera */
+	-webkit-filter: blur(2px);
+	/* Chrome, Opera */
+	-moz-filter: blur(2px);
+	-ms-filter: blur(2px);
+	filter: blur(2px);
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2, MakeShadow=false);
+}
+loading[bubble] {
+	text-align: center;
+	padding: 20px;
+	margin: 30px auto;
+	box-sizing: border-box;
+	display: inline-block;
+	width: 100%;
+}
+
+card-title.error a {
+	float: right;
+}
+
+/*课程信息*/
+
+.showCourse {
+	padding: 20px 20px 10px 20px;
+	width: 60%;
+}
+
+.showCourse>div:last-child {
+	margin: 5px 0px;
+	width: 100%;
+	height: 40px;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.showCourse>div:last-child>button {
+	flex-grow: 2;
+}
+
+.showCourse>div:last-child>button:first-child {
+	margin-right: 10px;
+	flex-grow: 1;
+}
+
+/*顶部栏*/
+
+.topBox {
+
+	height: 45px;
+	overflow: hidden;
+	font-size: 14px;
+	line-height: 45px;
+	text-align: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+.topBox *[icon]::before, .topBox icon {
+	line-height: 45px;
+	font-size: 18px;
+}
+.topBox .navbox{
+	margin-left: 15px;
+}
+
+.topBox>div:last-child {
+	display: flex;
+	width: 150px;
+}
+.topBox>div:last-child>icon{
+	 display: block;
+	 width: 40px;
+}
+.topBox a {
+	text-decoration: none;
+}
+*[noques]{
+	color: #ccc;
+}
+/*上一题，下一题*/
+.move_btn {
+	display: flex;
+    width: 200px;
+    box-sizing: border-box;
+    padding: 0px 20px;
+    justify-content: space-between;
+    position: absolute;
+    right: 0px;
+    top: 60px;
+    z-index: 20;
+    background-color: #f2f2f2;
+}
+
+.move_btn>* {	
+	text-align: center;
+	line-height: 30px;	
+}
+.move_btn>*[disabled],.move_btn>*[disabled] *{
+	color: #ccc;
+	cursor: not-allowed;
+}
+.move_btn>a{
+	width: 40px;
+}
+.move_btn>*:not(a){
+	flex: 1;
+}
+/*试题区*/
+
+dl.quesArea dd section {
+	height: calc(100% - 50px);
+	background-color: #f2f2f2;
+	width: 100%;
+	z-index: 4;
+	left: 0px;
+	position: relative;
+	transition: left 0.5s;
+	padding-bottom: 120px;overflow-y: auto;
+	
+	box-sizing: border-box;
+}
+dl.quesArea dd info{
+	justify-content:left !important;
+}
+dl.quesArea dd info buttons{
+	margin-left: 20px;
+}
+
+/*底部按钮*/
+
+.asnwerdata {
+	display: flex;
+}
+
+.asnwerdata>div {
+	line-height: 44px;
+	text-align: center;
+	font-size: 14px;
+	padding: 0px 20px;
+	white-space: nowrap;
+}
+
+.asnwerdata>div:first-child {
+	flex: 1;
+	text-align: left;
+	color: #0099FF;
+	padding: 0px 0px 0px 20px;
+}
+
+.asnwerdata>div:last-child {
+	padding: 0px 20px 0px 0px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+.asnwerdata .count_number {
+	display: flex;
+	justify-content: space-between;
+}
+
+.asnwerdata .count_number span {
+	padding: 0px 10px;
+}
+
+.asnwerdata .count_number span::before {
+	font-size: 17px;
+}
+
+.asnwerdata .count_number span:first-child {
+	color: #67C23A;
+}
+
+.asnwerdata .count_number span:last-child {
+	color: #E6A23C;
+}

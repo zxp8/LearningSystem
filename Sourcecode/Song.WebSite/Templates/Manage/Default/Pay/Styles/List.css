@@ -1,0 +1,25 @@
+﻿@charset "utf-8";
+
+icon {
+    font-size: 18px;
+    line-height: 18px;
+}
+
+.weixin {
+    color: #019541;
+}
+
+.zhifubao {
+    color: #0098e0;
+    font-size: 15px;
+}
+.pai_name{
+    display: flex;
+    line-height: 35px;
+    font-size: 16px;
+}
+.pai_name img{
+    margin-right: 10px;
+}
+
+

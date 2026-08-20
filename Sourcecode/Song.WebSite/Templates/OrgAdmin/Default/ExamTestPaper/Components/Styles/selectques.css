@@ -1,0 +1,147 @@
+
+div.selectques {
+    --border-solid: 1px solid #f3f3f3;
+    --border-left: 1px solid #ddd;
+}
+div.selectques {
+    margin: 0.75rem 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: var(--border-solid);
+}
+
+.quesrow-content {
+    padding: 10px 15px;
+    box-sizing: border-box;
+}
+
+/*试题区域的顶部条*/
+.quesrow-title {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: var(--border-solid);
+    padding: 8px 10px 8px 0px;
+    box-sizing: border-box;
+    height: 30px;
+}
+
+.quesrow-title .parts {
+    margin-top: -3px;
+    flex: 1;
+    height: 20px;
+    overflow: hidden;
+}
+
+.quesrow-title .parts .el-tag--small {
+    height: 20px;
+    padding: 0 8px;
+    line-height: 18px;
+    margin-right: 6px;
+
+}
+
+.quesrow-title>*:not(:last-child), .quesrow-title>*:not(:last-child, .el-tag) {
+    font-size: 0.9rem;
+    line-height: 1;
+    color: #444;
+}
+
+.quesrow-title>*:not(:last-child) {
+    padding: 0px 10px;
+}
+
+.quesrow-title>*:not(:last-child, :first-child) {
+    border-left: var(--border-left);
+}
+
+.quesrow-title .ques_type {
+    font-size: 0.9rem;
+}
+
+.quesrow-title .ques_type icon {
+    font-size: 1.1rem !important;
+    line-height:1rem;
+}
+
+.quesrow-title .ques_type icon::after {
+    margin-left: 2px !important;
+    font-size: 0.8rem !important;
+}
+
+/*试题顶部栏的右侧区域*/
+.quesrow-title>*:last-child {
+    margin-left: auto;
+    display: flex;
+}
+
+.quesrow-title>*:last-child>* {
+    margin-left: 20px;
+}
+
+/*试题内容的显示*/
+.quesrow-content {
+    cursor: default;
+    transition: all 0.5s;
+    overflow: hidden;
+}
+
+.quesrow-content:not([showdetail]) {
+    color: #444;
+    max-height: 5rem;
+}
+
+.quesrow-content[showdetail] {
+    max-height: 100rem;
+    overflow: auto;
+}
+
+.quesrow-content:not([showdetail]) .qus_items {
+    height: 0px;
+    overflow: hidden;
+}
+
+.quesrow-content:not([showdetail]) .answer {
+    height: 0px;
+    overflow: hidden;
+}
+
+.quesrow-content[showdetail] .answer {
+    margin: 8px 8px 0px 0px;
+    padding: 10px 0px 0px 0px;
+    border-top: var(--border-solid);
+    font-size: 16px;
+}
+
+.quesrow-content .qus_items {
+    margin: 10px 10px 10px 0px;
+    transition: all 0.5s;
+}
+
+.quesrow-content .qus_items>div {
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+}
+
+.quesrow-content .qus_items>div[correct]::before {
+    content: "✔";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.quesrow-content .qus_items.type3 {
+    margin: 10px 10px 10px 5px;
+}
+
+.quesrow-content .qus_items>div {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.quesrow-content .qus_items>div>p, .quesrow-content .qus_items>div>div {
+    display: inline-block;
+    margin: 0px 0px 0px 5px;
+}
+

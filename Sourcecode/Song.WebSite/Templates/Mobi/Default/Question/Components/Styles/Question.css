@@ -1,0 +1,277 @@
+dl.quesArea dd {
+	width: 100vw;
+	height: 100%;
+	line-height: 150%;
+	float: left;
+	position: relative;
+
+}
+
+/*试题加载错误*/
+dl.quesArea dd .error {
+	margin: 20px;
+}
+
+dl.quesArea dd alert {
+	margin-top: 20px;
+	display: inline-block;
+	font-size: 16px;
+}
+
+dl.quesArea dd info {
+	display: flex;
+	justify-content: space-between;
+	padding: 15px 10px 0px 10px;
+	margin: 0px 0px 0px 10px;
+	font-size: 15px;
+}
+
+dl.quesArea dd info span i {
+	font-size: 14px;
+	font-style: normal;
+}
+
+dl.quesArea dd info buttons {
+	display: flex;
+	float: right;
+	max-width: 50%;
+	min-width: 160px;
+}
+
+dl.quesArea dd info buttons>* {
+	flex: 1;
+	text-align: center;
+	font-size: 13px;
+	color: #999;
+}
+
+dl.quesArea dd info buttons>btn i {
+	font-family: "webdesk_icon" !important;
+	margin-right: 1px;
+	font-style: normal;
+}
+
+dl.quesArea dd info buttons>btn.used {
+	color: #000;
+	font-weight: bold;
+}
+
+dl.quesArea dd card-title, dl.quesArea dd card-title p, card-title span, card-title font {
+	line-height: 150%;
+	font-size: 18px;
+}
+
+dl.quesArea dd card-title {
+	word-break: break-all;
+}
+
+.explain, .explain p, .explain span, .explain font,
+.knowledge, .knowledge p, .knowledge span, .knowledge font {
+	line-height: 150%;
+	font-size: 18px;
+}
+
+/*答对的样式*/
+dl.quesArea dd card[correct="succ"] {
+
+	border: 1px solid rgb(194, 220, 247) !important;
+	box-shadow: 0 2px 12px 0 rgba(194, 220, 247, .8) !important;
+}
+
+dl.quesArea dd card[correct="succ"], card[correct="succ"] * {
+	background: rgb(217, 236, 255) !important;
+}
+/*答错的样式*/
+dl.quesArea dd card[correct="error"] {	
+	border: 1px solid #fcdcd5 !important;
+	box-shadow: 0 2px 12px 0 rgb(241 205 205 / 80%) !important;
+}
+dl.quesArea dd card[correct="error"], card[correct="error"] * {
+	background-color: #FFECE8 !important;
+	color: #333 !important;
+}
+dl.quesArea dd img {
+	max-width: 100% !important;
+	height: auto;
+}
+
+/*试题选项*/
+
+.ans_area {
+	font-size: 18px;
+}
+
+.ans_area>div {
+	position: relative;
+	margin: 15px 15px 15px 10px;
+}
+
+.ans_area i {
+	font-style: normal;
+	margin-right: 10px;
+	white-space: nowrap;
+}
+
+.ans_area>div[ansid] i {
+	font-style: normal;
+	margin-right: 15px !important;
+	display: inline-block;
+}
+
+.ans_area>div[ansid] i::before {
+	font-family: "webdesk_icon" !important;
+	font-style: normal;
+	font-size: 20px;
+	margin-right: 5px;
+}
+
+.type1>div[ansid] i::before {
+	content: '\e85c';
+}
+
+.type1>div[selected] i::before {
+	content: '\e85b';
+}
+
+.ans_area>div[ansid] {
+	display: flex;
+}
+
+.ans_area>div[ansid] * {
+	margin: 0px;
+	padding: 0px;
+}
+
+.ans_area>div[correct]::before {
+	content: '\a048';
+}
+
+.type2>div i::before {
+	content: '\e603';
+}
+
+.type2>div[selected] i::before {
+	content: '\e78b';
+}
+
+/*判断题*/
+.type3 {
+	display: flex;
+}
+
+.type3>div:first-child {
+	margin-right: 40px;
+}
+
+.type3>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e603';
+	font-style: normal;
+	margin-right: 5px;
+	font-size: 22px;
+}
+
+.type3>div[selected] i::before {
+	content: '\e78b';
+}
+
+/*填空题*/
+
+.type5 {
+	counter-reset: section;
+}
+
+.type5>div {
+	position: relative;
+	margin-left: 30px;
+}
+
+.type5>div::before {
+	counter-increment: section;
+	content: counter(section) ". ";
+	display: block;
+	position: absolute;
+	top: 5px;
+	width: 10px;
+	height: 40px;
+	left: -20px;
+}
+
+.type5>div input {
+	width: calc(100% - 30px);
+	padding: 5px 15px;
+}
+
+dl.quesArea textarea {
+	width: calc(100% - 22px);
+	padding: 10px;
+}
+
+/*提交的按钮*/
+.type2 button, .type4 button, .type5 button {
+	height: 35px;
+	color: #409eff;
+	background: #ecf5ff;
+	border-color: #b3d8ff;
+
+	display: inline-block;
+	white-space: nowrap;
+	cursor: pointer;
+
+	border: 1px solid #dcdfe6;
+
+	-webkit-appearance: none;
+	text-align: center;
+	box-sizing: border-box;
+	outline: none;
+	margin-bottom: 15px;
+	transition: .1s;
+	font-weight: 500;
+	padding: 2px 20px;
+	font-size: 14px;
+	border-radius: 4px;
+}
+
+.type5 button {
+	float: right;
+	margin-right: 8px;
+}
+
+#vapp[view='night'] *:not([noview]) {
+	background-color: #222222;
+	color: #cecece;
+}
+
+#vapp[view='cosy'] *:not([noview]) {
+	background-color: #eaf8ec;
+	color: #459651;
+}
+
+/*竖屏，手机端显示*/
+@media only screen and (orientation: portrait) {
+	dl.quesArea {
+		overflow: hidden;
+	}
+
+	dl.quesArea dd {
+		width: 100vw;
+		height: 100%;
+	}
+
+	dl.quesArea dd section {
+		overflow-y: auto;
+		margin-bottom: 50px;
+		padding-bottom: 50px;
+		box-sizing: border-box;
+		height: calc(100% - 40px);
+	}
+
+	table {
+		overflow: auto;
+		width: 100% !important;
+	}
+
+	td {
+		word-break: break-all;
+	}
+}

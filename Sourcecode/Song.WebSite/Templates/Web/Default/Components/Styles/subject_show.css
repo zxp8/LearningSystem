@@ -1,0 +1,65 @@
+weisha.subject_show {
+    display: flex;
+    width: 100%;
+    position: relative;
+    margin-bottom: 60px;
+}
+
+weisha.subject_show .subject {
+    display: block;
+    position: relative;
+    width: 220px;
+    height: 420px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+weisha.subject_show .subject:hover {
+    transform: scale(1.02);
+}
+
+weisha.subject_show .subject::before {
+    content: attr(name);
+    display: block;
+    width: 100%;
+    height: 40px;
+    background-color: rgba(200, 200, 200, 0.3);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    text-shadow: 1px 1px 5px #fff, -1px -1px 5px #fff;
+}
+
+weisha.subject_show .subject img {
+    width: 220px;
+    max-height: 420px;
+    border-radius: 3px;
+}
+
+/*课程*/
+
+weisha.subject_show courses {
+    flex: 1;
+    width: calc(100% - 220px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0px 60px; 
+    box-sizing: border-box;
+    padding-left: 65px;
+}
+
+weisha.subject_show courses>weisha_course {
+    width: 230px;
+    height: 210px;
+    transition: all 0.5s;
+    position: relative;
+    flex: 0 0 calc(30% - 10px);
+    margin-bottom: 30px;
+}
+
+weisha.subject_show courses loading {
+    margin: 30px auto;
+}

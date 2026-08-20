@@ -1,0 +1,39 @@
+﻿@charset "utf-8";
+#vapp{
+    padding-top: 10px;
+}
+.row {
+    line-height: 30px;
+    margin: 0px 20px 0px 20px;
+    width: calc(100% - 40px);
+}
+.theme{
+    margin-bottom: 10px;
+}
+.btnOutput{
+    float: right; 
+    margin-top:-5px;
+}
+.box-card{
+    margin-left: 10px;
+    margin-right: 20px;
+    width: calc(100% - 20px);
+    height: calc(100% - 120px);
+}
+.el-card__header{
+    padding-right: 5px !important;
+}
+
+.el-card__body{
+    height: calc(100% - 45px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+dl.files{
+    margin: 0px !important;  
+    padding: 0px !important; 
+}
+dl.files dd{
+    margin: 0px !important;  
+    padding: 0px !important; 
+}

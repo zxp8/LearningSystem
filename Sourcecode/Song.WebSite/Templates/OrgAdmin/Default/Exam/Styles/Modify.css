@@ -1,0 +1,143 @@
+﻿@charset "utf-8";
+
+.panel {
+    height: calc(100% - 55px);
+}
+
+.el-form {
+    height: calc(100% - 40px);
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.el-form>div[tab] {
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
+}
+
+.el-form>div[tab="general"] {
+    display: flex;
+}
+
+.el-form>div[tab="general"]>section.left {
+    width: 500px;
+    overflow: auto;
+    padding-right: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+section.left .el-form-item:last-child {
+    flex: 1;
+    margin-bottom: 0px !important;
+}
+
+.el-form-item__content {
+    height: 100%;
+}
+
+section.left .el-form-item:last-child .el-textarea {
+    height: 100%;
+    display: flex;
+}
+
+.el-textarea>* {
+    flex: 1;
+}
+
+/*右侧*/
+.el-form>div[tab="general"]>section.right {
+    flex: 1;
+    margin-left: 5px;
+}
+
+section.right .el-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+section.right .el-card .el-card__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+section.right .el-card .el-card__body {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/*场次*/
+.examscard {
+    counter-reset: section;
+}
+
+.examscard section.exams .order::before {
+    counter-increment: section;
+    content: counter(section) ". ";
+    margin-right: 10px;
+}
+
+section.exams {
+
+    font-size: .8rem;
+}
+
+section.exams:not(:last-child) {
+    margin-bottom: 30px;
+}
+
+section.exams>* {
+    margin-bottom: 5px;
+}
+
+.exams .exam_name {
+    display: flex;
+    justify-content: space-between;
+    line-height: 30px;
+    font-size: 1rem;
+}
+
+.exams .exam_name>span:first-child {
+    margin-right: 10px;
+}
+
+.exams .exam_name .btns {
+    margin-left: auto;
+    cursor: default;
+}
+
+.el-form>div[tab="range"] {
+    display: flex;
+    flex-direction: column;
+}
+
+/*参加考试的学员数量*/
+div.grouptype {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.grouptype>div.el-form-item__content icon[student] {
+    float: right;
+}
+
+.stscount {
+    margin-left: 10px;
+    color: #909399;
+}
+
+/*选择学员*/
+.student_select {
+    height: calc(100% - 48px) !important;
+}
+/*试卷类型*/
+.papertype {
+    color: #777;
+}

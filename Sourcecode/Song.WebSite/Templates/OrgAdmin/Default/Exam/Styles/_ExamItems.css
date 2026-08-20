@@ -1,0 +1,8 @@
+.el-select-dropdown__item{
+    display: flex;
+    justify-content: space-between;
+}
+.quescount{
+    font-size: 13px;
+    color: #999;
+}

@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+
+    <title>关于我们</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <page_header ref='header' @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}">
+            loading...
+        </page_header>
+        <div id="bodyTop">&nbsp;</div>
+        <context>
+            <aside>
+                <el-divider content-position="left">课程推荐</el-divider>
+                <courses :sbjid="0" :org="org" :count="4">
+                    <template slot="item" slot-scope="item">
+                        <course :item="item.data" :class="{'fourth':(item.index+1)%4==0}"></course>
+                    </template>
+                </courses>
+            </aside>
+            <section>
+                <div class="intro" v-html="org.Org_Intro"></div>
+                <div id="conn">
+                    <el-divider content-position="left">联系我们</el-divider>
+                    <dl class="infoBox">
+                        <dd title="单位名称" v-html="org.Org_Name" icon="&#xa003"> </dd>
+                        <dd title="电话" v-html="org.Org_Phone" icon="&#xa047"> </dd>
+                        <dd title="传真" v-html="org.Org_Fax" icon="&#xa046"> </dd>
+                        <dd title="电子邮箱" v-html="org.Org_Email" icon="&#xe751"> </dd>
+                        <dd title="邮编" v-html="org.Org_Zip" icon="&#xe6a2"> </dd>
+                        <dd title="地址" v-html="org.Org_Address" icon="&#xe64f"> </dd>
+                    </dl>
+                </div>             
+                <map_show :lat="org.Org_Latitude" :lng="org.Org_Longitude" 
+                    style="margin-left: 120px; height: 400px; width: calc(100% - 150px);"></map_show>
+             
+            </section>
+        </context>
+        <page_footer :organ="org" :account="account">loading ...</page_footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+﻿@charset "utf-8";
+
+#vapp {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+icon:not([icon]) {
+    margin-right: 1px !important;
+}
+
+.el-card__header {
+    padding: 10px 10px !important;
+}
+
+.el-card__header .el-checkbox {
+    margin-right: 5px;
+}
+
+.tree_area {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin: 0px;
+    padding: 0px;
+}
+
+.tree_area>div {
+    flex: 1;
+    float: left;
+    height: calc(100% - 70px);
+    margin: 10px 10px 10px 0px;
+}
+
+.tree_area>div:first-child {
+    margin: 10px 10px 10px 10px;
+}
+
+.tree_area>div .el-card__body {
+    overflow-y: auto;
+    height: calc(100% - 80px);
+    padding: 5px 5px 5px 0px;
+}
+
+.custom-tree-node {
+    font-size: 15px;
+    flex: 1;
+    display: flex;
+}
+
+.el-tree-node__content {
+    display: flex;
+}
+
+.custom-tree-node>span {
+    display: block;
+    width: 100%;
+}
+
+span.root-node {
+    font-size: 16px;
+}
+span.root-node icon{
+    font-size: 18px;
+}

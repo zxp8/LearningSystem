@@ -1,0 +1,52 @@
+.panel {
+    height: calc(100% - 55px);
+}
+
+.papertype {
+    position: absolute;
+    right: 20px;
+    top: 8px;
+    z-index: 10;
+    color: brown;
+}
+
+.el-form {
+    height: calc(100% - 40px);
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.el-form>div:not([tab="intro"]) {
+    padding: 10px;
+}
+
+.el-form-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+/*简介*/
+div[tab="general"] {
+    display: flex;
+    flex-direction: column;
+
+}
+
+div[tab="general"]>div:last-child {
+    flex: 1;
+}
+
+div[tab="general"]>div:last-child .el-form-item__content {
+    height: 100%;
+}
+
+/*编辑框*/
+.intro_editor {
+    width: 100%;
+    height: 100%;
+}
+
+.intro_editor .tox-tinymce {
+    border: none !important;
+}

@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>学员课程</title>
+</head>
+
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="header">
+            <el-tabs v-model="method_name">
+                <el-tab-pane v-for="(item,i) in methods" :name="item.label">
+                    <span slot="label">
+                        <icon v-html="item.icon"></icon><span v-html="item.name"></span>
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+            <query_panel :model="query" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item>
+                    <el-input v-model="query.search" placeholder="请输入内容" clearable>
+                        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                    </el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+
+        <context>
+            <loading v-show='loading'>正在加载中...</loading>
+            <div class="nodata" v-if="datas.length<1">
+                <icon>&#xe839</icon>没有满足条件的数据
+            </div>
+            <purchase_data v-else :ref="'purchase_data_'+item.Cou_ID" v-for="(item,index) in datas" :couid="item.Cou_ID"
+                :account="account" v-slot="scope">
+                <el-card shadow="hover">
+                    <courimg :course="item"></courimg>
+                    <section remark="右侧">
+                        <header>
+                            <div>
+                                <span>{{(query.index - 1) * query.size + index + 1}}.</span>
+                                <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID"> {{item.Cou_Name}}</a>
+                            </div>
+                            <div class="datainfo">
+                                <template v-if="scope.forever">
+                                    <el-tag type="success" class="free">
+                                        <icon>&#xa048</icon>不限时
+                                    </el-tag>
+                                </template>
+                                <template v-else-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
+                                    <el-tag type="success" class="free">限时免</el-tag>
+                                    <el-tag type="success" class="free">
+                                        免费至 {{item.Cou_FreeEnd|date('yyyy-MM-dd')}}
+                                    </el-tag>
+                                </template>
+                                <el-tag type="success " class="free" v-else-if="item.Cou_IsFree">免费</el-tag>
+                                <div v-else>
+                                    <el-tag type="warning">
+                                        <icon>&#xe671</icon>{{scope.data.Stc_EndTime|date("yyyy-M-d ")}} 过期
+                                        {{item.endtime|date("yyyy年M月d日")}}
+                                    </el-tag>
+                                </div>
+                            </div>
+                        </header>
+                        <div class="studyinfo">
+                            <video_progress :course="item" :stid="account.Ac_ID" :config="config"
+                                :purchase="scope.data"></video_progress>
+                            <ques_progress :course="item" :stid="account.Ac_ID" :purchase="scope.data">
+                            </ques_progress>
+                            <exam_test :course="item" :stid="account.Ac_ID" :config="config" :purchase="scope.data">
+                            </exam_test>
+                            <div class="score" @click="viewScore(item,scope.data)">
+                                <div>
+                                    <icon>&#xe6ef</icon>综合成绩
+                                </div>
+
+                                <span  :class="{'nopass':scope.data.Stc_ResultScore<60}">{{scope.data.Stc_ResultScore}} 分</span>
+
+                            </div>
+                        </div>
+                    </section>
+                </el-card>
+            </purchase_data>
+
+        </context>
+
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="query.index" 
+                :page-size="query.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

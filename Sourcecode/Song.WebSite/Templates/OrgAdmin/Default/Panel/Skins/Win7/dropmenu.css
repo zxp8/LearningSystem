@@ -1,0 +1,23 @@
+﻿@charset "utf-8";
+.dropmenu {
+    /*根菜单颜色,依次为：前景色、背景色、鼠标滑过颜色、阴影*/
+    --drop-root-color: #333;
+    --drop-root-bgcolor: rgba(168, 168, 168, 0.3);
+    --drop-root-hover: rgba(255, 255, 255);
+    --drop-root-hoverbg: rgba(238, 240, 241, 0.6);
+    --drop-root-shadow: #666;
+    /*下拉菜单颜色,依次为：背景色、边线色、前景色、分隔线、阴影色*/
+    --drop-panel-bgcolor: #eee;
+    --drop-panel-border: #bbb;
+    --drop-panel-color: #333;
+    --drop-panel-hr: #ddd;
+    --drop-panel-shadow: #eee;
+    /*图标,依次为：图片的边线*/
+    --drop-img: #aaa;
+    /*下拉菜单中的事件效果*/
+    --drop-panel-hover: #000;
+    --drop-panel-hover-shadow: #fff;
+    --drop-panel-hover-boxshadow: #fff;
+    --drop-panel-hover-border: rgba(122, 121, 121, 0.8);
+    --drop-panel-hover-bg: #ccc;
+}

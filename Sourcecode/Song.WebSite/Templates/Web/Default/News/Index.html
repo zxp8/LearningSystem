@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>资讯</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <page_header @load="(o,c,p)=>{org=o;config=c;platinfo=p;}" @login="acc=>account = acc">loading ...
+        </page_header>
+        <context class="news" v-if="articles.length>0">
+            <div class="artbox">
+                <div class="art_img" remark="图片新闻">
+                    <template v-for="(data,i) in articles">
+                        <div v-if="i<3">
+                            <a :href="'/web/news/article.'+data.Art_ID" :title="data.Art_Title" target="_blank">
+                                <img :src="data.Art_Logo" v-if="data.Art_Logo!=''" />
+                                <img src="../Images/def_news.jpg" v-else />
+                            </a>
+                            <a v-html="data.Art_Title" :title="data.Art_Title" target="_blank"
+                                :href="'/web/news/article.'+data.Art_ID"></a>
+                        </div>
+                    </template>
+                </div>
+                <div class="art_list" remark="新闻列表">
+                    <div v-for="(data,i) in articles" v-if="i>=4">
+                        <a v-html="data.Art_Title" :title="data.Art_Title" target="_blank"
+                            :href="'/web/news/article.'+data.Art_ID">
+                        </a>
+                        <span>[ {{data.Art_PushTime|date("MM-dd")}} ]</span>
+                    </div>
+                </div>
+            </div>
+        </context>
+        <context class="columns" v-if="columns.length>0">
+            <div v-for="(col,i) in columns" class="column">
+                <div class="col_name">
+                    <a :href="'/web/news/list.'+col.Col_UID" icon="&#xe6fd">{{col.Col_Name}}</a>
+                    <a :href="'/web/news/list.'+col.Col_UID" icon="&#xe838">更多</a>
+                </div>
+                <articles :column="col" :count="6"></articles>
+            </div>
+        </context>
+        <context class="rec">
+            <subject_rec :subject="null" :count="8" :org="org" :mincount="4" order="rec"></subject_rec>
+        </context>
+        <page_footer :organ="org">loading ...</page_footer>
+    </div>
+
+
+</body>
+
+</html>

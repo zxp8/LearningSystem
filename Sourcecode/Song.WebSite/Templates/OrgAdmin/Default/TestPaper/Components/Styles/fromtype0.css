@@ -1,0 +1,68 @@
+﻿/*按课程出题的布局*/
+.fromtype0>div {
+    margin-bottom: 8px;
+}
+
+.fromtype0 .taginfo>span::before {
+    font-family: "webdesk_icon" !important;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.fromtype0 .taginfo>span.el-tag--warning::before {
+    content: "\e70e";
+    margin-right: 10px;
+}
+
+.fromtype0 .taginfo>span.el-tag--success::before {
+    content: "\a048";
+    margin-right: 5px;
+}
+
+.fromtype0 .taginfo>span.el-tag--danger::before {
+    content: "\e6fe";
+    margin-right: 5px;
+}
+
+.alert {
+    text-align: left;
+}
+
+.fromtype0 .taginfo {
+    margin: 0px !important;
+    padding: 0px;
+}
+
+.ques_type {
+    width: 80px;
+}
+
+
+
+div.is-null .el-input__inner, .el-message-box__input input.invalid:focus {
+    border-color: #F56C6C;
+}
+
+.el-input {
+    position: relative;
+}
+
+div.is-null .el-input::before {
+    content: '不得为空';
+    display: block;
+    position: absolute;
+    bottom: -10px;
+    left: 60px;
+    z-index: 10;
+
+
+    border-radius: 5px;
+    background-color: #F56C6C;
+    color: yellow;
+    padding: 2px 5px 2px 5px;
+}
+
+/*题型的得分总分*/
+.tpinumber {
+    width: 180px;
+}

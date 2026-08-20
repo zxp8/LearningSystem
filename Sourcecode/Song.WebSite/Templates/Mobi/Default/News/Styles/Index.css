@@ -1,0 +1,60 @@
+﻿html, body, #vapp {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    position: relative;
+}
+
+.header {
+    height: 44px;
+
+    font-size: 14px;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    z-index: 2;
+}
+
+card-title {
+    font-size: 18px;
+}
+
+.header .van-search {
+    padding: 5px 6px !important;
+}
+
+card:has(card-content[notnull]) card-title::after {
+    content: '\e670';
+    position: absolute;
+    top: 15px;
+    right: 8px;
+    font-size: 18px;
+    font-family: "webdesk_icon" !important;
+}
+
+.context {
+    width: 100%;
+    position: fixed;
+    top: 44px;
+    height: calc(100% - 44px - 50px);
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding-bottom: 30px;
+}
+
+
+.noarticle {
+    font-size: 14px;
+    text-indent: 10px;
+    color: #999;
+}
+
+.noarticle icon {
+    font-size: 18px;
+}
+
+row a {
+    font-size: 16px;
+}

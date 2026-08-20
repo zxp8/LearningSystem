@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>机构等级修改</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity_form" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-form-item label="名称" prop="Olv_Name">
+                <el-input v-model="entity.Olv_Name"></el-input>
+            </el-form-item>
+            <el-form-item label="标识" prop="Olv_Tag">
+                <el-input v-model="entity.Olv_Tag" style="width:200px" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="等级" prop="Olv_Level">
+                <el-input v-model="entity.Olv_Level" type="number" style="width:100px"></el-input>
+            </el-form-item>
+            <el-form-item label="分润方案" prop="Ps_ID">
+                <template>
+                    <el-select v-model="profit_id" placeholder="请选择">
+                        <el-option v-for="item in profits" :value-key="item.Ps_ID" :label="item.Ps_Name"
+                            :value="item.Ps_ID">
+                        </el-option>
+                    </el-select>
+                </template>
+            </el-form-item>
+            <el-row>
+                <el-form-item label="说明" prop="Olv_Intro">
+                    <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="entity.Olv_Intro"></el-input>
+                </el-form-item>
+            </el-row>
+            <el-form-item label="状态" prop="Olv_IsUse">
+                <el-switch v-model="entity.Olv_IsUse" :active-text="entity.Olv_IsUse ? '启用' : '禁用'">
+                </el-switch>
+            </el-form-item>
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" define="enter" :loading="loading" plain @click="btnEnter('entity_form',true)"> 保存
+            </el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity_form',false)">应用 </el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
+    </div>
+</body>
+
+</html>

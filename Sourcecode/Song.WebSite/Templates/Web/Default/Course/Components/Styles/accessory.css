@@ -1,0 +1,29 @@
+/* 附件 */
+
+#accessory {
+	padding: 20px;
+	text-align: left;
+}
+
+#accessory a, #accessory>div {
+	font-size: 16px;
+	color: #CCC;
+	line-height: 30px;
+	width: auto;
+}
+#accessory *[filetype]{
+	color: #CCC !important;
+}
+#accessory *[filetype]::before{
+	margin-right: 10px;
+}
+#accessory>div.download:hover {
+	background-color: #333;
+}
+
+#accessory .filesize {
+	margin: 0px 15px;
+	font-size: 13px;
+	color: #999;
+	
+}

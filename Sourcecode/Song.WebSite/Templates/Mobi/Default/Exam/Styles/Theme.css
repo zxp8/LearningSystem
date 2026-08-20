@@ -1,0 +1,149 @@
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+#vapp {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.header {
+    height: 50px;
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    background-color: transparent;
+}
+
+.header[login] {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    color: #666;
+}
+
+.header_info {
+    width: 100%;
+    height: 60px;
+    position: relative;
+}
+
+.acc_photo {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+    float: left;
+    background-size: cover;
+}
+
+.header_info .accInfo {
+    width: calc(100% - 80px);
+    float: left;
+    position: relative;
+}
+
+.header_info .acc-name {
+    font-size: 18px;
+    line-height: 30px;
+}
+
+.header_info .acc-acname {
+    font-size: 14px;
+    line-height: 30px;
+}
+
+.header::after {
+    content: '\e72a';
+    font-family: webdesk_icon;
+    display: block;
+    width: 10px;
+    position: absolute;
+    right: 25px;
+    top: 40px;
+    transform: rotate(180deg);
+    z-index: -1;
+}
+
+.nophoto {
+    background-image: url(/Utilities/images/head1.jpg);
+}
+
+.man {
+    background-image: url(/Utilities/images/head1.jpg);
+}
+
+.woman {
+    background-image: url(/Utilities/images/head2.jpg);
+}
+
+.header[login] .van-tag {
+    padding: 2px 8px;
+    margin-right: 10px;
+}
+
+
+/*考试主题*/
+card-title {
+	padding: 15px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.theme card-title>*:first-child {
+	margin-right: auto;
+}
+
+.theme card-title>header {
+	margin-left: 10px;
+    margin-right: 10px !important;
+	display: flex;
+	flex-direction: column;
+}
+
+.theme card-title>header span {
+	color: #777;
+}
+.grouptype{
+    width: 60px;
+}
+
+card-content {
+	font-size: 16px;
+	padding-left: 30px;
+}
+
+card-content {
+	font-size: 16px;
+	padding-left: 30px;
+}
+
+.item {
+	line-height: 30px;
+}
+
+card-content>div>div.item:first-child {
+	margin-top: 10px;
+}
+card-content>div>div.item:not(:first-child) {
+	margin-left: 20px;
+}
+
+.exam_tit{
+    display: flex;
+    justify-content: space-between;
+}
+
+a[type="button"] {
+    color: #fff;
+    background-color: #07c160;
+    border: 1px solid #07c160;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 3px 10px;
+    height: 20px;
+}

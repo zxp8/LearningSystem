@@ -1,0 +1,40 @@
+#vapp {
+    display: flex;
+    flex-direction: column;
+}
+.el-dialog__body .el-row{
+    margin-bottom: 10px;
+}
+.tree-box{
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+.el-tree-node__content{
+    display: flex;
+    height:auto !important;
+}
+.custom-tree-node{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+}
+.qcount{
+    font-size: 14px;
+    color: #777;
+}
+.qcount[zero] {
+    color: #ccc;
+}
+.serial{
+    font-size: 14px;
+    color: #777;
+}
+.help *:not(help){
+    color: #333;
+    line-height: 25px;
+}
+.el-tree-node{
+    white-space:wrap !important;  
+}

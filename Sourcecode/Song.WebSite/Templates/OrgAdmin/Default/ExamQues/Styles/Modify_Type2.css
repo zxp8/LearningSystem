@@ -1,0 +1,56 @@
+﻿@charset "utf-8";
+
+dl.ans {
+    width: 100%;
+}
+dl.ans dt{
+    padding: 5px 15px 5px 0px;
+    text-align: right;
+}
+dl.ans dd {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    padding: 5px 10px 5px 0px;
+    display: flex;
+}
+dl.ans p{
+    margin: 0px;
+    padding: 0px;
+}
+dl.ans dd:hover {
+    background-color: #eee;
+    box-shadow: 1px 1px 3px #eee, -1px -1px 3px #eee;
+}
+
+dl.ans dd index {
+    display: block;
+    width: 30px;
+    text-align: center;
+    color: #999;
+}
+
+dl.ans dd .radio {
+    display: block;
+    width: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+dl.ans dd .itemcrt {
+    display: block;
+    width: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+
+dl.ans dd .text {
+    width: calc(100% - 90px - 90px);
+    padding: 0px 15px 0px 10px;
+    cursor: move;
+}
+.sortable-ghost{
+    background-color: rgb(225, 243, 216);
+}
+dl.ans dd .btns {
+    width: 90px;
+}

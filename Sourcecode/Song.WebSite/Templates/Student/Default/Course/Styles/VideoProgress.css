@@ -1,0 +1,86 @@
+﻿@charset "utf-8";
+
+#vapp {
+	padding: 15px;
+	box-sizing: border-box;
+	overflow-y: auto;
+	height: 100%;
+}
+
+.outline_progress {
+	line-height: 30px;
+	position: relative;	
+	padding-right: 60px;
+	display: flex;
+	justify-content:space-between;
+	font-size: 14px;
+	color: #666;
+}
+.outline_progress>span:first-child{
+	font-size: 16px;
+}
+.outline_progress:hover{
+	background-color: #eee;
+}
+.order {
+	margin-right: 10px;
+}
+
+.outline_progress icon {
+	margin-left: 5px;
+}
+
+.outline_progress a{
+	color: #409eff;
+	
+}
+
+.outline_progress .time_info{
+	width: 400px;
+	display: flex;
+	justify-content: space-between;
+}
+/*右侧的链接*/
+.outline_progress .el-tag, .outline_progress .novideo_link{
+	width: 60px !important;
+	text-align: right;
+	margin-top: 1px;
+	position: absolute;
+	right: 0px;
+	top: 1px;
+}
+a.novideo_link{
+	color: #999;
+	font-size: 13px;
+}
+.studyTime {
+	width: 80px;
+	text-align: center;
+}
+
+.outline_progress .lastTime {
+	width: 120px;
+}
+
+.playTime {
+	width: 180px;
+	display: flex;
+}
+
+.playTime>*:first-child {
+	min-width: 80px;
+	text-align: right;
+}
+
+.playTime .slant {
+	margin: 0px 5px;
+}
+
+/*没有学习记录*/
+.nolog {
+	margin: 30px;
+	display: block;
+}
+.el-tag a{
+	color:#e6a23c;
+}

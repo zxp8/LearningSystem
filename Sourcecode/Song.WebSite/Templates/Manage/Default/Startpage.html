@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head resource>
+    <include file="inc/meta.inc" /> 
+    <title></title>   
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="main-header">
+            <dv-decoration-1 style="width:200px;height:50px;"></dv-decoration-1>
+            <dv-decoration-11 style="height:60px;" class="title"><span v-html="platinfo.title"></span></dv-decoration-11>
+            <dv-decoration-3 style="width:200px;height:30px;" ></dv-decoration-3>
+        </div>
+        <div class="main-body">
+            <dv-border-box-3 title="dv-border-box-11">dv-border-box-11</dv-border-box-3>
+            <dv-border-box-4 :reverse="true">          
+                dd
+            </dv-border-box-4>
+        </div>
+        <div class="main-foot">
+            <dv-border-box-8>     
+            
+                <dv-digital-flop :config="test" style="width:200px;height:50px;" />
+                {{quantity.account}}
+            </dv-border-box-8>
+        </div>
+       
+      
+    </div>
+</body>
+
+</html>

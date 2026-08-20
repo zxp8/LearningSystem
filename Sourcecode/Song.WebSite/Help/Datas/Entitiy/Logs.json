@@ -1,0 +1,67 @@
+{
+  "Acc_Id": {
+    "mark": "",
+    "intro": "",
+    "relation": "EmpAccount"
+  },
+  "Acc_Name": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Log_Browser": {
+    "mark": "浏览器",
+    "intro": "",
+    "relation": ""
+  },
+  "Log_FileName": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Log_IP": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Log_Id": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Log_MenuId": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Log_MenuName": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Log_OS": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Log_Time": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Log_Type": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Org_ID": {
+    "mark": "",
+    "intro": "",
+    "relation": "Organization"
+  },
+  "Org_Name": {
+    "mark": "",
+    "intro": "",
+    "relation": "Organization"
+  }
+}

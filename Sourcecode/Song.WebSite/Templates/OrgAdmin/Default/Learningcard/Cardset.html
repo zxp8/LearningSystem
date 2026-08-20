@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>学习卡设置项</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData"
+                @cardquery="childwindow(null,'Cardquery','查询',1000,600)" path="CardsetModify" width="1000" height="600"
+                :selects='selects' idkey='Lcs_ID' table="datatables"></btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="主题">
+                    <el-input v-model.trim="form.search" placeholder="主题" @clear="handleCurrentChange(1)" clearable style="width:150px"> </el-input>
+                </el-form-item>
+                <template v-slot:more v-if="false">
+                    <el-form-item label="课程数">
+                       
+                    </el-form-item>
+                    <el-form-item label="数量">
+                       
+                    </el-form-item>
+                    <el-form-item label="面额">
+                       
+                    </el-form-item>
+                </template>
+            </query_panel>
+        </div>
+        <template>
+            <el-table ref="datatables" border resizable :data="datas" :stripe="true" tooltip-effect="dark"
+                style="width: 100%" @selection-change="val=>selects=val"
+                @row-dblclick="row=>$refs.btngroup.modifyrow(row)">
+                <el-table-column type="selection" width="35">
+                </el-table-column>
+                <el-table-column type="index" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="主题">
+                    <template slot-scope="scope">
+
+                        <el-link :type="scope.row.Lcs_IsEnable ? 'primary' :'info'" title="点击查看学习卡"
+                            @click="$refs.btngroup.pagebox('cards?id='+scope.row.Lcs_ID,'“'+scope.row.Lcs_Theme+'”的卡片详情',null,'900','80%')">
+                            <span class="large" v-html="showsearch(scope.row.Lcs_Theme,form.search)"></span>
+                        </el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column label="课程数" width="80" align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.Lcs_CoursesCount}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="数量" width="160" class-name="countscope">
+                    <template slot-scope="scope">
+                        <span title="已经使用">{{scope.row.Lsc_UsedCount}}</span>
+                        <span> / </span>
+                        <span title="总数">{{scope.row.Lcs_Count}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="面额" width="100">
+                    <template slot-scope="scope">
+                        <icon money style="font-size: 14px;"></icon>{{scope.row.Lcs_Price}}
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="有效期" width="250" align="center">
+                    <template slot="header">
+                        <el-tooltip placement="bottom" effect="light">
+                            <help>有效期</help>
+                            <div slot="content">
+                                有效期指学习卡可以使用的时限<br />
+                                在有效期内使用学习卡<br />即可从使用那一刻起拥课程的学习时长</div>
+
+                        </el-tooltip>
+                    </template>
+                    <template slot-scope="scope">
+                        <span class="limit">{{scope.row.Lcs_LimitStart|date('yyyy-MM-dd')}}</span>
+                        至
+                        <span class="limit">{{scope.row.Lcs_LimitEnd|date('yyyy-MM-dd')}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="学习时长" width="120">
+                    <template slot="header">
+                        <el-tooltip placement="bottom" effect="light">
+                            <help>学习时长</help>
+                            <div slot="content">
+                                学习卡使后，其关联课程能够允许学习的时长<br />
+                                这个时长和学习卡的“有效期”没有关系</div>
+
+                        </el-tooltip>
+                    </template>
+                    <template slot-scope="scope">
+                        {{scope.row.Lcs_Span}}
+                        <span v-if="scope.row.Lcs_Unit=='月'">个</span>
+                        {{scope.row.Lcs_Unit}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="启用" width="120">
+                    <template slot-scope="scope">
+                        <el-switch v-model="scope.row.Lcs_IsEnable" size="mini" active-text="启用"
+                            @change="changeUse(scope.row)" v-show="loadingid!=scope.row.Lcs_ID">
+                        </el-switch>
+                    </template>
+                </el-table-column>
+
+
+                <el-table-column label="操作" width="80" align="center">
+                    <template slot-scope="scope">
+                        <el-dropdown>
+                            <span class="el-dropdown-link">
+                                管理<i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>
+                                    <span icon="&#xe685" @click="childwindow(scope.row,'cards','卡号管理','900','80%')">
+                                        卡号管理
+                                    </span>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <span icon="&#xa04d"
+                                        @click="childwindow(scope.row,'BatchDistribution','批量派发“','1000','80%')">
+                                        批量派发
+                                    </span>
+                                </el-dropdown-item>
+                                <el-dropdown-item
+                                    @click.native="childwindow(scope.row,'BatchRollback','回滚使用过的学习卡',600,400)">
+                                    <span icon="&#xf007c"> 批量回滚 </span>
+                                </el-dropdown-item>                        
+                                <el-dropdown-item divided
+                                    @click.native="childwindow(scope.row,'OutputExcel','导出Excel',640,480)">
+                                    <span icon="&#xe85e">导出Excel</span>
+                                </el-dropdown-item>
+                                <el-dropdown-item
+                                    @click.native="childwindow(scope.row,'OutputQrcode','导出二维码',600,400,{full: true})">
+                                    <span icon="&#xa053">导出二维码</span>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <span icon="&#xe811" @click="childwindow(scope.row,'Outcomes','学习成果','1000','80%')">
+                                        学习成果
+                                    </span>
+                                </el-dropdown-item>                      
+                                <el-dropdown-item divided type="danger" icon="el-icon-edit" style="color:#409EFF"
+                                    @click.native='$refs.btngroup.modifyrow(scope.row)'>
+                                    修改
+                                </el-dropdown-item>
+                                <el-dropdown-item type="danger" icon="el-icon-delete" style="color:#F56C6C"
+                                    @click.native='$refs.btngroup.delete(scope.row.Lcs_ID,{})'>
+                                    删除
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </template>
+
+
+                </el-table-column>
+            </el-table>
+
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" 
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

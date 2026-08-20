@@ -1,0 +1,19 @@
+section {
+    counter-reset: section;  
+    list-style-type: none; 
+}
+section dl dt::before {
+    counter-increment: section;  
+    content: counter(section) ". ";
+
+}
+section dl {
+    counter-reset: dd;
+    list-style-type: none;
+}
+
+section dl dd::before {
+    counter-increment: dd;  
+    content: "(" counter(dd) ") ";
+
+}

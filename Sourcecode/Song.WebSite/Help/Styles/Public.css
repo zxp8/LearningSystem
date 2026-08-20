@@ -1,0 +1,176 @@
+body {
+    padding: 20px;
+    overflow: auto;
+    box-sizing: border-box;
+}
+*{
+    font-family: "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+*[v-cloak] {
+    display: none;
+}
+h1 {
+    margin: 0px;
+    font-size: 22px;
+    text-indent: 1rem;
+}
+
+p, dd {
+    font-size: 18px;
+    margin: 0.5rem 0px 0px 0px;
+    line-height: 35px;
+    text-indent: 2rem;
+}
+
+li{
+    font-size: 18px;  
+    line-height: 35px;
+    margin-left: 20px;
+}
+a {
+    color: #09F;
+}
+
+a {
+    color: #09F;
+    text-decoration: underline;
+}
+
+p,div {
+    font-size: 18px;
+}
+
+#head {
+    box-sizing: border-box;
+    padding: 0px 0px 0px 20px;
+    display: flex;
+}
+
+card-title{
+    font-weight: 600;
+    font-size: 18px;
+}
+textarea {
+    width: calc(100% - 50px);
+    background-color: rgb(248, 252, 203);
+    padding: 10px 10px 0px 10px;
+    line-height: 20px;
+    border: 1px solid rgb(219, 199, 108);
+    resize: none;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+
+dl {
+    margin: 10px 0px 0px 60px;
+}
+
+dl,
+dt,
+dd {
+    padding: 0px;
+    text-indent: 0px;
+    line-height: 25px;
+}
+
+dl dt {
+    margin: 10px auto;
+    font-weight: bold;
+}
+
+dl dd {
+    margin: 0px 0px 5px 0px;
+    padding: 0px 0px 0px 25px;
+    text-indent: 0px;
+}
+
+dl dd,
+dl dd * {
+    font-size: 18px;
+    line-height: 30px;
+}
+*::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 10px;
+    /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+
+
+*::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
+    background: #888888;
+    background-image: -webkit-linear-gradient(45deg,
+            rgba(184, 164, 164, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent),
+        url(/Utilities/scrollbar-thumb.gif);
+    --background-image: url(/Utilities/scrollbar-thumb.gif);
+    background-repeat: no-repeat;
+}
+
+
+*::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 3px rgba(133, 131, 131, 0.2);
+    border-radius: 3px;
+    background: #EDEDED;
+    --background-image: url(/Utilities/scrollbar-track.gif);
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+/*提示信息*/
+*.tip{
+    --tip_bgcolor: #ecf8ff;
+    --tip_bordercolor: #50bfff;
+}
+*.tip[red]{
+    --tip_bgcolor: #fff5f5;
+    --tip_bordercolor: #ff5a5a;
+}
+*.tip[green]{
+    --tip_bgcolor: rgb(240, 249, 235);
+    --tip_bordercolor: #67C23A;
+}
+*.tip[yellow]{
+    --tip_bgcolor: rgb(253, 246, 236);
+    --tip_bordercolor: #E6A23C;
+}
+*.tip {
+    padding: 20px 20px 20px 40px;
+    box-sizing: border-box;
+    background-color: var(--tip_bgcolor);
+    border-radius: 4px;
+    border-left: 5px solid var(--tip_bordercolor);
+    margin: 20px;
+    width: calc(100% - 40px);
+    text-align: left;
+    text-indent: 0px;
+}
+*.tip p{
+    text-indent: 0px;
+}
+help, alert, help *, alert *, warning, warning * {
+    font-size: 16px !important;
+    cursor: default;
+}
+.el-form-item__label{
+    font-size: 18px;
+}
+/*竖屏，手机端显示*/
+@media only screen and (orientation: portrait) {
+    dl,dl dt,dl dd{
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+    img{
+        max-width: 100%;
+    }
+}

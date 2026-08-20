@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增" ref='btngroup' path="Modify" width="1000" height="700" idkey='Exam_ID' table="datatable"
+                :modal="false"></btngroup>
+            <query_panel ref="query" :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <date_range @change="selectDate"></date_range>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.search" @clear="$refs['query'].onserch()"  clearable placeholder="考试主题" style="width:160px"> </el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+        <template>
+            <el-table ref="datatable"  border resizable  :data="datas" tooltip-effect="dark" :stripe="true" style="width: 100%"
+                index-key="Exam_Order" row-key="Exam_ID" @row-click.self="clickTable">
+                <el-table-column type="index" width="50">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column type="expand" remark="考试场次">
+                    <template slot-scope="scope">
+                        <exams :uid="scope.row.Exam_UID" :theme="scope.row"></exams>
+                    </template>
+                </el-table-column>
+                <el-table-column label="考试主题">
+                    <template slot-scope="scope">
+                        <useicon :state="scope.row.Exam_IsUse"
+                            @change="(state)=>{scope.row.Exam_IsUse=state;changeState(scope.row);}">
+                        </useicon>
+                        <span v-html='scope.row.Exam_Title' class="large"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="时间设定" width="100" align="center">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.Exam_DateType==1">定时开始</span>
+                        <span v-if="scope.row.Exam_DateType==2">时间区间</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="考试时间" width="260" align="center">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.Exam_DateType==1"> {{scope.row.Exam_Date|date('yyyy-MM-dd HH:mm')}}</span>
+                        <span v-if="scope.row.Exam_DateType==2">
+                            {{scope.row.Exam_Date|date('yyyy-MM-dd HH:mm')}} 至
+                            {{scope.row.Exam_DateOver|date('yyyy-MM-dd HH:mm')}}
+                        </span>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="应参考人数" width="100" align="center">
+                    <template slot-scope="scope">
+                        <studenttotal :exam="scope.row"></studenttotal>
+                    </template>
+                </el-table-column>
+                <el-table-column label="参考人员">
+                    <template slot-scope="scope">
+                        <scopeinfo :exam="scope.row"></scopeinfo>
+                    </template>
+                </el-table-column>
+                <el-table-column label="管理"  width="120"  align="center">
+                    <template slot-scope="scope">
+                        <el-dropdown @command="handleCommand" :objid="scope.row.Exam_ID">
+                            <span class="el-dropdown-link">
+                                <icon>&#xa030</icon><span style="font-size: 12px">管理</span><i
+                                    class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item command="sharp">
+                                    <el-link type="info" plain :underline="false"><icon sharp></icon> 分享</el-link>
+                                </el-dropdown-item>
+                                <el-dropdown-item divided command="modify">
+                                    <el-link type="primary" plain :underline="false"><icon modify></icon> 修改 </el-link>
+                                </el-dropdown-item>
+                                <el-dropdown-item command="delete">
+                                    <el-link type="danger" plain :underline="false"><icon delete></icon> 删除</el-link>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>                      
+                    </template>
+                </el-table-column>
+            </el-table>
+
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" 
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</body>
+
+</html>

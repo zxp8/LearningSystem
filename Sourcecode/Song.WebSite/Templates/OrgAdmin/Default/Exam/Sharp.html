@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>考试分享</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <card class="theme" shadow="hover">
+            <card-title>
+                <header>
+                    <b>{{theme.Exam_Title}}</b>
+                    <span small>{{theme.Exam_Intro}}</span>
+                </header>
+                <!-- 考试学员信息 --->
+                <el-tag v-if="theme.Exam_GroupType == 1">全体学员</el-tag>
+                <el-tag type="success" v-if="theme.Exam_GroupType == 2">限定学员组</el-tag>
+                <el-tag type="warning" v-if="theme.Exam_GroupType == 3">指定学员</el-tag>
+
+            </card-title>
+            <card-content>
+                <theme_item v-for="(e,index) in exams" :exam="e" :theme="theme" :index="index"></theme_item>
+                <div class="sharp">
+                    <header>分享考试信息</header>
+                    <div :id="'exam-qrcode'+theme.Exam_ID" class="qrcode"></div>
+                    <p>
+                        <el-button type="success" @click="copytext(builderurl(),'考试地址')" style="cursor: pointer;">复制
+                        </el-button>
+                        <a :href="builderurl()" type="link" target="_blank" >考试地址</a>
+                    </p>
+                </div>
+            </card-content>
+        </card>
+        </context>
+    </div>
+</body>
+
+</html>

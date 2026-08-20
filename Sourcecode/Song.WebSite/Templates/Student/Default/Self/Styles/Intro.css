@@ -1,0 +1,11 @@
+﻿@charset "utf-8";
+/*编辑框*/
+.about_editor {
+	width: 100%;
+	height: calc(100% - 50px);
+}
+
+.footer{
+	text-align: left;
+	display: block;
+}

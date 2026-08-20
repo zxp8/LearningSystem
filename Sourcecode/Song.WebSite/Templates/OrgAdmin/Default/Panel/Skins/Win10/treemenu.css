@@ -1,0 +1,68 @@
+﻿@charset "utf-8";
+
+.treemenu {
+    /*左侧选项卡的背景、背景色、选中背景色（右侧面板同色）*/
+    --tag-color: #efefef;
+    --tag-bg: rgba(66, 89, 113, 0.6);
+    --tag-selected-bg: rgb(196 238 255);
+
+    /*选项卡被选中时的字体色*/
+    --tag-selected-color: #333;
+    --tag-selected-shadowcolor: rgb(11 49 79 / 90%);
+    --tag-selected-shadow: none;
+
+    /*菜单项右侧标题颜色与背景*/
+    --title-color: #fff;
+    --title-bg: rgb(67 166 227);
+    /*菜单项，滑标滑过的效果，依次为：前景色、背景色、边线、阴影*/
+    --node-hover-color: #4e6273;
+    --node-hover-bg: transparent;
+    --node-hover-border: solid 1px rgba(160, 160, 160, 0.6);
+    --node-hover-shadow: none;
+    /*菜单项，当前选中的颜色与背景色*/
+    --node-curr-color: rgb(67 166 227);
+    --node-curr-bg: transparent;
+    --node-curr-border: solid 1px rgb(9 164 199 / 60%);
+    /*查询面板，依次：背景色、内阴影、边框颜色、内容区背景*/
+    --querypanel-title-color: #222;
+    --querypanel-bg-color: rgb(93 178 209 / 40%);
+    --querypanel-bg-shadow: rgba(64, 158, 255, 0.2);
+    --querypanel-border-color: #5d9ead;
+    --querypanel-area-bgcolor: rgba(255, 255, 255, 0.3);
+    /*查询面板中的文字颜色*/
+    --querypanel-treetit-color: #fff;
+    --querypanel-treenode-color: rgb(46 63 81);
+    --querypanel-treenode-shadow: none;
+
+}
+
+
+/*折叠按钮*/
+
+.treemenu tree_tags tree-foldbtn {
+    color: #999;
+}
+
+.treemenu tree_tags tree-foldbtn:hover {
+    color: #eee;
+}
+
+
+
+
+/*树形节点*/
+
+.treemenu tree_box.current>tree-node::before {
+    box-shadow: none !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+div.querypanel>section>section>tree_area {
+    padding: 0px;
+    box-sizing: border-box;
+    height: calc(100% - 30px);
+    background-color: var(--querypanel-area-bgcolor);
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%,
+            transparent 25%, transparent 50%, rgba(255, 255, 255, 0.05) 50%,
+            rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
+}

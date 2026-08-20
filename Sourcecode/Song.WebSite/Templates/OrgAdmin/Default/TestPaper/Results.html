@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title>试卷成绩管理</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="删除,导出,清空,重新计算" ref='btngroup' @clear="clear" @output="exportVisible = true"
+                @batcalc="allcalcResultScore" @delete="deleteData" width="800" height="600" :selects='selects'
+                idkey='Tr_ID' table="datatables" :modal="true"></btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="姓名">
+                    <el-input v-model.trim="form.stname" style="width: 100px;" placeholder="学员姓名" clearable>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="身份证">
+                    <el-input v-model.trim="form.cardid" style="width: 150px;" placeholder="身份证" clearable>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-dropdown @command="dorphandle">
+                        <span class="el-dropdown-link">
+                            {{scorerange}}<i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item command="-1">
+                                <el-tag type="info">全部</el-tag>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="1">
+                                <el-tag>优良({{Math.floor(testpaper.Tp_Total*0.8)}}分以上)</el-tag>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="2">
+                                <el-tag type="success">及格({{testpaper.Tp_PassScore}}分以上)</el-tag>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="3">
+                                <el-tag type="danger">不及格({{testpaper.Tp_PassScore}}分以下)</el-tag>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="4">
+                                <el-tag type="info">零分</el-tag>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </el-form-item>
+
+                <template v-slot:more>
+                    <el-form-item label="分数">
+                        <el-input v-model.number="form.score_min" style="width: 100px;" placeholder="低分" clearable>
+                        </el-input>
+                        -
+                        <el-input v-model.number="form.score_max" style="width: 100px;" placeholder="高分" clearable>
+                        </el-input>
+                    </el-form-item>
+                </template>
+            </query_panel>
+        </div>
+        <!-- 数据列表-->
+        <el-table ref="datatables" border resizable :data="datas" v-loading="loading" tooltip-effect="dark"
+            style="width: 100%" stripe @selection-change="val=>selects=val" @row-dblclick="()=>{}" row-key="Tr_ID">
+            <div slot="empty">
+                <span v-if="!loading">未查询到数据</span>
+            </div>
+            <el-table-column type="selection" width="35">
+            </el-table-column>
+            <el-table-column label="#" type="index" width="60" align="center">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="学员">
+                <template slot-scope="scope">
+                    <icon :woman="scope.row.Ac_Gender=='2'" :man="scope.row.Ac_Gender!='2'"
+                        v-html='showsearch(scope.row.Ac_Name,form.stname)' class="link large">
+                    </icon>
+                </template>
+            </el-table-column>
+            <el-table-column label="身份证">
+                <template slot-scope="scope">
+                    <span v-html='showsearch(scope.row.St_IDCardNumber,form.cardid)'></span>
+
+                </template>
+            </el-table-column>
+            <el-table-column label="试卷" v-if="false">
+                <template slot-scope="scope">
+                    {{scope.row.Tp_Name}}
+                </template>
+            </el-table-column>
+            <el-table-column label="交卷时间" width="150">
+                <template slot-scope="scope">
+                    {{scope.row.Tr_CrtTime|date('yyyy-M-d HH:mm:ss')}}
+                </template>
+            </el-table-column>
+            <el-table-column label="成绩" width="160" class-name="scope_column">
+                <template slot="header" slot-scope="scope">
+                    <el-dropdown @command="batcalcResultScore">
+                        <span class="el-dropdown-link">
+                            成绩<i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item :command="1">
+                                <icon>&#xa067</icon>重新计算
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </template>
+                <template slot-scope="scope">
+                    <loading v-if="loadingid==scope.row.Tr_ID" asterisk></loading>
+                    <template v-else>
+                        <el-dropdown  @command="handleCommand" :trid="scope.row.Tr_ID">
+                            <span class="el-dropdown-link">
+                                <score :value="scope.row.Tr_Score" :passscore="testpaper.Tp_PassScore"></score> 
+                                <i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item command="review">
+                                    <el-link type="info" plain icon="el-icon-document" :underline="false">成绩回顾</el-link>
+                                </el-dropdown-item>
+                                <el-dropdown-item divided command="calc">
+                                    <el-link type="primary" plain icon="el-icon-refresh" :underline="false"> 重新计算 </el-link>
+                                </el-dropdown-item>
+                                <el-dropdown-item command="delete">
+                                    <el-link type="danger" plain icon="el-icon-delete" :underline="false">删除 </el-link>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </template>
+                </template>
+            </el-table-column>
+        </el-table>
+        <!--底部分页按钮-->
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" 
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+        <!--成绩导出-->
+        <el-dialog title="成绩导出" class="exportquery" width="80%" :visible.sync="exportVisible" :show-close="false"
+            :before-close="()=>{}">
+            <dl v-if="files.length>0" class="files">
+                <dd v-for="(f,i) in files">
+                    <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
+                        {{f.file}}</a>
+                    <span> {{f.size|size}}</span>
+                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                        <el-link type="danger" icon="el-icon-delete" v-loading="fileloading" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+                </dd>
+            </dl>
+            <div v-else>没有供下载的文件</div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="exportVisible = false" :disabled="fileloading">取 消</el-button>
+                <el-button type="primary" @click="toexcel" :loading="fileloading">生成导出文件</el-button>
+            </span>
+        </el-dialog>
+    </div>
+</body>
+
+</html>

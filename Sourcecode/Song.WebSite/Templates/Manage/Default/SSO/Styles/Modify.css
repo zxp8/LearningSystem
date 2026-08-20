@@ -1,0 +1,49 @@
+﻿@charset "utf-8";
+
+
+.el-dialog__body {
+    padding-top: 0px !important;
+}
+
+icon.copy {
+    font-size: 15px;
+    cursor: pointer;
+    margin-left: 6px;
+}
+
+/*帮助说明*/
+.info {
+    margin-top: 10px;
+}
+
+.info>div {
+    margin-top: 5px;
+    position: relative;
+    font-size: 15px;
+    line-height: 22px;
+   
+}
+.info>div[title]{
+    padding-left: 70px;
+    font-size: 15px;
+}
+.info>div[title]::before {
+    content: attr(title) '：';
+    display: inline-block;
+    width: 60px;
+    text-align: right;
+    position: absolute;
+    left: 0px;
+    color: #666;
+}
+
+.demourl {
+    word-break: break-all;
+    line-height: 18px;
+}
+
+.panel>div:not(:first-child) {
+    border: none;
+    border-top: none;
+
+}

@@ -1,0 +1,57 @@
+/*考试主题*/
+card-title {
+	padding: 15px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.theme card-title>*:first-child {
+	margin-right: auto;
+}
+
+.theme card-title>header {
+	margin-left: 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+.theme card-title>header span {
+	color: #777;
+}
+
+card-content {
+	font-size: 16px;
+	padding-left: 30px;
+}
+
+.item {
+	line-height: 30px;
+}
+
+card-content>div>div.item:first-child {
+	margin-top: 10px;
+}
+
+card-content>div>div.item:not(:first-child) {
+	margin-left: 20px;
+}
+
+.exam_tit {
+	display: flex;
+	justify-content: space-between;
+}
+
+a[type="button"] {
+	color: #fff;
+	background-color: #07c160;
+	border: 1px solid #07c160;
+	font-size: 12px;
+	line-height: 20px;
+	padding: 3px 10px;
+	height: 20px;
+}
+
+.qrcode-icon {
+	margin-left: 8px;
+	height: 20px;
+}

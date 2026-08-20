@@ -1,0 +1,88 @@
+﻿@charset "utf-8";
+#vapp{
+	overflow: auto;
+}
+.config {
+	padding: 20px;	
+	box-sizing: border-box;	
+}
+
+.config>div {
+	border: 1px solid #ccc;
+	margin-bottom: 20px;
+	padding: 10px 15px 10px 30px;
+	box-sizing: border-box;
+	border-radius: 6px;
+	position: relative;
+	overflow: hidden;	
+	height: 110px;
+}
+.config>div[disabled]{
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	filter: grayscale(100%);
+	filter: gray;
+}
+.config>div .index {
+	display: block;
+	z-index: 10;
+	left: 8px;
+	top: 6px;
+	font-size: 18px;
+	position: absolute;
+	color: #fff;
+}
+
+.config>div::before {
+	content: '';
+	display: block;
+	background-color: #67C23Acc;
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	top: -70px;
+	left: -40px;
+	transform: rotate(60deg);
+	box-shadow: 1px 1px 3px rgb(240 219 152);
+	z-index: 1;
+}
+
+/*图标与名称*/
+.config>div .name {
+	font-size: 18px;
+	line-height: 30px;
+	font-weight: bold;
+}
+.config>div .name .tagname {
+	font-size: 15px;
+	line-height: 30px;
+	font-weight: normal;
+	color: #666;
+	margin-left: 15px;
+}
+
+.config>div img {
+	height: 80px;
+	width: 80px;
+	float: left;
+	margin-right: 20px;
+}
+/*按钮*/
+.config>div .btns{
+	position: absolute;
+	top: 8px;
+	right: 8px;
+}
+.config div.info{
+	margin-top: 0px;
+	font-size: 12px;
+	line-height: 20px;
+	color: #666;
+}
+.use{
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+}

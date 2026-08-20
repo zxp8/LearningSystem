@@ -1,0 +1,36 @@
+﻿.no-data{
+    margin: 60px;
+    font-size: 18px;
+    color: #666;
+}
+.no-data icon{
+    font-size: 22px;
+}
+.no-data .content{
+    font-size: 18px;
+}
+/*帮助详情*/
+div.content{
+    width: 100%;
+    height: calc(100% - 55px);
+    border: none;
+}
+div.content iframe{
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    padding: 20px;
+    opacity: 0;    
+    transition: opacity 1s;
+}
+div.content iframe[show]{
+    opacity: 1;
+}
+/*编辑框*/
+.file-detail{
+    width: 100%;
+    height: calc(100% - 55px);
+}
+.about_editor {
+    width: 100%;
+    height: 100%;
+}

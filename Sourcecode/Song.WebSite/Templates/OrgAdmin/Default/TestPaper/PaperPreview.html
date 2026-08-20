@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>试卷预览</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <loading v-if="loading"></loading>
+        <div v-else class="paper_preview">
+            <header>
+                <p class="tpname">
+                    <span v-if="paper.Tp_Name==''" class="null">(试卷名称-未命名)</span>
+                    <template v-else>{{paper.Tp_Name}}</template>
+                </p>
+                <p class="tpsubname" v-if="paper.Tp_SubName!=''">
+                    {{paper.Tp_SubName}}
+                </p>
+                <div class="tpinfo">
+                    <span>考试时间 {{paper.Tp_Span}} 分钟</span>
+                    <span>满分 {{paper.Tp_Total}} 分</span>
+                    <span> {{paper.Tp_PassScore}} 分 及格</span>
+                </div>
+                <div class="tpremind" v-if="paper.Tp_Remind!=''">
+                    注意事项:<br />
+                    <span v-html="paper.Tp_Remind"></span>
+                </div>
+            </header>
+            <section remark="试题区域" class="quesarea">
+                <group v-for="(group,gidx) in paperQues" :item="group" :index="gidx" :types="types">
+                    <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groups="paperQues" :groupindex="gidx"
+                        :types="types">
+                    </question>
+                </group>
+
+            </section>
+        </div>
+        <div class="footer" noprint>
+            <el-button type="success" native-type="submit" :loading="loading" plain @click="generatePaper()">
+                <icon>&#xe651</icon>刷新
+            </el-button>
+            <el-button type="warning" native-type="submit" :loading="loading" plain @click="window.print()">
+                <icon>&#xa046</icon>打印
+            </el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
+    </div>
+</body>
+
+</html>

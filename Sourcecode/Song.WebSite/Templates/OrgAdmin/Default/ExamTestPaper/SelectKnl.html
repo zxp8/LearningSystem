@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>试题知识点</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="展开/折叠,清空,说明" ref='btngroup' @help="showhelp=true"  @fold_open="fold=!fold" @clearn="$refs.tree.setCheckedKeys([])"
+                idkey='Qk_ID'>
+            </btngroup>
+            <query_panel :model="form" :loading="loading">
+                <el-form-item label="" v-if="selecteditems.length>0">
+                    <el-tag type="success">
+                        {{selecteditems.length}} 个知识点， {{questotal}} 道试题
+                    </el-tag>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="filterText" clearable style="width:120px" placeholder="检索"
+                        suffix-icon="el-icon-search"></el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+        <el-dialog title="说明" :visible.sync="showhelp" width="80%">
+            <span slot="title">
+                <icon help></icon>说明
+            </span>
+            <el-row class="help medium">
+                <el-row> 1、试题数量<br />
+                    试题知识点的右侧为当前知识点下的试题数量，含子级试题数量，不含被禁用、删除的试题。<br />
+                </el-row>
+                <el-row> 2、选择的试题数量<br />
+                    由于试题可以属于多个知识点，选中的试题知识点的试题数之和，可能与实际试题数量不一致。<br />
+                    <help multi>例如：一道试题属于两个知识点，那么这两个知识点的试题量都显示为1，如果选择中这两个知识点，试题数之和应该为2，但是这“两道题”实际为一道题。
+                    于是在计算可选择的试题量时，会显示为 1 道。</help>
+                </el-row>
+            </el-row>
+        </el-dialog>
+        <div class="tree-box">
+            <el-tree ref="tree" :data="datas" node-key="Qk_ID" ref="tree" show-checkbox :props="defaultProps"
+                :filter-node-method="filterNode" :check-on-click-node="true" @check-change="handleCheckChange"
+                v-loading="loading">
+                <div class="custom-tree-node" slot-scope="{ node, data }">
+                    <span class="tree-node">
+                        <span class="serial">{{data.serial}}</span> &nbsp;
+                        <span class="large" v-html="showsearch(data.Qk_Name,filterText)"></span>
+                        <span class="sbjcount" v-if="data.calcChild>0">({{data.calcChild}})</span>
+                    </span>
+                    <quescount :id="data.Qk_ID"></quescount>
+                </div>
+            </el-tree>
+        </div>
+    </div>
+</body>
+
+</html>

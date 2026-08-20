@@ -1,0 +1,152 @@
+{
+  "Acc_AccName": {
+    "mark": "管理员名称",
+    "intro": "",
+    "relation": "EmpAccount"
+  },
+  "Acc_Id": {
+    "mark": "管理员ID",
+    "intro": "",
+    "relation": "EmpAccount"
+  },
+  "Etp_Author": {
+    "mark": "出卷人",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_Count": {
+    "mark": "题量",
+    "intro": "总共多少道题",
+    "relation": ""
+  },
+  "Etp_CrtTime": {
+    "mark": "创建时间",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_Diff": {
+    "mark": "难度范围",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_Diff2": {
+    "mark": "难度范围",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_FromConfig": {
+    "mark": "抽题配置项",
+    "intro": "试卷的抽题范置配置项，xml格式",
+    "relation": ""
+  },
+  "Etp_FromType": {
+    "mark": "抽题类型",
+    "intro": "没有用",
+    "relation": ""
+  },
+  "Etp_Id": {
+    "mark": "主键",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_Intro": {
+    "mark": "简介",
+    "intro": "试卷简介",
+    "relation": ""
+  },
+  "Etp_IsBuild": {
+    "mark": "生成试卷",
+    "intro": "是否已经生成试卷",
+    "relation": ""
+  },
+  "Etp_IsDeleted": {
+    "mark": "是否删除",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_IsFinal": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_IsManual": {
+    "mark": "是否需要人工批阅",
+    "intro": "如果有简答题则需要人工批阅",
+    "relation": ""
+  },
+  "Etp_IsRec": {
+    "mark": "推荐",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_IsUse": {
+    "mark": "启用",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_Lasttime": {
+    "mark": "最后修改时间",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_Logo": {
+    "mark": "图片",
+    "intro": "试卷logo",
+    "relation": ""
+  },
+  "Etp_Name": {
+    "mark": "试卷名称",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_PassScore": {
+    "mark": "及格分",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_Remind": {
+    "mark": "注意事项",
+    "intro": "用于显示试卷前面的一些提示",
+    "relation": ""
+  },
+  "Etp_Span": {
+    "mark": "限时",
+    "intro": "试卷的考试限时，当试卷被考试用时，在考试管理可以再次定义限时。",
+    "relation": ""
+  },
+  "Etp_SubName": {
+    "mark": "副标题",
+    "intro": "",
+    "relation": ""
+  },
+  "Etp_Total": {
+    "mark": "满分",
+    "intro": "试卷的满分",
+    "relation": ""
+  },
+  "Etp_Type": {
+    "mark": "试卷类型",
+    "intro": "1静态试卷，2动态随机试卷",
+    "relation": ""
+  },
+  "Etp_UID": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Org_ID": {
+    "mark": "机构ID",
+    "intro": "",
+    "relation": "Organization"
+  },
+  "Org_Name": {
+    "mark": "",
+    "intro": "",
+    "relation": "Organization"
+  },
+  "Etp_DeleteTime": {
+    "mark": "删除时间",
+    "intro": "逻辑删除的时间，用于在回收站的排序显示",
+    "relation": ""
+  }
+}

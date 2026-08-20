@@ -1,0 +1,163 @@
+﻿/*侧滑菜单的章节列表*/
+
+#menu {
+	height: 100%;
+	width: 70%;
+	background-color: #333;
+}
+
+#menu .van-cell-group {
+	background-color: transparent !important;
+	height: calc(100% - 65px);
+	overflow-y: auto;
+}
+
+[class*=van-hairline]::after {
+	border: none;
+}
+
+#menu .cour-info {
+	padding: 10px;
+	display: flex;
+	width: 100%;
+	border-bottom: 1px solid #ebedf0;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+#menu .cour-info img {
+	height: 45px;
+	margin-right: 5%;
+	float: left;
+	box-shadow: 0 1px 2px #fff !important;
+}
+
+#menu ul {
+	margin: 0px;
+}
+
+#menu .van-cell {
+	background-color: transparent !important;
+	color: #999;
+	font-size: 16px;
+	position: relative;
+	padding: 8px 40px 8px 0px;
+}
+
+#menu .van-cell::after {
+	border-bottom: 1px solid #111;
+}
+
+#menu .van-cell>span:before {
+	content: "\e681";
+	font-family: "webdesk_icon";
+	margin-right: 5px;
+	font-size: 15px;
+	font-weight: normal;
+}
+
+#menu .van-cell[current] {
+	color: rgb(255, 192, 97) !important;
+	background-color: rgba(255, 255, 255, .3) !important;
+}
+
+#menu .van-tag {
+	position: absolute;
+	top: 12px;
+	right: 5px;
+}
+
+/*视频章节的图标*/
+
+#menu div[isvideo=true] .van-cell__title>span:first-child::before {
+	content: "\e83a";
+	font-family: "webdesk_icon";
+	margin-right: 5px;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+/*直播章节的图标*/
+
+#menu div[islive=true] .van-cell__title>span:first-child::before {
+	content: "";
+	background-image: url(../../../Images/live-icon.gif);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+}
+
+/*当前章节*/
+
+#menu .current {
+	color: #FF9;
+}
+
+#menu .current a:before {
+	content: "\e618";
+	font-family: "webdesk_icon";
+	margin-right: 5px;
+	font-size: 14px;
+	font-weight: normal;
+}
+
+#menu .noselect {
+	color: #666 !important;
+}
+
+
+/*+++++++左侧侧滑菜单*/
+
+#menu .cour-info .cour-info-right {
+	height: 40px;
+	overflow: hidden;
+
+}
+
+.cour-info-right icon[course] {
+	color: #eee;
+	display: block;
+	line-height: 22px;
+}
+
+.cour-info-right icon[course]:not(:fisrt-child) {
+
+	height: 40px;
+	line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.cour-info-right icon[course]:before {
+	font-size: 15px;
+	margin-right: 8px;
+}
+
+.cour-info-right icon[subject] {
+	display: block;
+	line-height: 22px;
+	color: #999;
+	font-size: 10px;
+}
+
+.cour-info-right icon[subject] :before {
+	content: "\e765";
+	font-size: 10px;
+	margin-right: 5px;
+	font-family: "webdesk_icon";
+}
+
+.try {
+	color: #eee !important;
+}
+
+.buy {
+	background-color: rgba(102, 102, 102, 0.15);
+	color: #FC0 !important;
+}
+
+/*-------左侧侧滑菜单*/

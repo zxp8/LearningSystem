@@ -1,0 +1,117 @@
+﻿@charset "utf-8";
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	position: relative;
+}
+
+.van-loading {
+	margin: 10px;
+}
+
+.header {
+	height: 44px;
+	
+	font-size: 14px;
+	position: fixed;
+	width: 100%;
+	top: 0px;
+	z-index: 2;
+	display: flex;
+}
+
+.header>icon {
+	display: block;
+	height: 44px;
+	width: 40px;
+	line-height: 44px;
+	font-size: 20px;
+	text-align: center;
+	margin: 0px;
+}
+
+.header>icon:not(:last-child) {
+	float: left;
+}
+
+.header>icon:last-child {
+	float: right;
+	
+}
+
+.header .van-search {
+	padding: 5px 6px !important;
+	float: left;
+}
+
+/*知识库分类的弹出菜单*/
+
+#menu {
+	background-color: #333;
+}
+
+#menu .cour-info {
+	margin: 10px;
+	width: calc(100% - 20px);
+}
+
+#menu .cour-info img {
+	width: 100%;
+	height: auto;
+	box-shadow: 0 1px 2px #fff !important;
+}
+
+.cour-info .cour-info-right {
+	width: 60%;
+	margin-right: 5%;
+	float: left;
+}
+
+#menu icon[course]{
+	display: block;
+	line-height: 22px;
+	color: #eee;
+}
+
+#menu icon[course]:before {
+	font-size: 15px;
+	font-family: webdesk_icon;
+	margin-right: 8px;
+}
+
+#menu icon[subject] {
+	display: block;
+	line-height: 22px;
+	color: #999;
+	font-size: 10px;
+}
+
+#menu icon[subject]:before {
+	font-size: 10px;
+	margin-right: 5px;
+	font-family: webdesk_icon;
+}
+
+.noSort {
+	margin: 20px;
+	color: #999;
+	text-align: center;
+	font-size: 14px;
+}
+
+.sort_tree {
+	margin: 0px 10px 10px 10px;
+}
+.sort_tree a {
+	color: #999;
+	display: block;
+	padding: 8px 5px;
+}
+.sortname{
+	float: left;
+	margin: 10px 0px;
+	white-space:nowrap;
+}

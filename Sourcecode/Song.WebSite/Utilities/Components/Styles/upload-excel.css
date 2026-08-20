@@ -1,0 +1,162 @@
+﻿/*文件上传控件*/
+.upload_file_area {
+   display: flex;
+
+}
+
+.upload_file_area .error {
+   position: static !important;
+   margin-left: 15px;
+   height: 22px;
+}
+
+
+
+/*导入控件*/
+.upload_excel_area {
+   width: 100%;
+   height: 100%;
+}
+
+.upload_excel_area a.template_load {
+   margin-right: 15px;
+}
+
+.upload_excel_area .el-steps {
+   margin: 0px 50px 30px 50px;
+
+}
+
+.upload_excel_area a {
+   color: #409EFF;
+
+}
+
+.upload_excel_area a:hover {
+   text-decoration: underline;
+}
+
+.upload_excel_area .btn button icon {
+   display: inline-block;
+   transform: scale(1.2);
+}
+
+.upload_excel_area div[remark] {
+   height: calc(100% - 120px);
+}
+
+/*文件上传按钮*/
+.upload_excel_area .file_btn {
+   height: 35px;
+   position: relative;
+   padding-left: 40px;
+   font-size: 14px;
+}
+
+.upload_excel_area .file_btn icon {
+   font-size: 30px;
+   position: absolute;
+   left: 2px;
+   top: 3px;
+}
+
+/*工作簿*/
+.upload_excel_area .nodata {
+   margin-left: 8px;
+   margin-top: 8px;
+}
+
+/*行*/
+.upload_excel_area div[remark]>* {
+   font-size: 15px;
+   line-height: 30px;
+   margin-bottom: 15px;
+   display: flex;
+   color: #666;
+}
+
+.upload_excel_area div[remark]>*[label]::before {
+   content: attr(label) " : ";
+   display: block;
+   width: 100px;
+   box-sizing: border-box;
+   white-space: nowrap;
+   text-align: right;
+   padding: 0px 15px;
+   color: #999;
+}
+
+.upload_excel_area div[remark]>*.btn::before {
+   content: attr(label) " ";
+   display: block;
+   width: 100px;
+   box-sizing: border-box;
+   text-align: right;
+   padding: 0px 15px;
+   color: #999;
+}
+
+/*字段匹配*/
+.upload_excel_area dl {
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   flex: 1;
+}
+
+.upload_excel_area dd {
+   width: 33%;
+   height: 30px;
+   display: flex;
+   padding: 5px 0px;
+}
+
+.upload_excel_area dd[label]::before {
+   content: attr(label) " - ";
+   display: block;
+   width: 80px;
+   box-sizing: border-box;
+   text-align: right;
+   padding: 0px 5px 0px 0px;
+   white-space: nowrap;
+   font-size: 14px;
+}
+
+.upload_excel_area dd select {
+   flex: 1
+}
+
+.upload_excel_area .btn loading {
+   margin-left: 15px;
+   color: #666 !important;
+}
+
+/*错误信息*/
+.error_data {
+   width: 100%;
+   height: calc(100% - 150px);
+   overflow: auto;
+   flex-flow: column;
+
+}
+
+*::-webkit-scrollbar {
+   /*滚动条整体样式*/
+   width: 10px;
+   /*高宽分别对应横竖滚动条的尺寸*/
+   height: 10px;
+}
+
+.error_data table {
+   width: calc(100% - 110px);
+   border: solid 1px #ccc;
+}
+
+.error_data table th {
+   text-align: center;
+}
+
+.error_data table td {
+   text-align: center;
+}

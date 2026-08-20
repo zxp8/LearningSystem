@@ -1,0 +1,49 @@
+﻿@charset "utf-8";
+
+/*学习数量，总数和使用数的排版*/
+td.countscope .cell{
+    display: flex;
+}
+td.countscope .cell span{
+    width: calc((100% - 12px) / 2);
+}
+td.countscope .cell span:nth-child(2){
+    width: 12px;
+    text-align: center;
+}
+td.countscope .cell span:nth-child(1){   
+    text-align: right;
+}
+td.countscope .cell span:nth-child(3){   
+    text-align: left;
+}
+*/
+/*主题，启用和禁用图标*/
+.enable:before, .disable:before {
+    font-size: 18px !important;
+    line-height: 23px;
+    vertical-align: middle;
+}
+
+/*下拉菜单*/
+.el-dropdown-menu span[icon]::before {
+    width: 15px;
+    text-align: right;
+    display: block;
+    float: left;
+}
+
+.el-dropdown-menu .el-divider {
+    margin: 3px 0px;
+}
+/*有效期*/
+td span.limit{
+    font-size: 15px;
+    color: #333;
+}
+td span.limit:first-child{
+    margin-right: 5px;
+}
+td span.limit:last-child{
+    margin-left: 5px;
+}

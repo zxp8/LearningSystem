@@ -1,0 +1,256 @@
+﻿@charset "utf-8";
+
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	position: relative;
+}
+
+div[loading] {
+	margin: 30% auto 10px auto;
+}
+
+/*不能考试的区域*/
+
+.context {
+	height: calc(100%);
+	background-color: #f2f2f2;
+	font-size: 14px;
+	width: 100%;
+	z-index: 4;
+	position: relative;
+	transition: left 0.5s;
+	overflow-y: auto;
+}
+
+/*未登录*/
+.nologin card-content {
+	display: flex;
+}
+
+.nologin .acc_photo {
+	width: 58px;
+	height: 58px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-right: 20px;
+	float: left;
+	background-size: cover;
+	box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+	transition: all 0.2s;
+}
+
+.nologin .nophoto {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+/*没有内容的图标*/
+
+.null_icon::before {
+	font-size: 65px;
+	display: block;
+	color: #999;
+	line-height: 70px;
+}
+
+.null_icon {
+	padding: 10px;
+	text-align: center;
+	display: block;
+}
+
+.time_icon::before {
+	font-size: 85px;
+	position: absolute;
+	display: block;
+	left: 0px;
+	top: 50px;
+	color: #999;
+	height: 80px;
+}
+
+.time_icon {
+	position: relative;
+	padding: 20px 20px 20px 100px;
+	line-height: 30px;
+	font-size: 16px;
+}
+
+/*头部*/
+
+header {
+	height: 44px;
+
+	font-size: 14px;
+	position: fixed;
+	width: 100%;
+	top: 0px;
+	z-index: 2;
+}
+
+header *[icon]::before {
+	font-size: 22px;
+	line-height: 45px;
+}
+
+header>div:first-child {
+	width: 44px;
+	height: 44px;
+	line-height: 45px;
+	text-align: center;
+	float: left;
+}
+
+header>div:last-child {
+	width: 80px;
+	height: 44px;
+	line-height: 45px;
+	text-align: center;
+	float: right;
+	font-size: 15px;
+}
+
+header>div:last-child::before {
+	font-size: 18px;
+}
+
+header>div.title {
+	float: left;
+	width: calc(100% - 44px - 80px);
+	line-height: 45px;
+	font-size: 16px;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+
+/*页面底部*/
+
+footer {
+	height: 44px;
+	font-size: 14px;
+	position: fixed;
+	width: 100%;
+	bottom: 0px;
+	z-index: 5;
+}
+
+footer>div {
+	float: left;
+	font-size: 16px;
+	text-align: center;
+	height: 100%;
+}
+
+footer>div, footer>div * {
+	line-height: 44px;
+}
+
+footer>div::before {
+	font-size: 22px;
+}
+
+footer div#btnCard {
+	height: 100%;
+	line-height: 100%;
+	width: 40%;
+}
+
+footer div#btnSubmit {
+	width: 60%;
+	background-color: #009900;
+	color: #fff;
+}
+
+footer div#btnSubmit::before {
+	font-size: 20px;
+	margin-right: 15px;
+}
+
+/*一些面板*/
+
+.showTime {
+	padding: 20px;
+	width: 60%;
+}
+
+.showExam {
+	width: 80%;
+}
+
+.submitState {
+	padding: 0px 20px 0px 20px;
+	width: 60%;
+}
+
+.submitState .van-loading {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.submitState .btnEnter {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	color: darkgreen;
+	display: block;
+}
+
+/*得分样式*/
+
+score {
+	font-size: 16px;
+	line-height: 20px;
+	height: 20px;
+}
+
+score::before {
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+	font-size: 22px;
+}
+
+score.nopass::before {
+	content: '\e774';
+	color: #ff0000;
+}
+
+score.general::before {
+	content: '\e829';
+}
+
+score.fine::before {
+	content: '\e826';
+	color: #07c160;
+}
+
+score.praise::before {
+	content: '\e855';
+	font-size: 20px;
+	color: chocolate;
+}
+
+.scoreinfo {
+	padding: 10px;
+	color: chocolate;
+}
+
+.scoreinfo>span {
+	font-size: 13px;
+	color: #999;
+}
+
+/*预载*/
+
+.loading_paper {
+	padding: 20px;
+	width: 100vw;
+	display: block;
+	text-align: center;
+}

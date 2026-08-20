@@ -1,0 +1,14 @@
+.selectparts {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.selectparts .searchbar {
+    padding: 0.5rem;
+}
+.selectparts>div:last-child { 
+    flex: 1;
+    padding: 0px 0.5rem;
+    overflow: auto;
+}

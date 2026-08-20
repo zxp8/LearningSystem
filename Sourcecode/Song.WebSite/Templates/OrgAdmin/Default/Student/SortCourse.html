@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>学员组关联的课程</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="添加课程,移除" ref='btngroup' idkey='Cou_ID' @addcourse="addcourse_show" table="datatables"
+                @batremove="batremove" :selects='selects'></btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-input v-model="form.name" placeholder="课程名称" clearable style="width:160px"
+                        @clear="handleCurrentChange(1)"></el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+        <template>
+            <el-table ref="datatables"  border resizable  class="table_courses" :stripe="true" :data="courses" tooltip-effect="dark"
+                style="width: 100%" @selection-change="val=>selects=val">
+                <el-table-column type="selection" width="35">
+                </el-table-column>
+                <el-table-column type="index" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="课程">
+                    <div slot-scope="scope" class="title_box" :title="scope.row.Cou_Name">
+                        <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank">
+                            <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
+                            <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" /></a>
+                        <div>
+                            <live v-if="scope.row.Cou_ExistLive" title="直播课"></live>
+                            <a v-html="showsearch(scope.row.Cou_Name,form.name)" class="large"
+                                :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank"> </a>
+                        </div>
+                    </div>
+                </el-table-column>
+
+                <el-table-column label="操作" width="80" align="center">
+                    <template slot="header" slot-scope="scope">
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定将课程移除吗？" @confirm="remove()">
+                            <el-link type="primary" slot="reference">移除</el-link>
+                        </el-popconfirm>
+
+                    </template>
+                    <el-button-group slot-scope="scope">
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定将课程移除吗？" @confirm="remove(scope.row)">
+                            <el-link type="danger" plain icon="el-icon-position"  slot="reference">移除
+                            </el-link>
+                        </el-popconfirm>
+
+                    </el-button-group>
+
+                </el-table-column>
+            </el-table>
+
+        </template>
+        <!-- 添加关联课程-->
+        <addcourse :stsid="id" :organ="organ" :courses="courses" ref="addcourse" @addfinish="addfinish">
+        </addcourse>
+
+        <div class="footer">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" 
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+</body>
+
+</html>

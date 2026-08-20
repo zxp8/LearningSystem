@@ -1,0 +1,59 @@
+section.list-box {
+    display: flex;
+    padding: 15px 0px 15px 15px;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    height: calc(100% - 70px);
+    overflow-y: auto;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+section.list-box>div {
+    margin: 0px 15px 15px 0px;
+    max-width: calc((100% - 15px) / 5 - 15px);
+    height: 120px;
+    box-sizing: border-box;
+    flex: 1 1 calc((100% - 15px) / 5 - 15px);
+}
+
+section.list-box>div .el-tag {
+    font-size: 16px;
+    font-weight: normal;
+
+}
+
+section.list-box .el-card__body {
+    padding: 10px 10px 5px 10px;
+    position: relative;
+    box-sizing: border-box;
+    height: calc(100% - 45px);
+}
+
+section.list-box .el-card__body .item_footer {
+    position: absolute;
+    width: calc(100% - 20px);
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    justify-content:space-between;
+}
+
+.quescount {
+    font-size: 14px;
+    color: #666;
+}
+/*编辑中*/
+section.list-box .el-card[editing]{
+    background-color: rgb(250, 236, 216) !important;
+}
+section.list-box .el-card[editing] .el-card__body{
+    height: calc(100%);
+    padding: 0px 10px 5px 10px;
+}
+section.list-box .el-card[editing]  .el-form{
+    margin-bottom: 0px; 
+}
+section.list-box .el-card[editing] .item_footer{
+    bottom: 15px;
+}

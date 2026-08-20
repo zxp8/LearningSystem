@@ -1,0 +1,25 @@
+﻿@charset "utf-8";
+
+.el-form {
+	height: calc(100% - 60px);
+	padding-bottom: 0px;
+	overflow-y: auto;
+	box-sizing: border-box;
+	display: flex;
+    flex-wrap: wrap;
+    max-width: 1100px;
+}
+.el-form>*{
+	
+	width: 500px;	
+	margin: 0px 10px 10px 0px;
+}
+
+.el-card__header *[icon]::before {
+	font-size: 20px;
+}
+
+/*底部按钮区*/
+.btn_bar{
+	text-align: right;
+}

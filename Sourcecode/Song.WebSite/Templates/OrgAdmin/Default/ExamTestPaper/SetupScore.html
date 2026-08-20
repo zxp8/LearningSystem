@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>设置试卷的分数</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <section class="left">
+            <el-form ref="form" :model="entity" :rules="rules" v-loading="loading" @submit.native.prevent
+                label-width="100px">
+                <!--试卷分数-->
+                <el-card shadow="never" type="primary">
+                    <template slot="header">
+                        <span icon="&#xe829" huge>分数</span>
+                        <span>{{entity.Etp_PassScore}} / {{entity.Etp_Total}}</span>
+                    </template>
+                    <el-form-item label="" prop="Etp_Total" label-width="0">
+                        <el-input v-model="entity.Etp_Total" type="number" :min="1" @input="chanageTotal">
+                            <template slot="prepend">满分</template>
+                            <template slot="append">分</template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="" prop="Etp_PassScore" label-width="0">
+                        <el-input v-model="entity.Etp_PassScore" type="number" :min="0" :max="entity.Etp_Total">
+                            <template slot="prepend">及格</template>
+                            <template slot="append">分</template>
+                        </el-input>
+                    </el-form-item>
+                </el-card>
+                <!--题型分数的分配-->
+                <el-card shadow="never" type="success" class="qtype_card">
+                    <template slot="header">
+                        <span>
+                            <icon large>&#xe75e</icon>题量
+                        </span>
+                        <span class="option_count">
+                            已选 <b>{{ qtypeitems.reduce((a, b) => a +b.count,0)}}</b> 道 /
+                            可选 <b>{{ qtypeitems.reduce((a, b) => a +b.total,0)}}</b> 道
+
+                        </span>
+                    </template>
+                    <div v-for="(m,idx) in qtypeitems" class="qtypeitems" :index="idx" :type="m.type">
+                        <div class="typerow">
+                            <ques_type :type="m.type" :types="types" :showicon="true" :showname="true"
+                                class="draghandle">
+                                <span class="dragbar">拖动</span>
+                                <span :zero="m.total<1" class="small option_count">可选 <b>{{m.total}}</b>
+                                    道</span>
+                            </ques_type>
+                            <el-row :gutter="20">
+                                <el-col :span="10">
+                                    <el-form-item label="" :prop="'count'+m.type" label-width="0">
+                                        <el-input v-model.number="m.count" type="number" :min="0" :max="m.total"
+                                            @input="changeCount">
+                                            <template slot="append">道</template>
+                                        </el-input>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="14">
+                                    <el-form-item label="" :prop="'percent'+m.type" label-width="0">
+                                        <el-input v-model.number="m.percent" type="number" :min="0" :max="100"
+                                            @input="chanageTotal">
+                                            <template slot="append">%，计 <span class="number"
+                                                    :zero="m.number<1">{{m.number}}</span> 分</template>
+                                        </el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+
+                        </div>
+                    </div>
+                </el-card>
+                <warning v-if="percenttotal!=100">当前各题型分数占比之和：{{percenttotal}} %</warning>
+                <help multi>说明：拖动题型，可以改变顺序</help>
+            </el-form>
+        </section>
+        <section class="right">
+            <el-card shadow="never" type="info" class="qtype_card">
+                <template slot="header">
+                    <span>
+                        <icon large>&#xe75e</icon>分数预览
+                    </span>
+                    <span class="option_count">
+                        试题 <b>{{ qtypeitems.reduce((a, b) => a +b.count,0)}}</b> 道
+                    </span>
+                </template>
+                <div v-for="(m,idx) in scoreitems" class="scoreitems" v-if="m.count>0" :type="m.type">
+                    <el-divider content-position="left">
+                        <ques_type :type="m.type" :types="types" :showicon="true" :showname="false">
+                            <span class="typename">
+                                <span v-if="m.byname!='' && m.byname!='undefined'">{{m.byname}} - <span
+                                        class="truename">{{types[m.type-1]}}题</span></span>
+                                <span v-else>{{types[m.type-1]}}题</span>
+                            </span>
+                            <span :zero="m.number<1"> （<b>{{m.number}}</b> 分）</span>
+                        </ques_type>
+                    </el-divider>
+                    <quesscores :item="m" :typeidx="idx" :qtypeitems="qtypeitems" :rowcount="4"></quesscores>
+                   
+                </div>
+                <el-empty description="未设置任何试题" v-if="scoreitems.reduce((a, b) => a + b.count, 0)<=0"></el-empty>
+            </el-card>
+        </section>
+    </div>
+</body>
+
+</html>

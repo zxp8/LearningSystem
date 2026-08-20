@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>课程收入排行</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <div>
+                <span class="income">
+                    合计：
+                    <icon>&#xe746</icon>
+                    <b v-html="format(totalmoney)"> </b> 元
+                </span>
+            </div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="专业">
+                    <sbj_cascader ref="subject" :orgid="form.orgid"  showitem="course"
+                        @change="id=>{form.sbjid=id;handleCurrentChange(1);}"> </sbj_cascader>
+                </el-form-item>
+                <el-form-item label="时间区间">
+                    <date_range @change="selectDate"></date_range>
+                </el-form-item>
+
+            </query_panel>
+        </div>
+        <!--数据列表-->
+        <el-table ref="datatables"   border resizable :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+            v-loading="loading" cell-class-name="tdcell">
+            <el-table-column type="index" width="50" align="center">
+                <template slot-scope="scope">
+                    <span>{{scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="课程">
+                <div slot-scope="scope" class="title_box" :title="scope.row.Cou_Name">
+                    <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
+                    <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
+                    <div>
+                        <live v-if="scope.row.Cou_ExistLive" title="直播课"></live>
+                        <span v-html="scope.row.Cou_Name" class="large"> </span>
+                    </div>
+                </div>
+            </el-table-column>
+            <el-table-column label="收益" align="right" width="160">
+                <span slot-scope="scope">                  
+                    <course_income :course="scope.row"></course_income>
+                </span>
+            </el-table-column>
+            <el-table-column label="价格" width="150">
+                <template slot-scope="scope">
+                    <course_prices :course="scope.row"></course_prices>
+                </template>
+            </el-table-column>
+            <el-table-column label="信息" width="260">
+                <template slot-scope="scope">
+                    <course_data :course="scope.row" :show_student="false"></course_data>
+                </template>
+            </el-table-column>
+            <el-table-column label="所属专业" width="200">
+                <template slot-scope="scope">
+                    <icon>&#xe750</icon> {{scope.row.Sbj_Name}}
+                </template>
+            </el-table-column>
+        </el-table>
+        <!--分页导航-->
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" 
+                :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</body>
+
+</html>

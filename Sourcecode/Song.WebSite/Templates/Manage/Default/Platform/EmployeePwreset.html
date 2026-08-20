@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>密码修改</title>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+            <el-form-item>
+                <img v-if="account.Acc_Photo!=''" :src="account.Acc_Photo" class="avatar photo" />
+                <img v-else class="el-icon-plus avatar-uploader-icon photo" src="/Utilities/images/head1.jpg" />
+                <span class="accname" v-html="account.Acc_Name">(未登录)</span>
+            </el-form-item>
+            <el-form-item label="新密码" prop="newpw">
+                <el-input v-model="form.newpw" show-password></el-input>
+            </el-form-item>
+            <el-form-item label="确认输入" prop="newpw2" show-password>
+                <el-input v-model="form.newpw2" show-password></el-input>
+            </el-form-item>
+
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" define="enter" plain @click="btnEnter('form')">确认修改</el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

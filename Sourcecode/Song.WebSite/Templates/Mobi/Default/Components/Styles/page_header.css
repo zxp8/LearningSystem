@@ -1,0 +1,62 @@
+﻿.page_header {
+    height: 44px;
+    font-size: 16px;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    z-index: 2;
+    display: flex;
+    line-height: 44px;
+    color: #666;
+    text-align: left;
+    justify-content: space-between;
+
+
+    box-shadow: 1px 1px 1px  rgba(0,0,0,0.1);
+    box-sizing: border-box;
+}
+.van-sticky--fixed .page_header {
+    background-color: #fff;
+    box-shadow: 0px 1px 2px #eee;
+}
+.page_header icon {
+    height: 100%;
+    width: 44px;
+    line-height: 40px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.page_header icon.goback {
+    width: 30px;
+    text-align: right;
+    line-height: 44px;
+    font-size: 16px;
+}
+
+.page_header .header_title {
+ flex: 1;
+    text-shadow: .2rem 0rem .5rem #fff,-.2rem 0rem .5rem #fff,0rem .2rem .5rem #fff,0rem -.2rem .5rem #fff;
+
+}
+.page_header .page_header_btns{
+    max-width: 88px;
+    display: flex;
+}
+.page_header .page_header_btns icon{
+    margin: 5px 0px 0px 0px;
+   
+}
+.page_header .header_title{
+    display: flex;
+    justify-content: space-between;
+}
+.page_header .header_title>*::before {
+    width: auto;
+    margin-right: 8px;
+    font-size: 21px;
+    float: left;
+}
+.page_header .header_title>*{
+    line-height: 48px;
+}

@@ -1,0 +1,231 @@
+﻿@charset "utf-8";
+
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+button{
+	font:initial !important;
+}
+.headbar {
+	background-color: transparent !important;
+	box-shadow: 0 0px 0px #ccc !important;
+}
+
+.back {
+	display: block;
+	position: absolute;
+	z-index: 101;
+}
+
+/*返回首页*/
+
+.home {
+	display: block;
+	position: absolute;
+	left: 20px;
+	top: 2px;
+	color: #555;
+	z-index: 200;
+}
+
+.home:before {
+	content: "\e678";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 20px;
+}
+
+/*章节名称*/
+
+.outline-name {
+	background-color: #FFF;
+	box-shadow: 0 1px 6px #ccc;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 20px;
+	padding-right: 80px;
+	color: #333;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 15px;
+	position: relative;
+}
+
+.outline-name:before {
+	content: "\e841";
+	font-family: "webdesk_icon";
+	margin-right: 5px;
+	font-size: 18px;
+	font-weight: normal;
+}
+
+.outline-name #msginputBtn {
+	background-color: #fff;
+	position: absolute;
+	width: 60px;
+	height: 25px;
+	line-height: 25px;
+	text-indent: 5px;
+	padding: 0px;
+	top: 7px;
+	right: 10px;
+	border-radius: 5px;
+	border: 1px solid #999;
+}
+
+
+/*学习内容与附件的区域*/
+
+#context-box {
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+.loading {
+	padding: 20px;
+}
+
+#context-box>div[tag] {
+	width: 100%;
+	height: calc(100vh - 100vw * 9 / 16 - 70px);
+	--margin-top: calc(100vw * 9 / 16);
+}
+
+#details {
+	width: 100%;
+	box-sizing: border-box;
+	word-wrap: break-word;
+}
+
+#details, #details p, #details * {
+	font-size: 18px !important;
+	line-height: 1.6em;
+	background-color: transparent !important;
+	color: #666 !important;
+}
+
+#details p {
+	margin-bottom: 20px !important;
+}
+
+#details a {
+	color: #09F !important;
+}
+
+#details img {
+	max-width: 100% !important;
+}
+
+#details .nointro {
+	font-size: 16px;
+	line-height: 30px;
+	color: #666;
+	padding: 20px;
+}
+
+
+
+/*没有购买课程*/
+
+#noStudy {
+	text-align: center;
+	margin-top: 30px;
+	margin: 10px;
+	margin-top: 50px;
+	height: auto;
+	position: relative;
+	overflow: hidden;
+	border-radius: 2px;
+	background-color: white;
+	background-clip: padding-box;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	padding: 10px;
+	height: 140px;
+	line-height: 100px;
+}
+
+/*-----底部图标*/
+
+/*学习内容*/
+
+.card {
+	float: left;
+	font-size: 14px;
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+	border-radius: 2px;
+	background-color: #fff;
+	background-clip: padding-box;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	height: calc(100% - 20px);
+	width: calc(100% - 20px);
+}
+
+.card-header {
+	font-size: 15px;
+	position: relative;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	min-height: 44px;
+	padding: 10px 15px;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	border-radius: 2px 2px 0 0;
+}
+
+.intro-box .card-header icon[course]:before {
+	margin-right: 5px;
+	font-size: 18px;
+	display: block;
+	float: left;
+}
+
+.card-content {
+	height: calc(100% - 70px);
+	overflow: auto;
+	box-sizing: border-box;
+	padding: 15px;
+}
+
+/*附件*/
+
+.acc-box .card-header span:before {
+	content: "\e853";
+	font-family: "webdesk_icon";
+	margin-right: 5px;
+	font-size: 16px;
+}
+
+/*没有视频的学习区域*/
+.notVideo {
+	height: calc(100vh - 70px) !important;
+}
+
+/*没有内容*/
+.nocontent {
+	font-size: 18px;
+	padding: 10px 20px;
+	color: #ccc;
+}
+
+.nocontent>icon {
+	font-size: 35px;
+}
+
+/*禁止交流咨询*/
+.disableChat {
+	text-align: center;
+	padding: 40px 20px;
+	color: #666;
+}

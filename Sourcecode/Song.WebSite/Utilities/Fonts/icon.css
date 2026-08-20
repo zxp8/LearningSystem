@@ -1,0 +1,778 @@
+﻿@font-face {
+    font-family: 'webdesk_icon';
+    src: url('iconfont.woff?tt=5') format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*  图标引用方式一，采用单独icon作为html标签，在Vue中输出不受影响，推荐使用
+	icon标签， 例如：<icon>&#xa038</icon>
+*/
+icon {
+    font-family: "webdesk_icon";
+    display: inline-block;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+}
+:root{
+    --icon-size: 1rem;
+    --icon-size-huge: 1.6rem;
+    --icon-size-large: 1.2rem;
+    --icon-size-medium: 1rem;
+    --icon-size-small: 0.8rem;
+    --icon-size-mini: 0.7rem;   
+}
+icon:not([icon]) {
+    margin-right: 5px;
+}
+
+icon[huge]:not(:empty, [size]) {
+    font-size: var(--icon-size-huge);
+}
+
+icon[large]:not(:empty) {
+    font-size: var(--icon-size-large);
+}
+
+icon[medium]:not(:empty) {
+    font-size: var(--icon-size-medium);
+}
+
+icon[small]:not(:empty) {
+    font-size: var(--icon-size-small);
+}
+
+icon[mini]:not(:empty) {
+    font-size: var(--icon-size-mini);
+}
+
+/*  图标引用方式二，显示Html标签内容的前面，但在在Vue组件代码中使用时，无法输出
+	html标签中增加icon属性， 例如：<span icon="&#xa038">内容</span>
+*/
+*[icon]:not(icon)::before {
+    content: attr(icon);
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
+}
+
+*[icon][huge]:not(:empty)::before {
+    font-size: var(--icon-size-huge);
+}
+
+*[icon][large]:not(:empty)::before {
+    font-size: var(--icon-size-large);
+}
+
+*[icon][medium]:not(:empty)::before {
+    font-size: var(--icon-size-medium);
+}
+
+*[icon][small]:not(:empty)::before {
+    font-size: var(--icon-size-small);
+}
+
+*[icon][mini]:not(:empty)::before {
+    font-size: var(--icon-size-mini);
+}
+
+
+/*  图标引用方式三，指定特定图标，用于统一的图标设定
+	课程图标 示例：<icon course></icon>
+*/
+icon::before {
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
+}
+
+/*带hide属性，则不显示图标*/
+icon[hide]::before {
+    display: none;
+}
+
+icon[size='huge']::before {
+    font-size: var(--icon-size-huge);
+}
+
+icon[size='large']::before {
+    font-size: var(--icon-size-large);
+}
+
+icon[size='medium']::before {
+    font-size: var(--icon-size-medium);
+}
+
+icon[size='small']::before {
+    font-size: var(--icon-size-small);
+}
+
+icon[size='mini']::before {
+    font-size: var(--icon-size-mini);
+}
+
+/*首页*/
+icon[home]::before {
+    content: '\a020';
+    transform: scale(0.95);
+    display: inline-block;
+}
+
+/*返回*/
+icon[back]::before {
+    content: '\e748';
+}
+
+/*刷新*/
+icon[fresh]::before {
+    content: '\e694';
+}
+/*空*/
+icon[null]::before {
+    content: '\a01f';
+}
+icon[null]{
+    color: #999;
+}
+/*禁用*/
+icon[disabled]::before {
+    content: '\e7ad';
+    transform: scale(0.9);
+    display: inline-block;
+}
+
+/*提交*/
+icon[submit]::before {
+    content: '\e84c';
+}
+
+/*确认*/
+icon[enter]::before {
+    content: '\e634';
+}
+
+/*学员*/
+icon[student]::before {
+    content: '\e804';
+}
+
+/*教师*/
+icon[teacher]::before {
+    content: '\e650';
+}
+
+/*课程*/
+icon[course]::before {
+    content: '\e813';
+}
+
+/*专业*/
+icon[subject]::before {
+    content: '\e750';
+}
+
+/*章节*/
+icon[outline]::before {
+    content: '\e841';
+}
+
+/*试题*/
+icon[question]::before {
+    content: '\e75e';
+}
+
+/*试卷*/
+icon[test]::before {
+    content: '\e63d';
+}
+
+/*考试*/
+icon[exam]::before {
+    content: '\e810';
+}
+
+/*视频*/
+icon[video]::before {
+    content: '\e83a';
+}
+
+/*关注，查看*/
+icon[view]::before {
+    content: '\a03a';
+}
+
+/*设置*/
+icon[setup]::before {
+    content: '\a038';
+}
+
+/*货币符号 人民币*/
+icon[money]::before {
+    content: '\e624';
+    font-size: var(--icon-size-medium);
+}
+
+/*卡券*/
+icon[coupon]::before {
+    content: '\e847';
+    font-size: var(--icon-size-medium);
+}
+
+/*积分*/
+icon[point]::before {
+    content: '\e88a';
+    font-size: var(--icon-size-medium);
+}
+
+/*身份证*/
+icon[idcard]::before {
+    content: '\e68f';
+}
+
+/*固定电话*/
+icon[phone]::before {
+    content: '\a047';
+}
+
+/*移动电话*/
+icon[mobile]::before {
+    content: '\e677';
+    font-size: var(--icon-size-medium);
+}
+
+/*关闭按钮*/
+icon[close]::before {
+    content: '\e606';
+    font-size: 16px;
+}
+
+/*男性*/
+icon[man] {
+    color: rgb(73 128 210);
+}
+
+icon[man]::before {
+    content: '\e645';  
+}
+
+/*女性*/
+icon[woman] {
+    color: rgb(248, 87, 87);
+}
+
+icon[woman]::before {
+    content: '\e647';
+}
+
+icon[help]::before {
+    content: '\a026';
+}
+
+/*复制*/
+icon[copy]::before {
+    content: '\a060';
+}
+
+/*粘贴*/
+icon[paste]::before {
+    content: '\a061';
+}
+
+/*删除*/
+icon[delete]::before {
+    content: '\e800';
+    transform: scale(1.1);
+    display: inline-block;
+    padding-left: 2px;
+}
+
+icon[delete],icon[modify],icon[sharp] {
+    cursor: pointer;
+}
+
+/*编辑*/
+icon[modify]::before {
+    content: '\e64d';
+}
+/*分享*/
+icon[sharp]::before {
+    content: '\e612';
+}
+/*QQ*/
+icon[qq]::before {
+    content: '\e82a';
+}
+
+/*微信*/
+icon[weixin]::before {
+    content: '\e730';
+    transform: scale(1.2);
+    display: inline-block;
+}
+
+/*帮助、提示*/
+help, help * {
+    color: #777 !important;
+}
+
+alert, alert * {
+    color: #F56C6C !important;
+}
+
+warning, warning * {
+    color: #E6A23C !important;
+}
+
+empty, empty * {
+    color: #777 !important;
+}
+
+help, alert, help *, alert *, warning, warning *, empty, empty * {
+    font-size: var(--icon-size-small);
+    cursor: default;
+}
+
+help::before, alert::before, warning::before, empty::before {
+    font-family: "webdesk_icon" !important;
+    display: inline-block;
+    margin-right: 8px;
+    font-size: var(--icon-size-medium);
+}
+
+/*多行帮助信息*/
+help[multi], alert[multi], warning[multi], empty[multi] {
+    position: relative;
+    display: block;
+    padding-left: 25px;
+    box-sizing: border-box;
+    line-height: 25px;
+
+}
+
+help[multi]::before, alert[multi]::before, warning[multi]::before, empty[multi]::before {
+    position: absolute;
+    left: 0px;
+    top: 3px;
+}
+
+/*边距*/
+help[margin], alert[margin], warning[margin], empty[margin] {
+    margin: 15px;
+}
+
+/*大小*/
+help[large], alert[large], warning[large],empty[large], help[large] *, alert[large] *, warning[large] *, empty[large] * {
+
+    font-size: var(--icon-size-large);
+    line-height: 30px;
+}
+
+help[large]::before, alert[large]::before, warning[large]::before {
+    font-size: var(--icon-size-large);
+}
+
+help[medium], alert[medium], warning[medium], help[medium] *, alert[medium] *, warning[medium] * {
+    font-size: var(--icon-size-medium);
+    line-height: 25px;
+}
+
+help[medium]::before, alert[medium]::before, warning[medium]::before, empty[medium]::before {
+
+    font-size: var(--icon-size-medium);
+}
+
+
+help::before {
+    content: "\a026";
+}
+
+alert::before {
+    content: "\e70e";
+}
+
+warning::before {
+    content: "\f73f";
+    font-size: 23px;
+}
+
+empty::before {
+    content: "\a01f";
+    font-size: 1.2rem;
+}
+/*动画效果*/
+/*颤抖*/
+icon[quiver] {
+    animation: frames_quiver 1s infinite linear;
+}
+*[icon][quiver]::before { 
+    animation: frames_quiver 1s infinite linear;
+    display: inline-block;
+}
+@keyframes frames_quiver  {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+/*旋转*/
+icon[spin] {
+    animation: frames_spin 1s infinite linear;
+}
+*[icon][spin]::before { 
+    animation: frames_spin 1s infinite linear;
+    display: inline-block;
+}
+@keyframes frames_spin  {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+/*水平翻转*/
+icon[flip] {
+    animation: frames_flip 1.5s infinite linear;    
+    transform-style: preserve-3d; 
+}
+*[icon][flip]::before { 
+    animation: frames_flip 1.5s infinite linear;
+    transform-style: preserve-3d; 
+    display: inline-block;
+}
+@keyframes frames_flip  {
+    0% {transform: rotateX(0deg);}
+    50% {transform: rotateX(180deg);}   
+    100% {transform: rotateX(0deg);}   
+}
+/*预载*/
+loading {
+    color: #999;
+    font-size: 13px;
+}
+
+loading::before {
+    font-family: "webdesk_icon" !important;
+    content: "/";
+    display: inline-block;
+    font-size: 20px;
+    margin-right: 10px;
+    animation: rotate_360 0.6s infinite linear;
+}
+
+loading[dot]::after {
+    display: inline;
+    content: "loading ...";
+    font-size: 13px;
+    margin-left: 10px;
+    line-height: 30px;
+    color: #999;
+}
+
+@keyframes loading_after {
+    50% {
+        background-image: -webkit-linear-gradient(left, rgb(194, 194, 194), rgb(158, 158, 158));
+    }
+
+    100% {
+        background-image: -webkit-linear-gradient(left, #fff, #333);
+    }
+}
+
+/*星号*/
+loading[asterisk]::before {
+    content: "\e620";
+}
+
+/*汽泡*/
+loading[bubble]::before {
+    content: "\e621";
+}
+
+/*刷新*/
+loading[fresh]::before {
+    content: "\e651";
+}
+
+/*五角星*/
+loading[star]::before {
+    content: "\e747";
+}
+
+/*太极鱼*/
+loading[fish]::before {
+    content: "\e601";
+}
+
+@keyframes rotate_360 {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/*更多预载效果*/
+*[loading] {
+    margin: 0px auto;
+    display: block;
+}
+
+*[loading=p1] {
+    height: 2px;
+    background: linear-gradient(#a5a5a5 0 0) 0/0% no-repeat #ddd;
+    animation: p1 2s infinite linear;
+}
+
+@keyframes p1 {
+    100% {
+        background-size: 100%
+    }
+}
+
+*[loading=p2] {
+    width: 120px;
+    height: 20px;
+    border-radius: 20px;
+    font-size: 12px;
+    line-height: 20px;
+    color: #999;
+    box-sizing: border-box;
+    padding: 0px 10px;
+    text-align: center;
+    background:
+        linear-gradient(orange 0 0) 0/0% no-repeat lightblue;
+    animation: p2 2s infinite steps(10);
+}
+
+@keyframes p2 {
+    100% {
+        background-size: 110%
+    }
+}
+
+*[loading=p3] {
+    width: 120px;
+    height: 20px;
+    border-radius: 20px;
+    font-size: 12px;
+    line-height: 20px;
+    color: #FFF;
+    box-sizing: border-box;
+    padding: 0px 10px;
+    text-align: center;
+    background:
+        repeating-linear-gradient(135deg, #f03355 0 10px, #ffa516 0 20px) 0/0% no-repeat,
+        repeating-linear-gradient(135deg, #ddd 0 10px, #eee 0 20px) 0/100%;
+    animation: p3 2s infinite;
+}
+
+@keyframes p3 {
+    100% {
+        background-size: 100%
+    }
+}
+
+*[loading=p4] {
+    width: 300px;
+    height: 30px;
+    border: 2px solid #999;
+    border-radius: inherit;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+*[loading=p4]::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    display: block;
+    -webkit-mask: linear-gradient(90deg, #000 70%, #0000 0) 0/5%;
+    background:
+        linear-gradient(#666 0 0) 0/0% no-repeat #ddd;
+    animation: p4 1s infinite steps(30);
+
+}
+
+@keyframes p4 {
+    100% {
+        background-size: 120%
+    }
+}
+
+*[loading=p5] {
+    width: 80px;
+    height: 30px;
+    border: 2px solid #000;
+    padding: 3px;
+    background:
+        repeating-linear-gradient(90deg, #000 0 10px, #0000 0 16px) 0/0% no-repeat content-box content-box;
+    position: relative;
+    animation: p5 2s infinite steps(6);
+}
+
+*[loading=p5]::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: calc(100% - 0px);
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background-color: #ffffff;
+    border: 2px solid #000;
+    border-left: none;
+    z-index: 10;
+}
+
+@keyframes p5 {
+    100% {
+        background-size: 120%
+    }
+}
+
+*[loading=p6] {
+    height: 25px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 25px;
+    border-radius: 20px;
+    color: #333;
+    border: 2px solid #aaa;
+    position: relative;
+    background: #67C23A;
+    background: rgb(148 221 125 / 20%);
+    background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+}
+
+*[loading=p6]::before {
+    content: "";
+    position: absolute;
+    margin: 2px;
+    inset: 0 100% 0 0;
+    border-radius: inherit;
+    background: rgba(55, 218, 15, 0.6);
+    animation: p6 1s infinite;
+}
+
+@keyframes p6 {
+    100% {
+        inset: 0
+    }
+}
+
+*[loading=p7] {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    -webkit-mask: linear-gradient(0deg, #000 55%, #0000 0) bottom/100% 18.18%;
+    background:
+        linear-gradient(#f03355 0 0) bottom/100% 0% no-repeat #ddd;
+    animation: p7 2s infinite steps(7);
+}
+
+@keyframes p7 {
+    100% {
+        background-size: 100% 115%
+    }
+}
+
+*[loading=p8] {
+    --r1: 154%;
+    --r2: 68.5%;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background:
+        radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%) center left,
+        radial-gradient(var(--r1) var(--r2) at bottom, #269af2 79.5%, #0000 80%) center center,
+        radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%) center right,
+        #ccc;
+    background-size: 50.5% 220%;
+    background-position: -100% 0%, 0% 0%, 100% 0%;
+    background-repeat: no-repeat;
+    animation: p8 2s infinite linear;
+}
+
+@keyframes p8 {
+    33% {
+        background-position: 0% 33%, 100% 33%, 200% 33%
+    }
+
+    66% {
+        background-position: -100% 66%, 0% 66%, 100% 66%
+    }
+
+    100% {
+        background-position: 0% 100%, 100% 100%, 200% 100%
+    }
+}
+
+/*文件类型的样式*/
+*[filetype]::before {
+    font-family: "webdesk_icon";
+    display: inline-block;
+    font-size: 25px;
+    content: '\a022';
+}
+
+*[filetype=xls]::before {
+    content: '\e85e';
+}
+
+*[filetype=xlsx]::before {
+    content: '\e6a7';
+}
+
+*[filetype=doc]::before {
+    content: '\e85d';
+}
+
+*[filetype=docx]::before {
+    content: '\e6a3';
+}
+
+*[filetype=ppt]::before {
+    content: '\e6a9';
+}
+
+*[filetype=pptx]::before {
+    content: '\e754';
+}
+
+*[filetype=zip]::before {
+    content: '\e6a5';
+}
+
+*[filetype=rar]::before {
+    content: '\e78a';
+}
+
+*[filetype=pdf]::before {
+    content: '\e848';
+}
+
+*[filetype=mp4]::before {
+    content: '\e859';
+}
+
+*[filetype=xls], *[filetype=xlsx] {
+    color: rgb(0 114 57) !important;
+}
+
+*[filetype=doc], *[filetype=docx] {
+    color: #1c56a9 !important;
+}
+
+*[filetype=ppt], *[filetype=pptx] {
+    color: #ba3e1f !important;
+}
+
+*[filetype=zip], *[filetype=rar] {
+    color: #04354c !important;
+}
+
+*[filetype=pdf] {
+    color: #b60b00 !important;
+}
+
+*[filetype=mp4] {
+    color: #700391 !important;
+}

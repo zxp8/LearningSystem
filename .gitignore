@@ -1,17 +1,3 @@
-/Song.Site/Bin/*.pdb
-/Song.Site/Bin/Song.Site.dll
-/Song.Site/Bin/*.xml
-/Song.Site/Bin/Song.*.dll
-/Song.Site/Bin/Song.Template.pdb
-/Song.Site/Bin/WeiSha.Common.pdb
-/Song.Site/Bin/WeiSha.Template.Engine.pdb
-/Song.Site/Bin/Song.Entities.pdb
-/Song.Site/Bin/Song.Extend.pdb
-/Song.Entities/bin/
-/Song.Entities/obj/
-/Song.*/bin/
-/Song.*/obj/
-/Song.Site/upload/
 /wxapp/miniprogram/
 #Ignore thumbnails created by Windows
 Thumbs.db
@@ -48,9 +34,34 @@ _ReSharper*/
 #Nuget packages folder
 packages/
 /Song.Site/Song.Site.Publish.xml
-/文档/开发文档/~$学习平台-数据字典.doc
 ~$*.*
 /培训考试系统.zip
 /*.suo
-/Song.Site/Song.Site.Publish.xml
+
 *.baiduyun.uploading.cfg
+/Sourcecode/Song.Site/Upload
+/Sourcecode/Publish/WeiSha.Core.xml
+/Sourcecode/Publish/WeiSha.Data.dll
+/Sourcecode/Publish/WeiSha.Core.dll
+/Sourcecode/Publish
+/Sourcecode/Song.WebSite/upload/
+!/Sourcecode/Song.WebSite/upload/copyright.xml
+!/Sourcecode/Song.WebSite/upload/readme.html
+!copyright.xml
+
+/Sourcecode/Song.WebSite/logs
+/Sourcecode/Song.WebSite/logs_viewdata
+/Sourcecode/WeiSha.Core
+/Sourcecode/Lib/WeiSha.Core.xml
+/Sourcecode/Song.WebSite/license.weisha
+/Sourcecode/Song.WebSite/license.weisha.txt
+/Sourcecode/.cr
+/Sourcecode/Lib/WeiSha.Data.XML
+/Sourcecode/Song.WebSite/App_Data/weisha.db-shm
+/Sourcecode/Song.WebSite/App_Data/weisha.db-wal
+/Sourcecode/Song.WebSite/App_Data/gxmk.db-wal
+/Sourcecode/Song.WebSite/App_Data/gxmk.db
+/Sourcecode/Song.WebSite/App_Data/gxmk.db-shm
+/Sourcecode/Song.WebSite/App_Data/gxmk - backup.db
+/DbScripts/*.backup
+backup

@@ -1,0 +1,68 @@
+﻿.el-form {
+    box-sizing: border-box;
+    margin: 0px;
+    height: calc(100% - 50px);
+    padding: 5px 0px 0px 20px;
+}
+
+.el-form>div:first-child {
+    height: 100%;
+    width: 100%;
+}
+.el-tabs__content{
+    height: calc(100% - 55px);
+}
+.el-tabs__content>div{
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+    padding-right: 10px;
+}
+.editor_row{
+    height: calc(100% - 128px);
+}
+.editor_row .el-form-item__content{
+    height: 100%;
+
+}
+img.photo {
+    width: 100px;
+    height: 100px;
+    display: block;
+    float: left;
+    border: 1px solid #aaa;
+    margin-top: 5px;
+    border-radius: 50px;
+    margin-right: 10px;
+    float: left;
+}
+
+/*没有图片*/
+
+.nophoto {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    color: #aaa;
+    background-color: #eee;
+    text-align: center;
+    cursor: pointer;
+}
+
+.nophoto icon {
+    font-size: 35px;
+}
+
+.upload_img_area {
+    display: table;
+    float: left;
+}
+
+.upload_img_area img {
+    height: 100px;
+}
+
+.editor {
+    height: 100%;
+}

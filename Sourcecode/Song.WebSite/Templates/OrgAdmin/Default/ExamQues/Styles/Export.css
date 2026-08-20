@@ -1,0 +1,31 @@
+﻿@charset "utf-8";
+
+
+
+.el-dialog__wrapper {
+    overflow: hidden;
+    display: flex;
+}
+
+.el-dialog__body {
+    padding-top: 0px;
+    height: calc(100% - 60px);
+
+}
+
+.parts_panel {
+    margin: 8% auto 10% auto !important;
+    height: 80% !important;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.footer{
+    display: flex;
+    justify-content: space-between;
+}
+.questotal{
+    height: 32px;
+    font-size: 14px;
+    line-height: 30px;
+}

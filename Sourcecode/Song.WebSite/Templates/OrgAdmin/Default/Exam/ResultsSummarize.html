@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>考试成绩</title>
+</head>
+
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="各场次成绩,导出" ref='btngroup' @summari="visibleSummari=true" @output="output" width="600"
+                height="600" idkey='Exr_ID' table="datatables"></btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-select v-model="form.stsid" placeholder="请选择" style="width: 160px;"
+                        @change="handleCurrentChange(1)">
+                        <el-option label="-- 所有学员 --" :value="0"> </el-option>
+                        <el-option label="-- 未分组学员 --" :value="-1"> </el-option>
+                        <el-option v-for="(item,i) in sorts" :key="item.Sts_ID" :label="item.Sts_Name"
+                            :value="item.Sts_ID">
+                            <span>{{i+1}}. {{item.Sts_Name}}</span>
+                            <span class="sortcount" title="参考学员数量">{{item.Sts_Count}} </span>
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.name" style="width:100px" clearable placeholder="学员姓名"></el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.idcard" style="width:120px" clearable placeholder="身份证"></el-input>
+                </el-form-item>
+
+            </query_panel>
+        </div>
+        <template>
+            <el-table :data="accounts" border resizable style="width: 100%">
+                <el-table-column type="index" width="80" label="#">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="姓名" width="150" class-name="left">
+                    <template slot-scope="scope">
+                        <icon :woman="scope.row.Ac_Gender=='2'" :man="scope.row.Ac_Gender!='2'"
+                            v-html='showsearch(scope.row.Ac_Name,form.name)' class="link large"
+                            @click="getaccount(scope.row)">
+                        </icon>
+                    </template>
+                </el-table-column>
+                <el-table-column label="身份证">
+                    <template slot-scope="scope">
+                        <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)' class="link"
+                            @click="getaccount(scope.row)"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column :label="(i+1)+'.'+item.Exam_Name" v-for="(item,i) in exams">
+                    <template slot-scope="scope">
+                        <examscore :examid="item.Exam_ID" :acid="scope.row.Ac_ID"
+                            @review="score=>review(score,scope.row,item)"></examscore>
+                    </template>
+                </el-table-column>
+
+            </el-table>
+            <div id="pager-box">
+                <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index"
+                    :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+                </el-pagination>
+            </div>
+        </template>
+        <el-drawer title="各场次成绩综述" :visible.sync="visibleSummari" direction="ttb" size="100%">
+            <span slot="title">
+                <icon>&#xe810</icon>考试主题：《{{theme.Exam_Title}}》
+            </span>
+            <div v-for="(item,i) in exams" class="exam_row">
+                <div>
+                    <span>{{i+1}}.</span> {{item.Exam_Name}}
+                </div>
+                <exam_scores :examid="item.Exam_ID"></exam_scores>
+            </div>
+        </el-drawer>
+        <el-dialog title="考生信息" :visible.sync="accountVisible">
+            <div slot="title">
+                <icon style="font-size: 25px;">&#xe669</icon>考生信息
+            </div>
+            <el-row :gutter="20">
+                <el-col :span="24" class="accountInfo">
+                    <avatar :account="account" circle="true" size="80"></avatar>
+                    <div>
+                        <icon :woman="account.Ac_Gender=='2'" :man="account.Ac_Gender!='2'">
+                            <b>{{account.Ac_Name}}</b>
+                        </icon>
+                        <span title="账号">({{account.Ac_AccName}})</span>
+                    </div>
+                    <div icon="&#xe60f" title="身份证">
+                        {{account.Ac_IDCardNumber}}
+                    </div>
+                    <div icon="&#xa047" title="电话">
+                        <span v-html='account.Ac_MobiTel1'></span>
+                        <span
+                            v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!='' && account.Ac_MobiTel1!= account.Ac_MobiTel2 ">/</span>
+                        <span v-if="account.Ac_MobiTel1!= account.Ac_MobiTel2 " v-html='account.Ac_MobiTel2'></span>
+                    </div>
+
+                </el-col>
+            </el-row>
+            <el-divider></el-divider>
+            <div v-for="(item,i) in exams" class="acc_exam">
+                <div>
+                    <span>{{i+1}}.</span> {{item.Exam_Name}}
+                </div>
+                <score :examid="item.Exam_ID" :acid="account.Ac_ID" @review="score=>review(score,account,item)"></score>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="成绩导出" :visible.sync="exportVisible" width="80%" :show-close="false" :before-close="()=>{}">
+            <el-form ref="exportquery" :model="exportquery" @submit.native.prevent label-width="100px">
+                <el-form-item label="导出范围" prop="scope">
+                    <el-radio v-model="exportquery.scope" :label="1">所有参考学员</el-radio>
+                    <el-radio v-model="exportquery.scope" :label="2">按学员组导出</el-radio>
+                </el-form-item>
+                <el-form-item label="学员组" prop="sorts" v-if="exportquery.scope==2">
+                    <el-checkbox-group v-model="exportquery.sorts" class="exportquery_sorts">
+                        <el-checkbox v-for="(item,i) in sorts" :key="item.Sts_ID" :label="item.Sts_ID"
+                            :value="item.Sts_ID">
+                            <span>{{i+1}}. {{item.Sts_Name}}</span>
+                            <span class="sortcount" title="参考学员数量">（{{item.Sts_Count}}） </span>
+                        </el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+                <template v-if="files.length>0">
+                    <el-divider content-position="left">文件下载</el-divider>
+                    <dl class="files">
+                        <dd v-for="(f,i) in files">
+                            <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
+                                {{f.file}}</a>
+                            <span>{{f.size|size}}</span>
+                            <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                                <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                                </el-link>
+                            </el-popconfirm>
+                        </dd>
+                    </dl>
+                </template>
+            </el-form>
+
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="exportVisible = false" :disabled="fileloading">取 消</el-button>
+                <el-button type="primary" @click="toexcel" :loading="fileloading">生成导出文件</el-button>
+            </span>
+        </el-dialog>
+    </div>
+
+
+</body>
+
+</html>

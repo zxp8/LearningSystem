@@ -1,0 +1,80 @@
+@charset "utf-8";
+
+.tree-box {
+    margin: 15px 5px 15px 15px;
+    padding: 0px 10px 0px 0px;
+    width: calc(100% - 20px);
+    height: calc(100% - 30px - 32px);
+    box-sizing: border-box;
+    position: relative;
+    overflow: auto;
+}
+
+/*树形中的行高*/
+
+div[role=treeitem] {
+    min-height: 30px;
+}
+
+.custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+}
+
+.el-tree-node__content:hover {
+    background-color: #eee;
+}
+
+.el-tree-node__content {
+    cursor: default !important;
+}
+
+.tree-node {
+    display: inline-block;
+    width: calc(100% - 500px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+
+/*专业统计数据的列*/
+.column_count {
+    width: 300px;
+    text-align: left;
+    display: flex;
+
+}
+.column_count>icon{
+   width: 100px;
+}
+.column_count>icon[zero] {
+    color: #ccc;
+}
+
+/*是否启用与推荐的列*/
+
+.column_state {  
+    width: 100px;
+    text-align: center;
+    margin-left: auto;
+}
+
+/*按钮的列*/
+.column_btn {
+    width: 100px;
+    text-align: right;
+    margin-left: 0px;
+}
+
+/*子专业数量*/
+
+.sbjcount {
+    color: #ccc;
+    font-size: 12px;
+}

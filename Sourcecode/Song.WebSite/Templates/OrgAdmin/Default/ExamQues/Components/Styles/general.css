@@ -1,0 +1,85 @@
+﻿.panel>div.base[remark] {
+	overflow: hidden;
+}
+
+.general {
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.general form.el-form {
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	padding: 10px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+}
+
+.parts-tree .el-form-item__content {
+	height: 100%;
+}
+
+/*难度*/
+.el-rate {
+	margin-top: 6px;
+}
+.form_diff .el-form-item__content{
+	display: flex;
+}
+.taglist .el-form-item__content {
+	display: flex;
+}
+
+/*关键字*/
+.taglist .el-form-item__content>.el-tag {
+	margin: 0px 8px 0px 0px;
+}
+
+.taglist .button-new-tag {
+	height: 30px;
+	line-height: 30px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.taglist .el-tag--medium {
+	height: 30px;
+	
+}
+
+/*试题分类*/
+.parts-area {	
+	margin-bottom: 0px !important;
+	height: calc(100% - 42px * 3);
+}
+
+.parts-area .el-form-item__content {
+	height: 100%;
+	position: relative;
+}
+
+.parts-area .el-form-item__content>* {
+	flex: 1;
+}
+
+.parts-area .el-form-item__content .parts-tree {
+	margin-right: 15px;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.parts-area .el-form-item__content .title {
+	margin-bottom: 10px;
+}
+
+
+.part_list .el-tag {
+	margin-bottom: 5px;
+	margin-right: 5px;
+	width: auto;
+}

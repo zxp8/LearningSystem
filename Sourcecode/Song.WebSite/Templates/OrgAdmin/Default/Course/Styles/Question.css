@@ -1,0 +1,49 @@
+﻿@charset "utf-8";
+
+.sbj_course {
+    color: #999;
+    margin-left: 10px;
+}
+
+.types label {
+    margin-bottom: 3px;
+}
+
+.types label:nth-child(4) .el-radio-button__inner {
+    border-left: 1px solid #DCDFE6;
+}
+
+.search_btns {
+    margin-top: 20px;
+}
+
+.ques_title>div {
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    word-break: break-all !important;
+    height: 25px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 15px !important;
+}
+
+/*列表中的试题类型*/
+.cell icon[ques_type] {
+    font-size: 18px;
+}
+/*章节选择框中的试题数*/
+.ques_count {
+    color: #999;
+    font-size: 12px;
+}
+/*查询面板中的题型按钮*/
+.query_panel icon[ques_type]{
+    font-size: 15px;
+    line-height: 8px;
+}
+.query_panel icon[ques_type][showname=true]::after {
+    margin-left: 8px;
+    font-size: 12px;
+    line-height: 8px;
+}

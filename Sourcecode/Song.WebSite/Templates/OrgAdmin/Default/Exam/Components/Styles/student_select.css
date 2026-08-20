@@ -1,0 +1,55 @@
+.student_select{
+    display: flex;
+}
+.student_select>*:last-child{
+    flex: 1;
+    margin-left: 30px;
+    box-sizing: border-box;
+}
+/*已经选择的学员*/
+.examaccounts{
+    display: flex;
+    flex-direction: column;
+}
+.examaccounts .el-card__header {
+    display: flex;
+     justify-content: space-between;
+}
+.examaccounts .el-card__body {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.examaccounts dl dd::before {
+    content: attr(index);
+    display: inline-block;
+    min-width: 20px;
+    margin-right: 10px;
+    text-align: center;
+
+}
+.examaccounts dl dd{
+    display: flex;
+    justify-content: space-between;
+}
+.examaccounts dl dd .name{
+  
+}
+.examaccounts dl dd, .examaccounts dl dd *{
+    line-height: 30px;
+}
+.examaccounts dl dd>*:not(.name){
+    margin-left: 20px;
+}
+/*账号*/
+.examaccounts dl dd .accname::before{
+    content: '(';
+}
+.examaccounts dl dd .accname::after{
+    content: ')';
+}
+.examaccounts dl dd .accname{
+    margin-right: auto;
+    margin-left: 5px;
+    color: #777;
+}

@@ -1,0 +1,31 @@
+﻿@charset "utf-8";
+
+
+.el-tabs {
+    margin: 20px 20px 20px 20px;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+
+}
+.el-tabs__content{
+    width: calc(100% - 30px);
+    height: calc(100% - 70px);
+  
+}
+.el-tabs__content .el-tab-pane{
+    width: calc(100% - 0px);
+    height: calc(100% - 50px);
+}
+.foot-btn{
+    width: calc(100% - 30px);
+    height:30px;   
+    padding: 15px;
+  
+}
+.foot-btn p{
+    float: left;
+    font-size: 12px;
+}
+.foot-btn button{
+  float: right;
+}

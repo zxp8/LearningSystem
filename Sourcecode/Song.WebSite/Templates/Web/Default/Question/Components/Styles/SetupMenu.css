@@ -1,0 +1,51 @@
+/*设置项面板*/
+.setup_show {
+	text-align: left;	
+}
+
+.setup_show .el-drawer__body {
+	padding: 0px 10px;
+	box-sizing: border-box;
+}
+
+.setup_show .el-drawer__header {
+	margin-bottom: 0px;
+}
+
+.setup_show .el-drawer__body>div:not(.el-divider) {
+	padding: 5px;
+	margin: 5px;
+}
+
+.setup_show .el-drawer__body icon {
+	margin-right: 10px;
+	font-size: 18px;
+}
+
+/*视图模式*/
+
+.view_model[current] {
+	background-color: rgb(179, 216, 255) !important;
+	border-radius: 5px;
+}
+
+/*字体大小控制*/
+.setup_show .font_btn {
+	float: right;
+	font-size: 13px;
+	line-height: 20px;
+}
+.setup_show .font_btn>span:first-child{
+	margin-right: 10px;
+}
+.setup_show .font_btn icon {
+	font-size: 13px;
+	margin-right: 2px;
+}
+/*字体大小的设置*/
+.fontsize{
+	float: right;font-size: 13px;
+}
+.fontsize>span{
+	margin-left: 10px;
+}

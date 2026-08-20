@@ -1,0 +1,429 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+*::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 3px;
+    /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+
+*::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 5px rgba(175, 173, 173, 0.2);
+    background: #b9b9b9;
+}
+
+*::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(204, 204, 204, 0.2);
+    border-radius: 3px;
+    background: #EDEDED;
+}
+
+#vapp {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    box-sizing: border-box;
+    overflow: auto;
+    margin: 10px;
+}
+
+#vapp>div {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.tabs-weisha {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/*选项卡*/
+.tabs {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    background-color: #ffffff;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.tabs>div {
+    padding: 0px 15px;
+    border: solid 1px #b9b9b9;
+    border-right: none;
+    border-bottom: none;
+    background-color: #ddd;
+    cursor: pointer;
+}
+.tabs>div[disabled]{
+    color: #aaa;
+    cursor: not-allowed;
+    background-color: #eee;
+}
+.tabs>div:last-child {
+    border-right: solid 1px #b9b9b9;
+}
+
+.tabs>div[current] {
+    background-color: #ffffff;
+    height: 40px;
+}
+
+/*选项卡内容区*/
+.content {
+    margin-top: 40px;
+    border: solid 1px #b9b9b9;
+    width: 100%;
+    height: calc(100% - 40px);
+    box-sizing: border-box;
+    padding: 10px 0px 10px 10px;
+}
+
+.content>div {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.content button {
+    min-width: 100px;
+    border: solid 1px #ccc;
+    text-align: center;
+    margin-left: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.content button[define="primary"] {
+    color: #409eff;
+    background: #ecf5ff;
+    border-color: #b3d8ff;
+}
+
+.content button[define="info"]:hover {
+    color: #fff;
+    background-color: #909399;
+    border-color: #909399;
+}
+
+.content button[define="primary"]:hover {
+    background-color: #409eff;
+    color: #fff;
+}
+button:disabled{
+    color: #8cc5ff !important;
+    background-color: #ecf5ff !important;
+    border-color: #d9ecff !important;
+    cursor: not-allowed;
+}
+button:disabled:hover{
+    color: #8cc5ff;
+    background-color: #ecf5ff;
+    border-color: #d9ecff;
+}
+/*本私图片选择区*/
+div.region {
+    position: relative;
+}
+.images {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.images>div {
+    display: flex;
+    box-sizing: border-box;
+    padding: 6px;
+    margin: 10px 10px 0px 0px;
+    border: solid 1px #ddd;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    width: 160px;
+    height: 90px;
+    text-align: center;
+}
+
+.images>div img {
+    max-width: calc(160px - 12px);
+    max-height: calc(90px - 12px);
+    margin: 0px auto;
+}
+
+.images>div .showinfo {
+    font-size: 12px;
+    line-height: 20px;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    background-color: rgba(255, 255, 255, 0.0);
+    color: #666;
+    position: absolute;
+    left: 0px;
+    top: -100%;
+    box-sizing: border-box;
+    padding: 10px;
+    transition: all 0.3s;
+}
+
+.images>div:hover .showinfo {
+    top: 0px;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+.showinfo .del{
+    text-align: right;
+}
+.showinfo .del span{
+    color: red;
+    cursor: pointer;
+}
+div.region .img_sel {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+}
+
+div.region .img_sel>* {
+    flex: 1;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 14px;
+}
+
+div.region .img_sel>div:first-child {
+    border: solid 1px #ccc;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+div.region .img_sel>div:first-child img {
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0px auto;
+}
+
+div.region .img_sel>div:last-child {
+    position: relative;
+}
+
+div.region .img_sel>div:last-child>div:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+div.region .img_sel>div:last-child .btns {
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    display: flex;
+    justify-content: right;
+    box-sizing: border-box;
+    padding: 0px 10px;
+}
+
+div[prev] {
+    margin: 5px 0px;
+    border: solid 1px #ccc;
+    height: 35px;
+    position: relative;
+    box-sizing: border-box;
+    padding: 3px 60px 3px 30px;
+    background-color: #fff;
+}
+
+div[prev] input {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+div[prev]::before {
+    content: attr(prev);
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 30px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+}
+
+div[prev]::after {
+    content: attr(after);
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+
+.input_alt>div {
+    border: solid 1px #ccc;
+    box-sizing: border-box;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.input_alt>div textarea {
+    width: calc(100% - 10px);
+    height: 100%;
+    border: solid 1px #eee;
+}
+
+/*图片上传*/
+div.upload {
+    position: relative;
+    display: flex;
+}
+
+div.upload>* {
+    flex: 1;
+}
+
+div.upload .upload_img_area {
+    height: 100%;
+}
+
+div.upload .upload_img_area>div {
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+div.upload .upload_img_area>div.error {
+    height: 50px;
+    width: 100%;   
+    text-align: center;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    color: red;
+}
+
+div.upload .upload_img_area .nophoto {
+    text-align: center;
+    box-sizing: border-box;
+    margin: 0 auto;
+    transition: all 0.5s;
+}
+
+div.upload .upload_img_area .nophoto:hover {
+    transform: scale(1.05);
+}
+
+div.upload .upload_img_area {
+    line-height: 1;
+}
+
+div.upload .upload_img_area img {
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto auto;
+
+}
+
+div.upload .upload_img_area .nophoto::before {
+    display: block;
+    font-size: 60px;
+}
+
+div.upload .upload_img_right {
+    position: relative;
+}
+
+div.upload .upload_img_right .info {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 14px;
+}
+
+div.upload .btns {
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    display: flex;
+    justify-content: right;
+    box-sizing: border-box;
+    padding: 0px 10px;
+}
+
+/*外网图片*/
+div.outside {
+    position: relative;
+    display: flex;
+}
+
+div.outside .btns {
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    display: flex;
+    justify-content: right;
+    box-sizing: border-box;
+    padding: 0px 10px;
+}
+
+div[prev].addr::before {
+    width: 60px;
+}
+
+div[prev].addr {
+    padding-left: 60px;
+    padding-right: 8px;
+}
+
+div.outside .info {
+    width: calc(100% - 10px);
+    height: calc(100% - 40px);
+}
+
+div.outside .info>div {
+    margin-bottom: 10px;
+}
+
+div.outside .input_size {
+    display: flex;
+    align-items: center;
+}
+
+div.outside .input_size>div {
+    width: 200px;
+    margin-right: 15px;
+}

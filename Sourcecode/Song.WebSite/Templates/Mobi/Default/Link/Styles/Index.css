@@ -1,0 +1,28 @@
+﻿@charset "utf-8";
+html,body{
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+context{
+	display: block;
+	margin-top: 45px;
+	height: calc(100vh - 120px);
+	overflow-y: auto;
+	box-sizing: border-box;
+	padding: 10px 20px;
+}
+
+weisha.linksorts{
+    display: flex;	
+	flex-direction: column;
+	
+}
+.sortname {	
+	font-size: 18px;
+	color: #666;
+	margin-bottom: 10px;
+}
+weisha.linksorts  div.linksarea{
+	margin-left: 30px;
+}

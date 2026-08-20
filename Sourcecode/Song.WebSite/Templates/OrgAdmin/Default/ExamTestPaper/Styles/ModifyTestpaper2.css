@@ -1,0 +1,192 @@
+.panel {
+    height: calc(100% - 55px);
+}
+
+.papertype {
+    position: absolute;
+    right: 20px;
+    top: 8px;
+    z-index: 10;
+    color: brown;
+}
+
+.el-form {
+    height: calc(100% - 40px);
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+.el-form>div:not([tab="intro"]){
+    padding: 10px;
+}
+.el-form-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+
+/*简介*/
+div[ tab="general"] {
+    display: flex;
+    flex-direction: column;
+
+}
+
+div[ tab="general"]>div:last-child {
+    flex: 1;
+}
+
+div[tab="general"]>div:last-child .el-form-item__content {
+    height: 100%;
+}
+
+/*编辑框*/
+.intro_editor {
+    width: 100%;
+    height: 100%;
+}
+.intro_editor .tox-tinymce {
+    border: none !important;
+}
+/*出题范围*/
+div[tab="range"] {
+    display: flex;
+}
+
+div[tab="range"] section.range .el-card {
+    display: flex;
+    flex-direction: column;
+}
+
+div[tab="range"] section.range {
+    flex: 1;
+    height: 100%;
+    margin-right: 15px;
+    display: grid;
+    /* 3个等高的行 */
+    grid-template-rows: repeat(3, 1fr);
+
+}
+
+div[tab="range"] section.range .el-tag {
+    margin-right: 5px;
+}
+
+div[tab="range"] .el-card:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+div[tab="range"] section.range .el-card:not(:last-child) {
+    flex: 1;
+    flex-grow: 1;
+}
+
+div[tab="range"] section.range .el-card .el-card__body {
+    padding: 10px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+div[tab="range"] section.range .el-tag {
+    margin: 0px 5px 5px 0px;
+}
+
+div[tab="range"] .el-card__header {
+    display: flex;
+    justify-content: space-between;
+    line-height: 1;
+    align-items: center;
+    vertical-align: middle;
+}
+
+div[tab="range"] .el-card__header>*:first-child {
+    margin-right: 15px;
+}
+
+div[tab="range"] .el-card__header>*:last-child {
+    margin-left: auto;
+}
+
+/*出题范围界面的右侧*/
+div[tab="range"] .rangeright {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+div[tab="range"] .rangeright .el-card:last-child {
+    flex: 1;
+}
+
+div[tab="range"] .rangeright .el-card__body {
+    display: flex;
+    flex-direction: column;
+}
+
+/*满足条件的试题数量*/
+.rangeright .el-card__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rangeright .el-card__body icon[ques_type][showname=true]::after {
+    font-size: 1rem;
+}
+
+.el-card.qtype_card .el-card__header>*:first-child {
+    flex: 1;
+}
+
+.el-card.qtype_card .el-card__header .el-form-item {
+    margin: 0px !important;
+}
+
+.el-card.qtype_card .el-card__header .el-form-item *:not(.el-form-item__error) {
+    font-size: 16px;
+}
+
+.el-card.qtype_card .el-card__header .small {
+    font-size: 14px !important;
+    margin-left: 5px;
+}
+
+.el-card.qtype_card .el-card__header .small * {
+    font-size: 14px !important;
+}
+
+.rangeright .ques_type {
+    display: flex;
+    padding: 0px 10px;
+    justify-content: space-between;
+}
+
+.qtypeitems {
+    margin-bottom: 20px;
+}
+
+.qtypeitems>span {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.qtype_card .option_count[zero], .option_count[zero] * {
+    color: #ccc !important;
+}
+
+.qtype_card .option_count {
+    color: #444;
+}
+
+.qtype_card b[total] {
+    color: #409eff;
+}
+.qtype_card b[count] {
+    color: rgb(153, 0, 0);
+}
+.qtypeitems .ques_type>*:first-child {
+    margin-right: auto;
+}
+
+.option_score {
+    margin-left: 10px;
+}

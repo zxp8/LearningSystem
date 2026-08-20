@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>短信接口</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <help>说明：注册成功后，需手工在账号列进行设置账号与密码。</help>
+            <el-tag type="success" v-if="current!=''">当前接口： <icon>&#xa01c</icon>{{current}}</el-tag>
+        </div>
+        <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%"
+            :row-class-name="data=>{return data.row.IsUse ? 'enable' : 'disabled';}">
+            <el-table-column type="index" width="50">
+            </el-table-column>
+            <el-table-column label="短信平台" header-align="left" width="200">
+                <template slot-scope="scope">
+                    <span v-html='scope.row.Name' v-if="scope.row.Name!=''"></span>
+                    <span v-else>{{scope.row.Mark}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="账号" header-align="left">
+                <template slot-scope="scope">
+                    <el-link type="primary"
+                        @click="openbox('Modify?mark='+scope.row.Mark,'Mark','设置账号与密码',400,300,'e808')">
+                        <icon>&#xa043</icon>
+                        <span v-if="scope.row.User!=''">{{scope.row.User}}</span>
+                        <span v-else>未设置，点击设置</span>
+                    </el-link>
+                </template>
+            </el-table-column>
+            <el-table-column label="余额（条）" align="center" >
+                <template slot-scope="scope">
+                    <sms_count :mark="scope.row.Mark" :user="scope.row.User" :pw="scope.row.Password"></sms_count>
+                </template>
+            </el-table-column>
+            <el-table-column label="短信模板" width="60" align="center">
+                <template slot-scope="scope">
+                    <el-link type="primary"
+                        @click="openbox('Message?mark='+scope.row.Mark,'Message','短信模板',800,600,'e808')">
+                        <icon>&#xe817</icon>设置
+                    </el-link>
+                </template>
+            </el-table-column>
+            <el-table-column label="注册/充值" width="120" align="center" v-if="true">
+                <template slot-scope="scope">
+                    <el-link type="primary" :disabled="scope.row.RegisterUrl ==''"
+                        :href="ishyperlink(scope.row.RegisterUrl) ? scope.row.RegisterUrl : ''"
+                        :target="ishyperlink(scope.row.RegisterUrl) ? '_blank' : ''"
+                        @click="openbox(scope.row.RegisterUrl,'RegisterUrl','注册短信平台',800,600,'e808')">注册
+                    </el-link>
+                    <el-link type="primary" v-if="scope.row.PayUrl !=''"
+                        :href="ishyperlink(scope.row.PayUrl) ? scope.row.PayUrl : ''"
+                        :target="ishyperlink(scope.row.PayUrl) ? '_blank' : ''"
+                        @click="openbox(scope.row.PayUrl,'PayUrl','向短信平台充值',800,600,'e808')">充值
+                    </el-link>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" width="100" align="center">
+                <template slot-scope="scope">
+                    <el-tag type="success" class="current" v-if="scope.row.IsCurrent">
+                        <icon>&#xa048</icon>当前
+                    </el-tag>
+                    <template v-else>
+                        <el-link type="primary" :disabled="!scope.row.IsUse" plain @click='setcurrent(scope.row.Mark)'>
+                            <icon>&#xe634</icon> 采用
+                        </el-link>
+                    </template>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+</body>
+
+</html>

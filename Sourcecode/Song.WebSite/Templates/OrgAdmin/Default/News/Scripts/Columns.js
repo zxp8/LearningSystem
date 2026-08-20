@@ -1,0 +1,163 @@
+
+$ready(['Components/article_count.js'], function () {
+window.vapp = new Vue({
+        el: '#vapp',
+        data: {
+            organ: {},
+            config: {},      //当前机构配置项   
+
+            datas: [],
+            curr: {},    //当前要编辑的节点          
+            defaultProps: {
+                children: 'children',
+                label: 'label'
+            },
+            filterText: '',      //查询过虑树形的字符
+            rules: {
+                Col_Name: [
+                    { required: true, message: '不得为空', trigger: 'blur' }
+                ]
+            },
+            loading: false,  //预载
+            drawer: false,  //编辑的面板
+            iconSelect: false    //图标选择
+        },
+        watch: {
+            drawer: function (nl, ol) {
+                var th = this;
+                if (ol && !nl) {
+                    this.$refs['form'].validate((valid) => {
+                        if (!valid) {
+                            this.drawer = true;
+                        }
+                    });
+                }
+            },
+            filterText: function (val) {
+                this.$refs.tree.filter(val);
+            }
+        },
+        created: function () {
+            var th = this;
+            th.loading = true;
+            $api.bat(
+                $api.get('Organization/Current')
+            ).then(([organ]) => {
+                //获取结果             
+                th.organ = organ.data.result;
+                //机构配置信息
+                th.config = $api.organ(th.organ).config;
+                th.getTreeData();
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
+
+        },
+        methods: {
+            getTreeData: function () {
+                var th = this;
+                th.loading = true;
+                $api.get('News/ColumnsTree', { 'orgid': th.organ.Org_ID }).then(function (req) {
+                    if (req.data.success)
+                        th.datas = req.data.result;
+                    else
+                        throw req.data.message;
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            },
+            append: function (d) {
+                var obj = this.clone();
+                if (d != null) {
+                    if (!d.children) {
+                        this.$set(d, 'children', []);
+                    }
+                    d.children.push(obj);
+                } else {
+                    this.datas.push(obj);
+                }
+            },
+            //克隆一个新节点
+            clone: function (data) {
+                let newname = 'newnode';  //新节点的名称
+                var temp = {
+                    "Col_ID": -1, "Col_PID": "",
+                    "Col_Name": newname + '_' + this.getnewname(this.datas, newname),
+                    "Col_ByName": "", "Col_Title": "",
+                    "Col_Keywords": "", "Col_Descr": "",
+                    "Col_Intro": "", "Col_Type": "News",
+                    "Col_Order": 0,
+                    "Col_IsUse": true, "Col_IsNote": true,
+                    "Org_ID": this.organ.Org_ID,
+                    "Org_Name": this.organ.Org_Name,
+                    "Col_UID": String(new Date().getTime()),
+                }
+                var obj = $api.clone(temp);
+                obj.Col_ID = obj.id = 0;
+                obj.children = [];
+                if (data != null) obj.Col_PID = data.Col_UID;
+                return obj;
+            },
+            //计算新节点的名称
+            getnewname: function (datas, newname) {
+                let count = 0;
+                for (let j = 0; j < datas.length; j++) {
+                    //const element = datas[j];
+                    if (datas[j].Col_Name.length >= newname.length && datas[j].Col_Name.indexOf(newname) >= 0)
+                        count++;
+                    if (datas[j].children && datas[j].children.length > 0)
+                        count += this.getnewname(datas[j].children, newname);
+                }
+                return count;
+            },
+            remove(node, data) {
+                const parent = node.parent;
+                const children = parent.data.children || parent.data;
+                const index = children.findIndex(d => d.id === data.id);
+                children.splice(index, 1);
+            },
+            //保存菜单项
+            btnSave: function () {
+                if (this.loading) return;
+                var th = this;
+                this.$confirm('将保存新闻栏目的修改, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(function () {
+                    th.updateSave();
+                }).catch(function () { });
+            },
+            //将数据递交到服务端
+            updateSave: function () {
+                var th = this;
+                th.loading = true;
+                $api.post('News/ColumnsUpdate', { 'tree': th.datas, "orgid": th.organ.Org_ID }).then(function (req) {
+
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$notify({
+                            type: 'success',
+                            message: '新闻栏目编辑成功！',
+                            position: 'bottom-left',
+                            center: true
+                        });
+                        //$api.put('ManageMenu/SystemMenuShow');
+                        //$api.cache('ManageMenu/SystemMenuShow:update');
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => {
+                    alert(err);
+                    console.error(err);
+                }).finally(() => th.loading = false);
+            },
+            //过滤树形
+            filterNode: function (value, data) {
+                if (!value) return true;
+                var txt = $api.trim(value.toLowerCase());
+                if (txt == '') return true;
+                return data.Col_Name.toLowerCase().indexOf(txt) !== -1;
+            },
+        }
+    });
+});

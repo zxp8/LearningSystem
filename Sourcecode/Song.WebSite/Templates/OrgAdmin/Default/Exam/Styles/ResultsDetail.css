@@ -1,0 +1,70 @@
+﻿@charset "utf-8";
+
+body, html {
+    height: 100%;
+    width: 100%;
+}
+
+/*下拉菜单中学员组的参考人员数量*/
+.sortcount {
+    float: right;
+    color: #8492a6;
+    font-size: 13px
+}
+
+.link {
+    cursor: pointer;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+#pager-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+#pager-box .el-tag {
+    margin: 3px 6px auto auto;
+}
+
+/*学员详情*/
+.accountInfo {
+    line-height: 30px;
+    font-size: 18px;
+}
+
+.accountInfo *::before {
+    font-size: 20px;
+}
+
+.accountInfo .ws_avatar {
+
+    float: left;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+.examInfo .el-row {
+    line-height: 30px;
+    font-size: 18px;
+}
+
+.examInfo .el-row:last-child {
+    margin-top: 20px;
+}
+
+
+.el-slider__marks-text{
+    width: max-content;
+}
+
+.scope_column .el-dropdown-link{
+  
+    display: flex;
+    justify-content: space-between;
+}
+.scope_column .el-dropdown-link i{
+    margin-top: 5px;
+}

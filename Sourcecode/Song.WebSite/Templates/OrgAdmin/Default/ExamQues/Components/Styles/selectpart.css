@@ -1,0 +1,40 @@
+.selectpart{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+.selectpart>div>div:first-child{
+    height: 40px;
+    line-height: 40px;
+}
+.selectpart>div>div.title:first-child{
+    display: flex;
+    justify-content: space-between;
+}
+.selectpart .parttree{
+    flex: 1;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+.selectpart .parttree .part_tree{
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    min-height: 0;
+}
+.selected_parts{
+    width: 30%;
+    display: flex;
+    margin-left: 20px;
+    flex-direction: column;
+    height: 100%;
+}
+.selected_parts .part_list>*{
+    margin:0px 5px 5px 0px;
+}
+.selected_parts .part_list{
+    height: calc(100% - 40px);
+    overflow-y: auto;
+}

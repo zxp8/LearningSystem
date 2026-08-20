@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>试题导出</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="form" :model="form" :rules="rules" @submit.native.prevent label-width="100px"
+            :disabled="loading_export || loading">
+            <el-form-item label="题型" prop="types">
+                <el-checkbox-group v-model="form.types">
+                    <el-checkbox v-for="(t,i) in types" :label="i+1" checked>
+                        <ques_type :type="i+1" :types="types" :showname="true" :showicon="false"></ques_type>
+                    </el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+            <el-form-item label="专业" prop="Sbj_ID">
+                <sbj_cascader ref="subject" :orgid="organ.Org_ID" :disabled="disable_select" showitem="ques"
+                    @change="id=>changeSbj(id)">
+                </sbj_cascader>
+            </el-form-item>
+            <el-form-item label="课程" prop="Cou_ID">
+                <el-select v-model="form.couid" @change="changeCourse" value-key="Cou_ID" style="width: 100%;"
+                    filterable placeholder="-- 课程 --" clearable :multiple-limit="1" :disabled="disable_select">
+                    <el-option v-for="(item,i) in courses" :key="item.Cou_ID" :label="item.Cou_Name"
+                        :value="item.Cou_ID">
+                        <span>{{i+1}} . </span>
+                        <span>{{item.Cou_Name}}</span>
+                        <icon question v-if="item.Cou_QuesCount>0">{{item.Cou_QuesCount}}</icon>
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="章节" prop="Ol_ID">
+
+                <el-link icon="el-icon-folder-opened" type="primary" @click="outline_panel=true"
+                    :disabled="loading_export || form.couid==0">选择章节
+                    <span v-if="selected_outline==''">（默认为全部）</span>
+                    <span v-else>
+                        （当前选择： {{selected_outline}}）
+                    </span>
+                </el-link>
+                <el-link icon="el-icon-close" type="warning" @click="form.olid=0" v-if="selected_outline!=''">取消选择
+                </el-link>
+            </el-form-item>
+            <el-form-item label="难度" prop="diffs">
+                <el-checkbox-group v-model="form.diffs">
+                    <el-checkbox v-for="l in 5" :label="l" checked>{{l}}</el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+            <el-form-item label="其它">
+                <el-radio-group v-model="form.part">
+                    <el-radio :label="1">所有</el-radio>
+                    <el-radio :label="2">仅正常的试题</el-radio>
+                    <el-radio :label="3">仅存在错误的试题</el-radio>
+                    <el-radio :label="4">仅用户反馈的试题</el-radio>
+                </el-radio-group>
+            </el-form-item>
+        </el-form>
+        <div v-if="files.length>0" class="filepanel">
+            <el-divider content-position="left">已经生成的导出文件 - 
+                <el-popconfirm title="确定删除所有文件吗？" @confirm="deleteFileAll()" v-if="files.length>0">
+                    <el-link type="danger" v-loading="loading" slot="reference">
+                        <icon>&#xe6fe</icon>删除所有
+                    </el-link>
+                </el-popconfirm>
+            </el-divider>
+            <dl class="files">
+                <dd v-for="(f,i) in files">
+                    <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
+                        {{f.name}}</a>
+                    <span>{{f.size|size}}</span>
+                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                        <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+                </dd>
+            </dl>
+        </div>
+        <div class="footer">
+            <el-tag type="warning" class="questotal">
+                <loading v-if="loading_total" bubble> 正在计算 ...</loading>
+                <span v-else>当前选择的试题共 ： <b class="red" >{{questotal}} </b>道</span>
+            </el-tag>
+            <span>
+                <el-button type="primary" plain @click="btnExportEvent" :loading="loading_export || loading"
+                    :disabled="loading_export || loading">
+                    <icon>&#xe73e</icon>导出excel文件
+                </el-button>
+                <el-button type='close'>取消</el-button>
+            </span>
+        </div>
+        <!-- 章节选择框 -->
+        <el-dialog title="提示" :visible.sync="outline_panel" class="outline_panel">
+            <span slot="title">请选择章节
+                <el-input v-model="outlineFilterText" clearable style="width:160px;margin-left: 10px;" placeholder="搜索"
+                    suffix-icon="el-icon-search"></el-input>
+            </span>
+            <el-tree :data="outlines" node-key="Ol_ID" ref="tree" :props="{children: 'children',label: 'Ol_Name'}"
+                expand-on-click-node empty-text="没有供选择的章节" :filter-node-method="filterNode"
+                :expand-on-click-node="false" @node-click="d=>{form.olid = d.Ol_ID;outline_panel = false;}"
+                default-expand-all>
+                <span slot-scope="{ node, data }">
+                    <span>{{data.serial}}</span> {{ data.Ol_Name }}
+                </span>
+            </el-tree>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="outline_panel = false">取 消</el-button>
+            </span>
+        </el-dialog>
+
+    </div>
+</body>
+
+</html>

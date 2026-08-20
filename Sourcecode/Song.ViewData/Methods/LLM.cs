@@ -1,0 +1,223 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using WeiSha.Core;
+using Song.Entities;
+using Song.ServiceInterfaces;
+using Song.ViewData.Attri;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
+using System.Web;
+using System.IO;
+using System.Data;
+using System.Threading.Tasks;
+
+namespace Song.ViewData.Methods
+{
+    /// <summary>
+    /// 大语言模型（Large Language Model, LLM）
+    /// </summary>
+    [HttpPost, HttpGet]
+    public class LLM : ViewMethod, IViewAPI
+    {
+        /// <summary>
+        /// 大模型引擎的名称
+        /// </summary>
+        public string ModelName() => Song.APIHub.LLM.Gatway.ModelName;
+        /// <summary>
+        /// 大模型引擎的代码
+        /// </summary>
+        /// <returns></returns>
+        public string ModelCode() => Song.APIHub.LLM.Gatway.ModelCode;
+        /// <summary>
+        /// 阿里云的配置信息
+        /// </summary>
+        /// <returns></returns>
+        public JObject AliyunConfiguration() => Song.APIHub.LLM.Gatway.AliyunConfiguration;
+
+        #region 设置相关参数
+        //用于本地存储appkey的键值
+        private static string _key = "LLM_aliyun_APIKey";
+        private static string _model = "LLM_aliyun_model";
+        /// <summary>
+        /// 设置模型的APIKey和模型名称
+        /// </summary>
+        [HttpPost, Admin]
+        public bool SetModel(string apikey,string model)
+        {
+            //保存
+            Business.Do<ISystemPara>().Save(_key, apikey, true);
+            Business.Do<ISystemPara>().Save(_model, model, true);
+            //设置
+            Song.APIHub.LLM.Gatway.SetApiKey(apikey);
+            Song.APIHub.LLM.Gatway.SetApiModel(model);
+            return true;
+        }
+        /// <summary>
+        /// 获取appkey,来自数据库
+        /// </summary>
+        [HttpPost]
+        public string GetApikey() => Business.Do<ISystemPara>().GetValue(_key);
+        /// <summary>
+        /// APIKey,可能来自本地存储，也可以来自web.config中设置的值
+        /// </summary>
+        public string APIKey() => Song.APIHub.LLM.Gatway.APIKey;
+        #endregion
+
+        #region 交流
+        /// <summary>
+        /// 咨询问题，只处理一个问题
+        /// </summary>
+        /// <param name="character">AI的角色设定，可以为空</param>
+        /// <param name="message">提出的问题</param>
+        /// <returns></returns>
+        public string Consult(string character, string message)
+        {
+            return Song.APIHub.LLM.Gatway.Consult(character, message);
+        }
+        /// <summary>
+        /// 与AI交流问题，可以多轮沟通
+        /// </summary>
+        /// <param name="character">AI的角色设定，可以为空</param>
+        /// <param name="messages">
+        /// 由于AI并不存储沟通过程，这里是多轮沟通的内容。
+        /// 例如：{"role", "user"},{"content", msg }
+        /// </param>
+        /// <returns></returns>
+        public string Communion(string character, JArray messages)
+        {
+            return Song.APIHub.LLM.Gatway.Communion(character, messages);
+        }
+        #endregion
+
+        #region 交流记录
+        /// <summary>
+        /// 新增交流记录
+        /// </summary>
+        /// <param name="record"></param>
+        /// <returns></returns>
+        [HttpPost,Student]
+        public LlmRecords RecordsAdd(LlmRecords record)
+        {
+            Business.Do<ILargeLanguage>().RecordsAdd(record);
+            return record;
+        }
+        /// <summary>
+        /// 修改交流记录
+        /// </summary>
+        /// <param name="record"></param>
+        /// <returns></returns>
+        [HttpPost, Student]
+        public LlmRecords RecordsUpdate(LlmRecords record)
+        {
+            Song.Entities.LlmRecords old = Business.Do<ILargeLanguage>().RecordsSingle(record.Llr_ID);
+            if (old == null) throw new Exception("Not found entity for LlmRecords！");
+
+            old.Copy<Song.Entities.LlmRecords>(record);
+            Business.Do<ILargeLanguage>().RecordsSave(old);
+            return old;
+        }
+        /// <summary>
+        /// 删除交流记录
+        /// </summary>
+        /// <param name="ids">交流信息的id</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public int RecordsDelete(string ids)
+        {
+            int i = 0;
+            if (string.IsNullOrWhiteSpace(ids)) return i;
+            List<int> list = ids.ToList<int>();
+            foreach (int s in list)
+                i += Business.Do<ILargeLanguage>().RecordsDelete(s);
+            return i;
+        }
+        /// <summary>
+        /// 删除学员所有交流信息
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public bool RecordsClear(int acid)
+        {
+            Business.Do<ILargeLanguage>().RecordsClear(acid);
+            return true;
+        }
+        /// <summary>
+        /// 学员所有交流记录
+        /// </summary>
+        /// <param name="acid"></param>
+        /// <returns></returns>
+        public List<Song.Entities.LlmRecords> RecordsAll(int acid)
+        {
+            return Business.Do<ILargeLanguage>().RecordsAll(acid, 0);
+        }
+        #endregion
+
+        #region 课程AI助教
+        /// <summary>
+        /// 课程AI助教的系统角色的信息
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public string CourseAIAgentSystemRole(long couid)
+        {
+            Song.Entities.Course cour = Business.Do<ICourse>().CourseSingle(couid);
+            if (cour == null) throw new Exception("课程不存在");
+            Song.Entities.Subject sbj = Business.Do<ISubject>().SubjectSingle(cour.Sbj_ID);
+            //设定AI的角色
+            string role = Song.APIHub.LLM.Gatway.TemplateRole("Course/AIAgent");
+            role = APIHub.LLM.Gatway.TemplateHandle(role, sbj);
+            role = APIHub.LLM.Gatway.TemplateHandle(role, cour);
+            return role;
+        }
+        /// <summary>
+        /// 与AI交流问题，可以多轮沟通
+        /// </summary>
+        /// <param name="couid">课程</param>
+        /// <param name="messages">
+        /// 由于AI并不存储沟通过程，这里是多轮沟通的内容。
+        /// 例如：{"role", "user"},{"content", msg }
+        /// </param>
+        /// <returns></returns>
+        public string CourseAIAgenCommunion(long couid, JArray messages)
+        {
+            Song.Entities.Course cour = Business.Do<ICourse>().CourseSingle(couid);
+            if (cour == null) throw new Exception("课程不存在");
+            Song.Entities.Subject sbj = Business.Do<ISubject>().SubjectSingle(cour.Sbj_ID);
+            //设定AI的角色
+            string role = Song.APIHub.LLM.Gatway.TemplateRole("Course/AIAgent");
+            role = APIHub.LLM.Gatway.TemplateHandle(role, sbj);
+            role = APIHub.LLM.Gatway.TemplateHandle(role, cour);
+            //生成问题的描述
+            string message = Song.APIHub.LLM.Gatway.TemplateMsg("Course/AIAgent");
+            message = APIHub.LLM.Gatway.TemplateHandle(message, sbj);
+            message = APIHub.LLM.Gatway.TemplateHandle(message, cour);
+            //添加问题描述
+            for (int i = 0; i < messages.Count; i++)
+            {
+                JObject jo = (JObject)messages[i];
+                if (jo["role"].ToString() == "user")
+                {
+                    jo["content"] = jo["content"] + "-----------" + message;
+                }
+            }
+
+            return Song.APIHub.LLM.Gatway.Communion(role, messages);
+        }
+        /// <summary>
+        /// 课程的AI交流记录
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public List<Song.Entities.LlmRecords> AIAgentRecords(int acid, long couid, int count)
+        {
+            return Business.Do<ILargeLanguage>().RecordsCount(acid, couid, count);
+        }
+
+        #endregion
+    }
+}

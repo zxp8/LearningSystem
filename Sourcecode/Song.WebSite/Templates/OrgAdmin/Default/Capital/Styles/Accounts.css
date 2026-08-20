@@ -1,0 +1,18 @@
+﻿@charset "utf-8";
+
+
+icon[money], icon[coupon], icon[point] {
+    cursor: pointer;
+}
+
+icon[money]:hover, icon[coupon]:hover, icon[point]:hover {
+    text-decoration: underline;
+}
+icon[money] {
+
+    color: chocolate;
+}
+.noname{
+    font-size: 12px;
+    color: #aaa;
+}

@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+    <head resource>
+        <meta charset="utf-8">
+        <include file="../inc/meta.inc" />
+        <title>成绩回顾</title>
+    </head>
+
+    <body>
+        <div id="vapp" v-cloak>
+            <generic @login="acc=>student = acc"></generic>
+            <div class="header">
+                <a icon="&#xe748" style="font-size: 22px;"
+                    @click="goback()"></a>
+                <a icon="&#xa020" style="font-size: 18px;" href="/mobi/"></a>
+                <div class="header_info" v-if="!islogin" remark="未登录">
+                    <div class="acc_photo nophoto"></div>
+                    <a :href="commonaddr('signin')">未登录 </a>
+                </div>
+                <div class="header_info" v-if="islogin" remark="已经登录">
+                    <div class="acc_photo"
+                        v-if="!!student.Ac_Photo && student.Ac_Photo!=''"
+                        :style="'background-image: url('+student.Ac_Photo+');'"></div>
+                    <template v-else>
+                        <div class="acc_photo woman"
+                            v-if="student.Ac_Gender==2"></div>
+                        <div class="acc_photo man" v-else></div>
+                    </template>
+                    <span class="acc-name">{{student.Ac_Name}} </span>
+                </div>
+            </div>
+            <div v-if="loading">
+                <card>
+                    <card-title><van-loading
+                            type="spinner">正在加载中...</van-loading></card-title>
+                </card>
+            </div>
+            <context v-else-if="!noexam && !exam.Exam_IsAllowReview">
+                <card>
+                    <card-title>考试不允许查看</card-title>
+                </card>
+            </context>
+            <context v-else>
+                <card v-if="!loading">
+                    <card-title v-if="!noexam">《{{exam.Exam_Name ?
+                        exam.Exam_Name : exam.Exam_Title}}》</card-title>
+                    <card-title
+                        v-else><alert>考试不存在，可能被删除，仅留下考试成绩</alert></card-title>
+                    <card-content v-if="error!=''" remark="如果考试未结束">
+                        <alert> {{error}}</alert>
+                    </card-content>
+                    <card-content v-else>
+                        <div class="info"> 亲爱的
+                            <b v-if="student.Ac_Name"
+                                v-html="student.Ac_Name"></b>
+                            <b v-else> 匿名考生</b>，
+                            您于<b>{{result.Exr_CrtTime|date("yyyy-MM-dd HH:mm")}}</b>参考的考试，成绩详情
+                        </div>
+                        <div> 得分：
+                            <score
+                                :class="scoreStyle(result.Exr_ScoreFinal)">{{result.Exr_ScoreFinal}}
+                                分</score>
+                            <span v-if="paper"
+                                class="scoreinfo">（满分{{totalScore}}分，{{passScore}}分及格）</span>
+                            <alert v-else>试卷不存在</alert>
+                        </div>
+                    </card-content>
+                </card>
+                <template v-if="error==''">
+
+                    <van-sticky>
+                        <van-tabs v-model="tabactive">
+                            <van-tab name="all">
+                                <template #title>
+                                    <span icon="&#xe75e">所有({{ques_all_count}})
+                                    </template>
+                                </van-tab>
+                                <van-tab name="success"> <template #title>
+                                        <span
+                                            icon="&#xa048">正确({{ques_success_count}})
+                                        </template>
+                                    </van-tab>
+                                    <van-tab name="error"> <template #title>
+                                            <span
+                                                icon="&#xe6fe">错误({{ques_error_count}})
+                                            </template>
+                                        </van-tab>
+                                        <van-tab name="unasnwered"> <template
+                                                #title>
+                                                <span
+                                                    icon="&#xa01f">未做({{ques_unanswerd_count}})
+                                                </template>
+                                            </van-tab>
+                                        </van-tabs>
+                                    </van-sticky>
+                                    <div class="question">
+                                        <group v-for="(type,index) in questions"
+                                            :item="type" :index="index"
+                                            :types="types"
+                                            :state="tabactive">
+                                            <question v-for="(q,i) in type.ques"
+                                                :stid="result.Ac_ID"
+                                                :exam="exam" :qans="q"
+                                                :index="i" :state="tabactive"
+                                                :groupindex="index"
+                                                :questions="questions"></question>
+                                        </group>
+                                    </div>
+                                </template>
+                            </context>
+                        </div>
+                    </body>
+
+                </html>

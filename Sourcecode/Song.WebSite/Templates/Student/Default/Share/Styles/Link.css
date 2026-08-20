@@ -1,0 +1,11 @@
+﻿@charset "utf-8";
+
+.link>div{
+    line-height: 40px;
+}
+.link a .el-link--inner{
+    font-size: 16px;
+}
+.link .el-tag{
+    cursor: pointer;
+}

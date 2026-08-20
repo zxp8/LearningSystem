@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>智能组卷</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+
+        <section v-if="isadd">
+            <div class="large">选择组卷方式</div>
+            <el-card shadow="hover" type="primary" arrow @click.native="gototype(2)">
+                <template slot="header">
+                    <papertype type="2"></papertype>                   
+                </template>
+                系统将根据您设定的知识点、难度和题型，自动为每位考生生成一套独一无二的试卷。即使同一考场，每位考生的题目内容和顺序也可能不同，能有效防止旁窥作弊，考查学生对知识点的全面掌握。
+            </el-card>
+            <el-card shadow="hover" type="success" arrow @click.native="gototype(1)">
+                <template slot="header">
+                    <papertype type="1"></papertype>    
+                </template>
+                所有考生都将回答完全相同的一套题目。试卷内容、题目顺序固定不变，适用于标准化的统一测评，便于进行统一的讲解和分析。
+            </el-card>
+        </section>
+        <section v-else>
+            <div loading="p2" v-if="loading">加载中...</div>
+            <div v-else-if="isnull">
+                当前试卷不存在
+            </div>
+            <div loading="p2" v-else>跳转中...</div>
+        </section>
+
+        <div class="footer">
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+
+    </div>
+</body>
+
+</html>

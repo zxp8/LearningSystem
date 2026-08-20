@@ -1,0 +1,365 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>课程管理</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除,更新数据,学习记录" ref='btngroup' @delete="deleteData" @add="btnadd" @log="openlog"
+                @update_dataall="update_dataall" path="Modify" width="1200" height="80%" :selects='selects'
+                idkey='Cou_ID' table="datatables"></btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="专业">
+                    <sbj_cascader ref="subject" :orgid="form.orgid" showitem="course"
+                        @change="id=>{form.sbjids=id;handleCurrentChange(1);}"> </sbj_cascader>
+                </el-form-item>
+                <el-form-item label="课程">
+                    <el-input v-model="form.search" placeholder="课程名称" clearable style="width:200px" @clear="handleCurrentChange(1)"></el-input>
+                </el-form-item>
+                <template v-slot:more>
+                    <el-form-item label="教师">
+                        <el-select v-model="form.thid" clearable filterable remote reserve-keyword placeholder="教师名称"
+                            :remote-method="teacher_query" :loading="loading_teach" style="width:160px">
+                            <el-option v-for="(item,i) in teachers" :key="item.Th_ID" :label="item.Th_Name"
+                                :value="item.Th_ID">
+                                <span>{{i+1}} .</span>
+                                <icon :woman="item.Th_Gender==2" :man="item.Th_Gender==1">{{ item.Th_Name }}</icon>
+                            </el-option>
+                        </el-select>
+                        <help>可输入名称检索</help>
+                    </el-form-item>
+                    <el-form-item label="状态">
+                        <el-radio-group v-model="form.use">
+                            <el-radio-button label="">全部</el-radio-button>
+                            <el-radio-button label="true">启用</el-radio-button>
+                            <el-radio-button label="false">禁用</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="直播课">
+                        <el-radio-group v-model="form.live">
+                            <el-radio-button label="">全部</el-radio-button>
+                            <el-radio-button label="true">直播课</el-radio-button>
+                            <el-radio-button label="false">普通课程</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="免费">
+                        <el-radio-group v-model="form.free">
+                            <el-radio-button label="">全部</el-radio-button>
+                            <el-radio-button label="true">免费课程</el-radio-button>
+                            <el-radio-button label="false">收费课程</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+
+                </template>
+            </query_panel>
+        </div>
+        <!--课程列表-->
+        <el-table ref="datatables" :data="datas" border resizable :stripe="true" style="width: 100%" v-loading="loading"
+            @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row)" row-key="Cou_ID"
+            :row-class-name="data=>{return data.row.Cou_IsUse ? 'enable' : 'disabled';}" cell-class-name="tdcell">
+            <div slot="empty" v-html="table_empty">  </div>
+            <el-table-column type="selection" width="35">
+            </el-table-column>
+            <el-table-column type="index" label="#" width="50" align="center">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="课程" min-width="200px">
+                <template slot="header" slot-scope="scope">
+                    <el-dropdown @command="orderState">
+                        <span class="el-dropdown-link">
+                            课程
+                            <template v-if="form.order!='def' && form.order!=''">
+                                <template v-for="(item,i) in orderItem">
+                                    <span v-if="item.value==form.order" style="color: #67c23a;">
+                                        （ {{item.text}}）
+                                    </span>
+                                </template>
+                            </template>
+                            <i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <template v-for="(item,i) in orderItem">
+                                <el-dropdown-item :command="item.value" :divided="item.div">
+                                    <span v-if="item.value==form.order" style="color: #67c23a;">
+                                        <icon>&#xa048</icon>{{item.text}}
+                                    </span>
+                                    <template v-else>
+                                        <icon v-html="item.icon"></icon>{{item.text}}
+                                    </template>
+                                </el-dropdown-item>
+                            </template>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </template>
+                <div slot-scope="scope" :class="{'title_box':true}" :title="scope.row.Cou_Name">
+                    <icon class="recicon" v-if="scope.row.Cou_IsRec" title="推荐课程">&#xe741</icon>
+                    <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank">
+                        <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
+                        <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
+                    </a>
+                    <div>
+                        <el-tag type="warning" v-if="scope.row.Cou_Type">试题库</el-tag>
+                        <live v-if="scope.row.Cou_Type!=2 && scope.row.Cou_ExistLive" title="直播课"></live>
+                        <icon svg="ai2" title="AI助教" v-if="scope.row.Cou_EnabledAI">AI助教</icon>
+                        <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank" underline
+                            v-html="showsearch(scope.row.Cou_Name,form.search)" class="large"> </a>
+                    </div>
+                </div>
+            </el-table-column>
+
+            <el-table-column label="排序号" width="60" align="center" v-if="false">
+                <template slot="header" slot-scope="scope">
+                    <el-tooltip class="item" effect="dark" content="调整顺序的数值" placement="top">
+                        <span>
+                            <icon>&#xa026</icon>排序
+                        </span>
+                    </el-tooltip>
+                </template>
+                <template slot-scope="scope">
+                    {{scope.row.Cou_Order}}
+                </template>
+            </el-table-column>
+            <el-table-column label="价格" width="160">
+                <template slot-scope="scope">
+                    <keep-alive>
+                        <course_prices :course="scope.row" :ref="'prices'+scope.$index" :uid="scope.row.Cou_UID"
+                            :index="scope.$index">
+                        </course_prices>
+                    </keep-alive>
+                </template>
+            </el-table-column>
+            <el-table-column label="信息" width="200" v-if="true">
+                <template slot-scope="scope">
+                    <course_data :ref="'course_data_'+scope.$index" :course="scope.row" :show_student="true"
+                        :index="scope.$index"></course_data>
+                </template>
+            </el-table-column>
+            <el-table-column label="所属专业">
+                <template slot-scope="scope">
+                    <a :href="'/web/course/index?sbjid='+scope.row.Sbj_ID" target="_blank" underline>
+                        <icon>&#xe750</icon> {{scope.row.Sbj_Name}}
+                    </a>
+                </template>
+            </el-table-column>
+            <el-table-column label="教师" width="120" class-name="teacher_td">
+                <template slot="header" slot-scope="scope">
+                    <el-tooltip effect="light" content="禁用编辑后，教师无法编辑课程，只能管理员编辑" placement="bottom">
+                        <help>教师</help>
+                    </el-tooltip>
+                </template>
+                <template slot-scope="scope">
+                    <span class="el-icon-loading" v-if="loadingid==scope.row.Cou_ID"></span>
+                    <el-dropdown v-else>
+                        <span class="el-dropdown-link">
+                            <template v-if="scope.row.Th_ID>0 && scope.row.Th_Name!=''">
+                                <icon teacher v-if="scope.row.Cou_Allowedit"> {{scope.row.Th_Name}}</icon>
+                                <span v-else icon="&#xe7ad" style="color: #f56c6c;"
+                                    title="禁止教师编辑课程">{{scope.row.Th_Name}}</span>
+                            </template>
+                            <span v-else style="color: #aaa;">
+                                <span icon="&#xa01f" v-if="scope.row.Cou_Allowedit">(无)</span>
+                                <span icon="&#xe7ad" v-else style="color: #f56c6c;">(无)</span>
+                            </span>
+                            <i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>
+                                <el-link type="success" plain @click='btnsetteacher(scope.row.Cou_ID)'>
+                                    <icon>&#xe650</icon>设置教师
+                                </el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item divided>
+                                <el-link type="primary" plain icon="el-icon-circle-check"
+                                    v-if="!scope.row.Cou_Allowedit" @click='changeAllowedit(scope.row,true)'>
+                                    允许教师编辑课程
+                                </el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                                <el-link type="danger" plain icon="el-icon-circle-close" v-if="scope.row.Cou_Allowedit"
+                                    @click='changeAllowedit(scope.row,false)'>
+                                    禁止教师编辑课程
+                                </el-link>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                </template>
+            </el-table-column>
+            <el-table-column label="启用" width="70">
+                <template slot="header" slot-scope="scope">
+                    <el-dropdown @command="batchState">
+                        <span class="el-dropdown-link">
+                            启用<i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item :command="1" style="color: #67c23a;">
+                                <icon>&#xa030</icon>批量启用
+                            </el-dropdown-item>
+                            <el-dropdown-item :command="0">
+                                <icon>&#xe7ad</icon>批量禁用
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </template>
+                <template slot-scope="scope">
+                    <el-switch v-model="scope.row.Cou_IsUse" @change="changeState(scope.row)" active-color="#13ce66"
+                        :disabled="loadingid==scope.row.Cou_ID" inactive-color="#ff4949">
+                    </el-switch>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" width="90" align="center">
+                <template slot-scope="scope">
+                    <div>
+                        <el-link type="primary" plain @click="()=>{drawer=true;curr=scope.row;}">
+                            <icon>&#xe696</icon>课程综述
+                        </el-link>
+
+                    </div>
+                    <el-dropdown>
+                        <span class="el-dropdown-link">
+                            <icon>&#xa030</icon><span style="font-size: 12px">管理</span><i
+                                class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>
+                                <el-link :type="!scope.row.Cou_IsRec ? 'primary' :'info'" plain
+                                    :disabled="loadingid==scope.row.Cou_ID"
+                                    @click='()=>{scope.row.Cou_IsRec=!scope.row.Cou_IsRec;changeState(scope.row);}'>
+                                    <icon>&#xe81b</icon>
+                                    <span v-if="scope.row.Cou_IsRec">取消推荐</span>
+                                    <span v-else>设为推荐课程</span>
+                                </el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                                <el-link type="success" plain @click="onstudent(scope.row)">
+                                    <icon>&#xa043</icon> 学员信息
+                                </el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item divided>
+                                <el-link type="warning" plain :disabled="loadingid==scope.row.Cou_ID"
+                                    @click="updateDatainfo(scope.row)">
+                                    <icon>&#xe651</icon> 更新统计数据
+                                </el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item divided>
+                                <el-link type="primary" :disabled="loadingid==scope.row.Cou_ID" plain
+                                    icon="el-icon-edit" @click='btnmodify(scope.row.Cou_ID)'>
+                                    修改
+                                </el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                                <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                                    icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Cou_ID)">
+                                    <el-link type="danger" :disabled="loadingid==scope.row.Cou_ID" plain
+                                        icon="el-icon-delete" slot="reference">删除
+                                    </el-link>
+                                </el-popconfirm>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+
+                </template>
+            </el-table-column>
+        </el-table>
+        <!--分页导航-->
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-size="form.size"
+                :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">              
+            </el-pagination>
+        </div>
+        <!--显示当前课程的综述-->
+        <el-drawer :visible.sync="drawer" direction="rtl" size="400px" :show-close="false" custom-class="drawer_item">
+            <template slot="title">
+                <div>
+                    <icon style="font-size: 22px;">&#xe696</icon>课程综述
+                </div>
+            </template>
+            <div class="showDetail">
+                <a :href="'/web/course/detail.'+curr.Cou_ID" target="_blank">
+                    <img :src="curr.Cou_Logo" v-if="curr.Cou_Logo!=''" class="cou_logo" />
+                    <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
+                </a>
+                <div class="showtitle">
+                    <live v-if="curr.Cou_ExistLive" title="直播课"></live>
+                    <a :href="'/web/course/detail.'+curr.Cou_ID" target="_blank" underline v-html="curr.Cou_Name"></a>
+
+                </div>
+                <div class="showSubject">
+                    <icon>&#xe750</icon> 专业：
+                    <span v-html="subjectPath(curr.Sbj_ID,curr)"></span>
+                </div>
+                <div v-if="curr.Th_Name!=''">
+                    <icon style="font-size: 17px">&#xe650</icon> 教师：
+                    <span>{{curr.Th_Name}}</span>
+                </div>
+                <div class="showPrice">
+                    <template v-if="curr.Cou_IsFree">
+                        <el-tag type="success">
+                            <icon>&#xe71e</icon>免费
+                        </el-tag>
+                    </template>
+                    <template v-else-if="curr.Cou_IsLimitFree">
+                        <el-tag>
+                            <icon>&#xe81a</icon>限时免费
+                        </el-tag>
+                        <el-tag>{{curr.Cou_FreeStart|date('yyyy-M-dd')}} 至 {{curr.Cou_FreeEnd|date('yyyy-M-dd')}}
+                        </el-tag>
+                    </template>
+                    <template v-else>
+                        <span class="el-icon-loading" v-if="loading"></span>
+                        <template v-for="(item,i) in curr.prices">
+                            <el-tag type="warning">
+                                <icon>&#xe624</icon>{{item.CP_Span}} {{item.CP_Unit}} {{item.CP_Price}} 元
+                            </el-tag>
+                        </template>
+                    </template>
+                </div>
+                <div class="showIncome" v-if="false">
+                    <icon>&#xe746</icon>累计收益： <icon>&#xe624</icon><span class="money">{{curr.income}}</span> 元
+                </div>
+                <div class="showContext" v-if="curr.data">
+                    <div>
+                        <icon>&#xe654</icon>运营数据：
+                    </div>
+                    <div class="showitems">
+                        <div class="student" icon="&#xa043">
+                            <a @click="onstudent(curr)" href="#">
+                                学员数：{{curr.data.student}}</a>
+                        </div>
+                        <div icon="&#xa03a">
+                            浏览数：{{curr.data.view}}
+                        </div>
+                    </div>
+                </div>
+                <div class="showContext" v-if="curr.data">
+                    <div>
+                        <icon>&#xe72f</icon>内容数据：
+                    </div>
+                    <div class="showitems">
+                        <div icon="&#xe841">
+                            章节数：{{curr.data.outline}}
+                        </div>
+                        <div icon="&#xe75e">
+                            试题数：{{curr.data.question}}
+                        </div>
+                        <div icon="&#xe731">
+                            试卷数：{{curr.data.testpaper}}
+                        </div>
+                        <div icon="&#xe6bf">
+                            视频数：{{curr.data.video}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </el-drawer>
+    </div>
+</body>
+
+</html>

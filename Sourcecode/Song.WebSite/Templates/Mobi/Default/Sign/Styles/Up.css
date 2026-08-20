@@ -1,0 +1,235 @@
+﻿html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;   
+    overflow: hidden;  
+    background-color: #fff; 
+}
+
+#vapp {
+    width: 100%;
+    height: calc(100% - 46px);
+    overflow-y: auto;
+}
+
+header {
+    height: 26px;
+    width: calc(100vw - 24px);
+    line-height: 26px;
+    padding: 10px 12px;
+    display: flex;
+}
+
+#platname {
+    box-sizing: border-box;
+    padding: 0px;
+    float: right;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 1;
+}
+
+context {
+    display: block;
+    width: 100%;
+    height: calc(100% - 44px);
+    padding: 0px;
+    text-align: center;
+    overflow-y: auto;
+}
+
+img.logo {
+    max-width: calc(60% - 40px);
+    padding: 10px 20px;
+}
+
+
+.box-card {
+    width: 300px;
+    left: calc((100% - 300px) / 2);
+    top: calc((100% - 400px) / 2);
+    position: absolute;
+    text-align: left;
+    background-color: rgba(255, 255, 255, .8) !important;
+}
+
+.box-title {
+    font-size: 18px;
+}
+
+.box-title icon {
+    font-size: 30px;
+}
+
+.box-title a {
+    font-size: 14px;
+    line-height: 35px;
+    color: rgb(39, 148, 250);
+}
+
+.el-form-item {
+    margin-bottom: 10px;
+
+}
+
+.el-form-item>div:first-child {
+    position: relative;
+}
+
+.el-form-item icon {
+    font-size: 25px;
+}
+
+.box-card .el-input--medium .el-input__inner {
+    height: 40px;
+    /* line-height: 36px; */
+}
+
+.el-input-group__prepend {
+    width: 36px;
+    padding: 0px 5px !important;
+    box-sizing: content-box;
+    text-align: center;
+    overflow: hidden;
+
+}
+
+.el-form-item__error {
+    --right: 5px !important;
+    top: auto !important;
+    border-radius: 5px;
+    left: 38px !important;
+    bottom: -8px !important;
+    width: auto !important;
+    background-color: #F56C6C !important;
+    color: yellow !important;
+    padding: 2px 5px 2px 5px !important;
+    position: absolute;
+    display: block;
+}
+
+.btnrow {
+    margin: 15px 0px;
+}
+
+.btnrow button {
+    width: 100%;
+    font-size: 18px;
+}
+
+/*验证码*/
+
+.vcode_input {
+    padding: 10px 0px;
+    width: calc(100% - 100px);
+    float: left;
+}
+
+img#vcode {
+    height: 38px;
+    margin: 1px 0px 0px 6px;
+}
+
+.vcode>div:first-child {
+    display: flex;
+}
+
+.vcode>div:first-child img {
+    flex: 1;
+}
+
+/*短信验证*/
+.smscode>div:first-child {
+    display: flex;
+}
+
+.smscode>div:first-child .sms_handler {
+    flex: 1;
+    height: 38px;
+    margin: 1px 0px 0px 6px;
+    text-align: center;
+    line-height: 38px;
+    cursor: pointer;
+}
+
+/*提交按钮*/
+button.submit {
+    width: calc(100% - 20px);
+    margin: 0px 10px;
+    box-sizing: border-box;
+    font-size: 18px;
+    letter-spacing: 10px
+}
+
+.agreement a {
+    color: navy;
+}
+
+/*注册协议*/
+
+.showAgreement {
+    text-align: left;
+    font-size: 16px;
+    line-height: 30px;
+    overflow: hidden;
+}
+
+.agreement_title {
+    line-height: 30px;
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.agreement_title icon {
+    font-size: 18px;
+}
+
+.showAgreement .el-dialog {
+    height: 80%;
+    width: 80%;
+    overflow: hidden;
+    margin-top: 10% !important;
+}
+
+.showAgreement .el-dialog__header {
+    padding-bottom: 0px;
+}
+
+.showAgreement .el-dialog__body {
+    padding-top: 5px;
+    height: calc(100% - 50px);
+}
+
+.agreement_text * {
+    font-size: 16px !important;
+}
+
+.showAgreement .agreement_text {
+    height: calc(100% - 70px);
+    overflow-y: auto;
+}
+
+.showAgreement .agreement_radio {
+    height: 30px;
+    line-height: 30px;
+    padding: 10px 0px;
+    box-sizing: border-box;
+}
+
+/*禁止注册*/
+section.disable_reg {
+    background-image: none !important;
+}
+
+section.disable_reg .disable_body {
+    text-align: center;
+    line-height: 40px;
+}
+
+section.disable_reg .disable_body icon {
+    font-size: 50px;
+    margin: 30px 0px;
+    color: #999;
+}

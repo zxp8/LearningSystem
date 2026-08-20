@@ -1,0 +1,9 @@
+﻿@charset "utf-8";
+icon.copy{
+	font-size: 15px;
+	cursor: pointer;
+	margin-left: 6px;
+}
+icon.copy:hover{
+	font-size: 16px;
+}

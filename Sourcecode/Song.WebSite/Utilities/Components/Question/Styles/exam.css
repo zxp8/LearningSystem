@@ -1,0 +1,275 @@
+/*试题区*/
+
+div.quesArea dl dd {
+	overflow-y: auto;
+	overflow-x: hidden;
+	flex: 1;
+	touch-action: pan-y !important;
+	/* 禁止iOS浏览器默认双击缩放、滚动回弹，交给Hammer接管 */
+	touch-action: manipulation;
+	/* 允许触摸事件穿透子元素冒泡 */
+	pointer-events: auto;
+}
+
+div.quesArea dl dd card {
+	touch-action: pan-y !important;
+}
+
+div.quesArea dl, div.quesArea dd {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+}
+
+div.quesArea dd {
+	line-height: 2em !important;
+	font-size: 20px;
+}
+
+div.quesArea dd card {
+	overflow: auto;
+	touch-action: pan-y !important;
+}
+
+div.quesArea dd card card-title {
+	word-wrap: break-word;
+	/* 允许长单词换行 */
+	overflow-wrap: break-word;
+	/* 标准属性，同上 */
+}
+
+div.quesArea dd card card-title::before {
+	content: ""attr(index) " .";
+	display: inline-block;
+	transform: scale(.8);
+	color: #333;
+}
+
+div.quesArea dd card card-title::after {
+	content: "（"attr(number) "分）";
+	display: inline-block;
+	transform: scale(.8);
+	color: #999;
+}
+
+div.quesArea dd card-title p, card-title span, card-title font {
+	line-height: 150%;
+	font-size: 20px;
+}
+
+div.quesArea dd card-title>*, div.quesArea dd card-title p {
+	line-height: 150% !important;
+	font-size: 20px !important;
+}
+
+div.quesArea dd img {
+	max-width: 100% !important;
+}
+
+div.quesArea dd table {
+	overflow: auto;
+	width: 100% !important;
+}
+
+div.quesArea dd td {
+	word-break: break-all;
+}
+
+/*试题选项*/
+
+.ans_area {
+	margin-left: 5px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-content: flex-start;
+}
+
+.ans_area>div {
+	position: relative;
+	margin: 10px;
+}
+
+.ans_area>div[ansid] i {
+	font-style: normal;
+	margin-right: 15px !important;
+	display: inline-block;
+	white-space: nowrap;
+}
+
+.ans_area div[selected] {
+	color: #409EFF !important;
+}
+
+.ans_area>div[ansid] i::before {
+	font-family: "webdesk_icon" !important;
+	font-style: normal;
+	font-size: 25px;
+	margin-right: 10px;
+}
+
+dd[qid] card .type1>div {
+	cursor: pointer;
+}
+
+.type1>div[ansid] i::before {
+	content: '\e85c';
+}
+
+.type1>div[selected] i::before {
+	content: '\e85b';
+}
+
+.ans_area>div[ansid] {
+	display: flex;
+}
+
+.ans_area>div[ansid] * {
+	margin: 0px;
+	padding: 0px;
+}
+
+.ans_area>div[correct]::before {
+	content: '\a048';
+}
+
+dd[qid] card .type2>div {
+	cursor: pointer;
+}
+
+.type2>div i::before {
+	content: '\e603';
+}
+
+.type2>div[selected] i::before {
+	content: '\e78b';
+}
+
+/*判断题*/
+dd[qid] card .type3 {
+	display: flex;
+	flex-direction: row;
+}
+
+dd[qid] card .type3>div:first-child {
+	margin-right: 40px;
+}
+
+dd[qid] card .type3 i {
+	font-size: 18px;
+}
+
+dd[qid] card .type3>div {
+	cursor: pointer;
+}
+
+dd[qid] card .type3>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e603';
+	font-style: normal;
+	margin-right: 5px;
+	font-size: 22px;
+}
+
+dd[qid] card .type3>div[selected] i::before {
+	content: '\e78b';
+}
+
+/*填空题*/
+
+.type5 {
+	counter-reset: section;
+}
+
+.type5>div {
+	position: relative;
+	margin-left: 30px;
+	display: flex;
+}
+
+.type5>div i {
+	position: absolute;
+	top: 8px;
+	left: 12px;
+}
+
+.type5>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\a02e';
+	font-style: normal;
+	margin-right: 5px;
+	font-size: 22px;
+	color: #999;
+}
+
+.type5>div::before {
+	counter-increment: section;
+	content: counter(section) ". ";
+	display: block;
+	position: absolute;
+	top: 5px;
+	width: 10px;
+	height: 40px;
+	left: -20px;
+}
+
+.type5>div input {
+	width: calc(100% - 30px);
+	padding: 5px 15px 5px 40px;
+	height: 30px;
+	font-size: 20px;
+}
+
+/*简答题*/
+div.quesArea textarea {
+	width: calc(100% - 22px);
+	height: 300px;
+	padding: 10px;
+	font-size: 20px;
+}
+
+/*附件*/
+.upload_file_area .error {
+	bottom: -40px !important;
+}
+
+.accessory {
+	font-size: 16px;
+}
+
+.accessory a {
+	color: #409EFF;
+}
+
+.accessory a[download] {
+	font-size: 14px;
+}
+
+.accessory>icon {
+	font-size: 14px;
+	color: #F56C6C;
+	margin-left: 10px;
+}
+
+
+/*竖屏，手机端显示*/
+@media only screen and (orientation: portrait) {
+	div.quesArea dd {
+		height: calc(100% + 50px);
+		padding-bottom: 50px;
+		box-sizing: border-box;
+		overflow: hidden;
+	}
+
+	div.quesArea dd card {
+		height: calc(100% - 20px - 45px);
+	}
+
+}
+
+/*横屏，web端显示*/
+@media only screen and (orientation: landscape) {
+	div.quesArea dd card {
+		height: calc(100% - 32px - 35px);
+	}
+}

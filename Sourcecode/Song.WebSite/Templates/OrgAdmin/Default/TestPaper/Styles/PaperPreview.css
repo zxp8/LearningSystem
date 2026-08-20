@@ -1,0 +1,90 @@
+:root {
+    --chinese-font: "隶书", "LiSu", "STKaiti", "KaiTi", "楷体",
+        "Microsoft YaHei", "微软雅黑", sans-serif;
+}
+@media print {
+	html, body, #vapp {
+		width: 100%;
+		height: auto;
+		overflow: auto;
+	}
+
+	body {
+		break-inside: avoid;
+		break-after: auto;
+	}
+
+	.noprint, *[noprint] {
+		display: none !important;
+	}
+	.page-break {
+		PAGE-BREAK-AFTER: always;
+		margin-bottom: 0px;
+	}
+    .paper_preview {
+        width: 100%;
+        height: auto;
+       
+    }
+    .quesarea>div{
+        margin: 0px 0px 40px 0px;
+    }
+}
+
+.paper_preview {
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow-y: auto;
+}
+
+.paper_preview>header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+header .null {
+    font-family: var(--chinese-font);
+}
+
+header .tpname {
+    font-size: 2rem;
+    font-family: var(--chinese-font);
+    margin: .5rem;
+}
+
+header .tpsubname {
+    font-size: 1.2rem;
+    font-family: var(--chinese-font);
+    margin: .5rem 0px 1.2rem 0px;
+}
+
+header .tpinfo {
+    margin: 8px;
+}
+
+header .tpinfo>* {
+    margin: 5px 10px;
+}
+
+header .tpremind {
+    text-align: left;
+    flex: 1;
+    line-height: 1.5;
+}
+.quesarea>div{
+    margin: 0px 20px 40px 40px;
+}
+.paper_preview section.quesarea {
+    display: block;
+}
+.paper_preview section.quesarea dl{
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.paper_preview section.quesarea dd{
+    width: 100%;
+    height: auto !important;
+}

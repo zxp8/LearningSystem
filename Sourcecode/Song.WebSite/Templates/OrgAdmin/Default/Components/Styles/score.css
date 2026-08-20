@@ -1,0 +1,29 @@
+/*得分，小数点对齐*/
+.score {
+    width: 80px;
+    display: flex;
+}
+
+.score span {
+    display: block;
+}
+
+
+/*前缀，即整数部分*/
+.score .prev {
+    width: 50px;
+    float: right;
+    text-align: right;
+}
+
+.score .dot {
+    width: 8px;
+    float: right;
+    text-align: center;
+}
+/*后缀，即小数部分*/
+.score .after {
+    width: 20px;
+    float: right;
+    text-align: left;
+}

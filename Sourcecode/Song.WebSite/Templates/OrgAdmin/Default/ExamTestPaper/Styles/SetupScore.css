@@ -1,0 +1,210 @@
+#vapp {
+    display: flex;
+}
+
+section.left {
+    width: 400px;
+    margin-right: 8px;
+}
+
+section.left .el-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0px;
+}
+
+.el-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.el-card .el-card__body {
+    padding: 10px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.el-form-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+section.right {
+    display: flex;
+    flex: 1;
+}
+
+section.left .el-card:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+section.left .el-card:last-child {
+    flex: 1;
+}
+
+.el-card__header {
+    display: flex;
+    justify-content: space-between;
+    height: 45px;
+}
+
+section.left .el-card__header * {
+    line-height: 24px;
+}
+
+section.left .el-card__body .typerow {
+    margin-bottom: 10px;
+}
+
+section.left .el-card__body .typerow>*:first-child {
+    padding: 8px;
+}
+
+section.left .el-card__body .typerow:not(:first-child) {
+    padding-top: 10px;
+}
+
+section.left .el-card__body .typerow icon[ques_type][showname=true]::after {
+    font-size: 1rem;
+}
+
+section.left .el-card__body .typerow icon[type=5] {
+    margin-left: -4px;
+}
+
+.el-card.qtype_card .el-card__header .small {
+    font-size: 14px !important;
+    margin-left: 5px;
+}
+
+.el-card.qtype_card .el-card__header .small * {
+    font-size: 14px !important;
+}
+
+section.left .ques_type {
+    display: flex;
+    padding: 0px 10px;
+    justify-content: space-between;
+}
+
+.qtype_card .option_count[zero], .option_count[zero] * {
+    color: #ccc !important;
+}
+
+.qtype_card .option_count {
+    color: #444;
+}
+
+.qtype_card .option_count b {
+    color: rgb(153, 0, 0);
+}
+
+.score:not([zero]) {
+    color: darkgreen;
+    font-weight: bold;
+}
+
+.sortable-ghost {
+    background-color: #d1e8ff;
+}
+
+/*题型拖动*/
+.dragbar {
+    border: solid 1px #ddd;
+    color: #bbb;
+    border-radius: 5px;
+    width: 120px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+    padding: 0px 8px;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dragbar::after, .dragbar::before {
+    content: " ..... ";
+    line-height: 10px;
+    font-size: 20px;
+    display: inline-block;
+    height: 10px;
+}
+
+/*右侧区域*/
+section.right .el-card {
+    flex: 1;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.scoreitems .scores {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    --score-color: #fff;
+    --score-border: #62b1ff;
+    --score-zero-border: #eee;
+    --score-zero-color: #777;
+}
+
+.scoreitems .scores>div {
+    border: solid 1px var(--score-border);
+    border-radius: 3px;
+    display: flex;
+    margin: 0px 10px 10px 0px;
+}
+
+.scoreitems .scores>div>span {
+    padding: 5px 5px;
+    line-height: 20px;
+}
+
+.scoreitems .scores>div>span:first-child {
+    border-right: solid 1px var(--score-border);
+    background-color: var(--score-border);
+    color: var(--score-color);
+    width: 20px;
+    text-align: center;
+}
+
+.scoreitems .scores>div>span:last-child {
+    color: #409EFF;
+    width: 60px;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 13px;
+}
+
+.scoreitems .scores>div>span:last-child b {
+    font-size: 16px;
+}
+
+.scoreitems .scores>div[zero] {
+    border: solid 1px var(--score-zero-border);
+}
+
+.scoreitems .scores>div[zero] span:first-child {
+    border-right: solid 1px var(--score-zero-border);
+    background-color: var(--score-zero-border);
+    color: var(--score-zero-color);
+}
+
+.scoreitems .scores>div[zero]>span:last-child {
+    color: var(--score-zero-color);
+}
+
+.scoreitems .ques_type icon::after {
+    font-size: 16px;
+}
+
+.scoreitems .typename {
+    font-size: 16px;
+    line-height: 12px;
+}
+.scoreitems .truename{
+    color: #aaa;
+    font-size: 13px;
+}

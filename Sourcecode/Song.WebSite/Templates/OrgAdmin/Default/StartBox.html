@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="inc/meta.inc" />
+    <title>初次引导</title>
+</head>
+
+<body>
+
+    <div id="vapp" v-cloak>
+        <header>
+            <div><img copyright="logo" />
+                <p copyright="product"></p>
+
+            </div>
+            <p copyright="title"></p>
+        </header>
+
+        <el-carousel>
+            <el-carousel-item>
+                <img src="Images/学员中心-mobi.png" />
+                <div>
+                    <p copyright="intro"></p>                   
+                </div>
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="Images/试题练习(mobi).png" />
+                <p copyright="detail"></p>
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="Images/学员中心-web.png" />
+            </el-carousel-item>
+        </el-carousel>
+
+
+
+        <div class="footer">
+            <div class="footer-left">
+                <el-checkbox v-model="not_show">下次不再显示</el-checkbox>
+            </div>
+            <el-button type='close'>
+                关闭
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

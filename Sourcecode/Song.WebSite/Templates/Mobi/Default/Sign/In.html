@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <include file="../inc/meta.inc" />
+  <title>登录</title>
+  <link type="text/css" rel="stylesheet" href="Styles/Public.css">
+</head>
+
+<body>
+  <div id="vapp">
+    <header>
+      <a href="#" icon="&#xe727" style="font-size: 22px;" onclick="window.history.back(-1);"></a>
+      <a href="/mobi/" icon="&#xa020"></a>
+    </header>
+    <div id="login_box" remark="登录框" v-if="!islogin">
+      <login :config="config" @success="successful"></login>
+    </div>
+    <div id="logged-area" v-cloak remark="登录后的状态" v-else>
+      <avatar :account="account" circle="true" size="120"></avatar>
+      <template v-if="islogin">
+        <div class="accname" v-if="account.Ac_Name!=''" v-html="account.Ac_Name"></div>
+        <div class="accname" v-else> (名称为空) </div>
+      </template>
+      <van-button type="info" @click="navigateTo(commonaddr('myself'))">个人信息</van-button>
+      <van-button type="default" @click="logout">退出登录</van-button>    
+    </div>
+  </div>
+  <!---->
+  <section class="color">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</section>
+</body>
+
+</html>

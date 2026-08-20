@@ -1,0 +1,24 @@
+.selecttags {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.selecttags .searchbar {
+    padding: 0.5rem;
+    display: flex;
+}
+.selecttags .searchbar .el-form{
+    margin: 0px;
+}
+.selecttags>div:last-child {
+    flex: 1;
+    padding: 0px 0.5rem;
+    overflow: auto;
+}
+
+.selecttags .tags>* {
+    margin: 0px 10px 10px 0px !important;
+    cursor: pointer;
+    font-size: .8rem;
+}

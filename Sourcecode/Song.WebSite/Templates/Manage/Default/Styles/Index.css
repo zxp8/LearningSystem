@@ -1,0 +1,18 @@
+﻿div.alertinfo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+}
+div.alertinfo>help{
+
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+div.alertinfo a{
+    text-decoration: underline;
+    color: blue;
+}

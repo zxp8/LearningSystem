@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>公告</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <div class="header">
+            <div icon="&#xe748" @click="window.history.go(-1);"></div>
+            <van-search v-model="sear_str" placeholder="请输入搜索关键词" background="transparent" @search="onSearch">
+                <template #action>
+
+                </template>
+                <template #right-icon>
+                    <div @click="onSearch">搜索</div>
+                </template>
+                <template #left-icon>
+
+                </template>
+            </van-search>
+        </div>
+        <div class="context">
+            <loading bubble v-if="loading"> ...</loading>
+            <div id="artBox" v-else-if="!isempty">
+                <van-sticky :offset-top="44" class="artTitle"> {{data.No_Ttl}}</van-sticky>
+
+                <div class="artAttrBar"> <span class="artTime" icon="&#xa039">{{data.No_CrtTime.untilnow()}}</span>
+                    &nbsp;
+                    <span icon="&#xa03a"> {{data.No_ViewNum}} </span>
+                    <span @click="isformat=!isformat" :class="{'formatbtn':true, 'format':isformat}">
+                        <span icon="&#xa041" v-if="isformat">格式化 </span>
+                        <span icon="&#xa042" v-else>未格式化 </span>
+                    </span>
+
+                    <!--<span class="artSharp">分享 </span>  -->
+                </div>
+                <!--正文 -->
+                <div :class="{'artContext':isformat}" v-html="data.No_Context">
+
+                </div>
+            </div>
+            <div class="context" v-else>
+                <div class="nocontext"> 没有内容</div>
+            </div>
+        </div>
+
+        <aside_menu ref='aside_menu' :account="account" :config="config"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

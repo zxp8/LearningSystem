@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="inc/meta.inc" />
+    <title>登录</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <!-- 错误提示框 -->
+        <div v-if="!checked" class="box noexist">
+            <div>
+                <icon>&#xe70e</icon>登录操作存在错误
+            </div>
+            <div class="context">
+                可能的原因：<br />
+                1、请求来源不明晰，或来源未被授权<br />
+                2、登录接口不存在，或被禁用<br />
+                3、参数校验失改<br />
+            </div>
+            <div>
+                <el-button type="primary" plain @click="window.location.href='/'">
+                    <icon>&#xa020</icon>返回系统首页
+                </el-button>
+                <el-button type="warning" plain
+                    @click="()=>{window.opener=null;window.open('','_self');window.close();}">
+                    <icon>&#xe72c</icon>关闭当前窗体
+                </el-button>
+            </div>
+        </div>
+        <!-- 登录中的提示框-->
+        <div v-if="checked" class="box progress">
+            <div>
+                <icon>&#xa035</icon>正在退出登录...
+            </div>
+            <div class="context">
+                <div loading="p4"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</body>
+
+</html>

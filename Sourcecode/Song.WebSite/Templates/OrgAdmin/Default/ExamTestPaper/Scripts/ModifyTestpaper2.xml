@@ -1,0 +1,28 @@
+<!--随机试卷的配置项，主要用于记录题的范围，各题型分数，及题型所占比例-->
+<!--文件没有用，仅用于描述XML结构-->
+<testpaper>
+    <!--出题的范围，分别是试题分类、知识点 、标签，多个标签用逗号隔开-->
+    <range>
+        <parts>8596213315552211,9983413554155
+        </parts>
+        <knls>同上</knls>
+        <tags>同上</tags>
+    </range>
+    <!--试题各题型的数量及分数及占比-->
+    <questions>
+        <!--属性依次为：
+            type:试题类型（数字），
+            name:试题类型（中文名称），
+            byname:题型的别名，
+            total:可选的总题数，在出卷时没有用处
+            count：当前题型的数量
+            number:当前题型的分数
+            percent:当前题型分数占试卷中总的百分比
+
+            当计算每道试题的分数时，只有count与percent有用，其它都无用
+            number
+        -->
+        <ques type="1" name="单选" byname="" total="5" count="5" number="5" percent="20" />
+        <ques type="2" name="多选" byname="" total="5" count="5" number="5" percent="20" />
+    </questions>
+</testpaper>

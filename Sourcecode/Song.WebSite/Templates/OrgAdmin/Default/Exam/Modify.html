@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>考试管理</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="panel">
+            <el-tabs v-model="activeName" type="border-card">
+                <el-tab-pane v-for="tab in tabs" :name="tab.name" v-if="tab.show??true">
+                    <span slot="label" :style="labelColor(tab)">
+                        <icon v-html="'&#x'+tab.icon" medium></icon>
+                        {{tab.title}}
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+            <el-form v-loading="loading" ref="entity" :model="entity" :rules="rules" @submit.native.prevent
+                label-width="100px">
+                <div v-show="activeName=='general'" remark="基本信息" tab="general">
+                    <section class="left">
+                        <el-form-item label="考试主题" prop="Exam_Title">
+                            <el-input v-model="entity.Exam_Title" maxlength="255"></el-input>
+                        </el-form-item>
+                        <el-form-item label="考试时间" prop="Exam_DateType">
+                            <div style="margin-bottom: 6px;">
+                                <el-radio-group v-model="entity.Exam_DateType">
+                                    <el-radio-button :label="1">
+                                        <icon>&#xa039</icon>定时开始
+                                    </el-radio-button>
+                                    <el-radio-button :label="2">
+                                        <icon>&#xe737</icon>在指定的时间区间内考试
+                                    </el-radio-button>
+                                </el-radio-group>
+                            </div>
+                            <div v-if="entity.Exam_DateType==1">
+                                <help>每场考试单独设置考试时间</help>
+                            </div>
+                            <div v-if="entity.Exam_DateType==2">
+                                <date_range @change="(s,e)=>{entity.Exam_Date=s;entity.Exam_DateOver=e;}"
+                                    :start="entity.Exam_Date" :end="entity.Exam_DateOver" type="datetimerange"
+                                    :forward="true" width="400"></date_range>
+
+                                <help>上述时间之间可以随时考试，各场次所设置的时间将不再起作用。</help>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="状态" prop="Exam_State">
+                            <el-switch v-model="entity.Exam_IsUse" :active-text="entity.Exam_IsUse ? '启用' : '禁用'">
+                            </el-switch>
+                        </el-form-item>
+                        <el-form-item label="简述" prop="Exam_Intro">
+                            <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model="entity.Exam_Intro">
+                            </el-input>
+                        </el-form-item>
+                    </section>
+                    <!--考试场次-->
+                    <section class="right">
+                        <el-card shadow="never" class="examscard">
+                            <template slot="header">
+                                <span icon="&#xe834" large>考试场次</span>
+                                <span class="itembtn">
+                                    <el-tag type="info">
+                                        <icon>&#xe84d</icon>共 {{exams.length}} 场考试
+                                    </el-tag>
+                                    <el-divider direction="vertical"></el-divider>
+                                    <el-link type="primary" class="el-icon-plus" @click="openitems()">添加场次</el-link>
+                                </span>
+                            </template>
+                            <el-empty v-if="exams.length<1" description="未设置考试场次"></el-empty>
+                            <section v-else v-for="(item,i) in exams" class="exams" :examid="item.Exam_ID" :index="i">
+                                <div class="exam_name draghandle">
+                                    <span class="order"></span>
+                                    <span v-if="item.Exam_Name!=''">{{item.Exam_Name}}</span>
+                                    <span v-else class="null">(没有设置名称)</span>
+                                    <div class="btns">
+                                        <el-dropdown @command="dropdownHandle" :examid="item.Exam_ID">
+                                            <span primary>
+                                                <icon>&#xa030</icon>操作<i class="el-icon-arrow-down el-icon--right"></i>
+                                            </span>
+                                            <el-dropdown-menu slot="dropdown">
+                                                <el-dropdown-item command="preview">
+                                                    <el-link type="info" plain icon="el-icon-document"
+                                                        :underline="false">预览</el-link>
+                                                </el-dropdown-item>
+                                                <el-dropdown-item divided command="modify">
+                                                    <el-link type="primary" plain icon="el-icon-edit"
+                                                        :underline="false">
+                                                        修改 </el-link>
+                                                </el-dropdown-item>
+                                                <el-dropdown-item command="delete">
+                                                    <el-link type="danger" plain icon="el-icon-delete"
+                                                        :underline="false">移除
+                                                    </el-link>
+                                                </el-dropdown-item>
+                                            </el-dropdown-menu>
+                                        </el-dropdown>
+                                    </div>
+                                </div>
+                                <div>
+                                    <el-tag>总分：{{item.Exam_Total}}
+                                        分</el-tag>
+                                    <el-tag type="success">及格分：{{item.Exam_PassScore}}
+                                        分</el-tag>
+                                    <el-tag type="warning">限时：{{item.Exam_Span}}分钟</el-tag>
+                                    <el-tag type="info">试题：{{item.Exam_QuesCount}}
+                                        道</el-tag>
+                                </div>
+                                <div class="row" v-if="entity.Exam_DateType==1">时间：
+                                    <span>
+                                        <!--准时开始-->
+                                        {{item.Exam_Date|date("yyyy-M-dd HH:mm")}}
+                                        （准时开始）
+                                    </span>
+                                </div>
+                                <testpaper :exam="item"></testpaper>
+                            </section>
+                        </el-card>
+                    </section>
+                </div>
+                <div v-show="activeName=='range'" class="range" remark="成员范围" tab="range">
+                    <div class="grouptype">
+                        <el-radio-group v-model="entity.Exam_GroupType">
+                            <el-radio-button :label="1">
+                                <icon medium>&#xe812</icon>全部学员
+                            </el-radio-button>
+                            <el-radio-button :label="2">
+                                <icon medium>&#xe67d</icon>限定分组
+                            </el-radio-button>
+                            <el-radio-button :label="3">
+                                <icon medium>&#xe804</icon>指定学员
+                            </el-radio-button>
+                        </el-radio-group>
+                        <span>指定的考试人员有： <icon student size="large" primary>
+                                {{scopeTotal}} 名</icon></span>
+                    </div>
+                    <help multi v-show="entity.Exam_GroupType==1">
+                        全部学员参考<br />
+                        所有学员都可以参加当前考试。
+                    </help>
+                    <group_select v-show="entity.Exam_GroupType==2" @selected="groupselected" :theme="entity"
+                        :org="org">
+                    </group_select>
+                    <student_select v-show="entity.Exam_GroupType==3" @selected="studentselected" :theme="entity"
+                        :orgid="org.Org_ID"></student_select>
+                </div>
+                <div v-show="activeName=='config'" class="config" remark="功能设置" tab="config">
+                    <el-form-item label="窗口" prop="Exam_IsToggle">
+                        <el-switch v-model="entity.Exam_IsToggle"
+                            :active-text="entity.Exam_IsToggle ? '允许切换窗口' : '不允许切换窗口'">
+                        </el-switch>
+                    </el-form-item>
+                    <el-form-item label="右键" prop="Exam_IsRightClick">
+                        <el-switch v-model="entity.Exam_IsRightClick"
+                            :active-text="entity.Exam_IsRightClick ? '禁用鼠标右键' : '允许鼠标右键'">
+                        </el-switch>
+                    </el-form-item>
+                    <el-form-item label="确认按钮" prop="Exam_IsShowBtn" v-if="false">
+                        <el-switch v-model="entity.Exam_IsShowBtn" active-text="显示确认按钮"> </el-switch>
+                    </el-form-item>
+                    <el-form-item label="成绩" prop="Exam_IsShowScore">
+                        <el-row>
+                            <el-switch v-model="entity.Exam_IsShowScore"
+                                :active-text="entity.Exam_IsShowScore ? '正常显示考试得分' : '禁止查询考试得分'">
+                            </el-switch>
+                        </el-row>
+                        <el-row>
+                            <el-switch v-model="entity.Exam_IsAllowReview"
+                                :active-text="entity.Exam_IsAllowReview ? '允许学员回顾考试试卷' : '禁止学员回顾考试试卷'">
+                            </el-switch>
+                        </el-row>
+                    </el-form-item>
+                </div>
+            </el-form>
+        </div>
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',true)">
+                保存
+            </el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',false)">应用
+            </el-button>
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+
+</body>
+
+</html>

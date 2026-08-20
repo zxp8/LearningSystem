@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>参加考试</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <card v-if="!islogin"  shadow="hover">
+            <card-title>
+                <span icon="&#xe748" @click="window.history.go(-1);"></span>
+                学员登录后才能考试！
+            </card-title>
+            <card-content>
+                <div class="acc_photo nophoto"></div>
+                <div class="accInfo null_icon">
+                    <div class="acc-name"> <a href="/web/sign/in">点击此处登录 </a>
+                    </div>
+                    <span class="acc-money"> ... </span>
+                </div>
+            </card-content>
+        </card>
+
+    </div>
+</body>
+
+</html>

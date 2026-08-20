@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>试题编辑-判断</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <modify_main ref="main" @load="quesload" @init="(o,c,t)=>{organ=o;config=c;types=t}">
+            <!-- 编辑区域-->
+            <el-form ref="entity" :model="entity" @submit.native.prevent label-width="60px">
+                <el-form-item label="题干" prop="Qus_Title">
+                    <editor  ref="editor_title" :content="entity.Qus_Title" id="title" :menubar="false" model="question"
+                        style="height: 400px;" upload="ques" :dataid="entity.Qus_ID"
+                        @change="text=>entity.Qus_Title=text"></editor>
+                </el-form-item>
+                <el-form-item label="答案" prop="Qus_Items">
+                    <el-tag type="primary" v-if="entity.Qus_IsCorrect">试题答案为：
+                        <icon>&#xe61a </icon>正确
+                    </el-tag>
+                    <el-tag type="danger" v-else>试题答案为：
+                        <icon>&#xe644 </icon>错误
+                    </el-tag>
+                    <br />
+                    <el-button type="primary" :plain="!entity.Qus_IsCorrect" @click="entity.Qus_IsCorrect=true">
+                        <icon style="font-size: 19px;">&#xe61a </icon>设置答案为：正确
+                    </el-button>
+                    <el-button type="danger" :plain="entity.Qus_IsCorrect" @click="entity.Qus_IsCorrect=false">
+                        <icon style="font-size: 18px;">&#xe644 </icon>设置答案为：错误
+                    </el-button>
+
+                </el-form-item>
+            </el-form>
+
+        </modify_main>
+        <enter_button ref="enterbutton" :question="entity" :verify="verify" :organ="organ"></enter_button>
+    </div>
+</body>
+
+</html>

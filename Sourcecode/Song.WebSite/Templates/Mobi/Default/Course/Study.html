@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>课程学习</title>
+</head>
+
+<body>
+    <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
+    <div id="vapp">
+        <generic @login="acc=>account = acc"></generic>
+        <!--侧滑菜单部分-->
+        <outline_tree ref="outline_tree" :course="course" :outlines="outlines" :videolog="videolog" :studied="studied"
+            :owned="owned" @change="n=>outline=n" @show="n=>display(!n)"></outline_tree>
+        <div id="context-box">
+            <div class="loading" v-if="loading_init">
+                <van-loading size="24px" type="spinner">加载中...</van-loading>
+            </div>
+            <template v-else>
+                <study_video remark="视频" ref='videoplayer' v-if="state.existVideo && !state.isLive" :account="account"
+                    :outline="outline" :state="state" :config="config" @playing="(t)=>{}"
+                    @completed="videocompleted">
+                </study_video>
+                <study_live remark="直播" ref='liveplayer' v-if="state.isLive" :account="account" :outline="outline"
+                    :state="state"></study_live>
+
+                <div tag="视频" v-show="contextShow=='video' || contextShow==''">
+                    <course_message :outline="outline" :account="account" :config="config" v-if="isMessage">
+                    </course_message>
+                    <div v-else icon="&#xe7ad" class="disableChat">禁用“交流”功能</div>
+                </div>
+                <div tag="学习内容" v-show="contextShow=='content'"
+                    :class="{'notVideo':!state.existVideo && !state.isLive}">
+                    <div class="card intro-box">
+                        <div class="card-header">
+                            <icon course>学习内容</icon>
+                        </div>
+                        <div class="card-content">
+                            <div id="details" v-html="state.Context" v-if="state.isContext">
+
+                            </div>
+                            <div class="nocontent" v-else>
+                                <icon>&#xe849</icon>（没有内容）
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div tag="附件" v-show="contextShow=='accessory'" :class="{'notVideo':!state.existVideo}">
+                    <div class="card acc-box">
+                        <div class="card-header">
+                            <span>附件</span>
+                        </div>
+                        <div class="card-content" v-if="islogin">
+                            <accessory :outline="outline" :account="account" :studied="studied" :owned="state.owned">
+                            </accessory>
+                        </div>
+                        <div class="nocontent" v-else>
+                            <icon>&#xe849</icon>
+                            （没有内容）
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <!-- +底部菜单+ -->
+        <study_footer :course="course" :state="state"></study_footer>
+    </div>
+</body>
+
+
+</html>

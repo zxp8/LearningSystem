@@ -1,0 +1,47 @@
+.topBox {
+    height: 45px;
+    overflow: hidden;
+    font-size: 18px;
+    line-height: 45px;
+    text-align: center;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 1px 1px 2px #ddd;
+}
+
+.topBox .topbtns {
+    display: flex;
+    justify-content: center;
+    padding: 0px 8px;
+    box-sizing:content-box;
+}
+
+.topBox .topbtns>* {
+    width: 30px;
+    display: block;
+}
+.topBox .topbtns icon {
+    margin-right: 0px;
+}
+.topBox>span {
+    flex: 1;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.topBox::after {
+    content: none;
+}
+
+.topBox span:last-child {
+    margin-right: 10px;
+}
+
+.topBox .setup {
+    margin-left: 10px;
+    color: #444;
+    line-height: 45px !important;
+}

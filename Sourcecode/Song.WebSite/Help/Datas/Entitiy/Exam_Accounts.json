@@ -1,0 +1,17 @@
+{
+  "Ac_ID": {
+    "mark": "学员账号",
+    "intro": "",
+    "relation": "Accounts"
+  },
+  "Ea_ID": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Exam_UID": {
+    "mark": "考试UID",
+    "intro": "",
+    "relation": "Examination"
+  }
+}

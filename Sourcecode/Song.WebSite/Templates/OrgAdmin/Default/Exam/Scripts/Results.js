@@ -1,0 +1,247 @@
+﻿$ready(function () {
+    window.vapp = new Vue({
+        el: '#vapp',
+        data: {
+            organ: {},
+            config: {},      //当前机构配置项      
+            form: {
+                orgid: -1,
+                start: '',
+                end: '',
+                use: null,
+                search: '',
+                size: 8,
+                index: 1
+            },
+            total: 1, //总记录数
+            totalpages: 1, //总页数
+            datas: [],
+            loading_init: false,
+            loading: false,
+            loadingid: false,
+        },
+        computed: {
+
+        },
+        watch: {
+
+        },
+        created: function () {
+            var th = this;
+            th.org = window.org;
+            th.config = window.config;
+            th.form.orgid = th.organ.Org_ID;
+            th.handleCurrentChange();
+        },
+        methods: {
+            //选择时间区间
+            selectDate: function (start, end) {
+                this.form.start = start;
+                this.form.end = end;
+                this.handleCurrentChange(1);
+            },
+            //加载数据页
+            handleCurrentChange: function (index) {
+                if (index != null) this.form.index = index;
+                var th = this;
+                th.loading = true;
+                //每页多少条，通过界面高度自动计算
+                let area = $dom.height() - 100;
+                th.form.size = Math.floor(area / 49);
+                $api.get('Exam/ThemeAdminPager', this.form).then(function (req) {
+                    if (req.data.success) {
+                        th.datas = req.data.result;
+                        th.totalpages = Number(req.data.totalpages);
+                        th.total = req.data.total;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            },
+            //查看综合成绩
+            btnResultSummarize: function (theme) {
+                var file = 'ResultsSummarize?id=' + theme.Exam_ID;
+                var boxid = "ResultsSummarize_" + theme.Exam_ID + "_" + file;
+                var title = ' 综述 - “' + theme.Exam_Title + "”";
+                this.openbox(file, boxid, title, 1200, '80%', { resize: true, 'showmask': false, 'min': true, 'ico': 'e6ef' });
+            },
+            //打开弹窗
+            openbox: function (file, boxid, title, width, height, params) {
+                if (params == null) params = {};
+                this.$refs.btngroup.pagebox(file, title, boxid, width, height, params);
+            },
+            //表格行点击事件
+            clickTable: function (row, index, e) {
+                //调用,table的方法,展开/折叠 行
+                //this.$refs.datatable.toggleRowExpansion(row)
+            }
+        },
+        components: {
+            //考试主题下应该考加的人员数
+            'studenttotal': {
+                props: ['exam'],
+                data: function () {
+                    return { num: -1 }
+                },
+                created: function () {
+                    var th = this;
+                    $api.cache('Exam/StudentTotalTheme', { 'examid': this.exam.Exam_ID }).then(function (req) {
+                        if (req.data.success) {
+                            th.num = req.data.result.number;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                        .finally(() => { });
+                },
+                template: '<span><span class="el-icon-loading" v-if="num==-1"></span><span v-else>{{num}}</span></span>'
+            },
+            //考试主题下实际参加考试的人员数
+            'attendcount': {
+                props: ['exam'],
+                data: function () {
+                    return { num: -1 }
+                },
+                created: function () {
+                    var th = this;
+                    $api.cache('Exam/AttendTheme', { 'examid': this.exam.Exam_ID }).then(function (req) {
+                        if (req.data.success) {
+                            th.num = req.data.result.number;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                        .finally(() => { });
+                },
+                template: '<span><span class="el-icon-loading" v-if="num==-1"></span><span v-else>{{num}}</span></span>'
+            },
+            //考试主题的参考人员
+            'group': {
+                props: ['exam'],
+                data: function () {
+                    return {
+                        msg: 0
+                    }
+                },
+                created: function () {
+                    var th = this;
+                    $api.cache('Exam/ScopeInfo', { 'type': this.exam.Exam_GroupType, 'uid': this.exam.Exam_UID }).then(function (req) {
+                        if (req.data.success) {
+                            th.msg = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => console.error(err));
+                },
+                template: '<div class="groups" :title="msg">{{msg}}</div>'
+            },
+            //考试主题的场次
+            'exams': {
+                props: ['uid'],
+                data: function () {
+                    return {
+                        examlist: []
+                    }
+                },
+                created: function () {
+                    var th = this;
+                    $api.cache('Exam/Exams', { 'uid': this.uid }).then(function (req) {
+                        if (req.data.success) {
+                            for (var j = 0; j < req.data.result.length; j++) {
+                                req.data.result[j].avg = -1;
+                                req.data.result[j].number = -1;
+                                //是否需要人工批阅
+                                req.data.result[j].manual = false;
+                            }
+                            th.examlist = req.data.result;
+                            for (var i = 0; i < th.examlist.length; i++) {
+                                $api.bat(
+                                    $api.cache('Exam/Average4Exam', { 'examid': th.examlist[i].Exam_ID }),
+                                    $api.get("Exam/AttendCount", { 'examid': th.examlist[i].Exam_ID }),     //参考人次
+                                    $api.cache("Exam/AbsenceCount", { 'examid': th.examlist[i].Exam_ID }),  //缺考人数
+                                    $api.cache("Exam/Manual4Exam", { 'examid': th.examlist[i].Exam_ID })
+                                ).then(([avg, num, absence, manual]) => {
+                                    for (var n = 0; n < th.examlist.length; n++) {
+                                        if (th.examlist[n].Exam_ID == avg.data.result.id) {
+                                            th.examlist[n].avg = avg.data.result.average;
+                                            th.examlist[n].number = num.data.result.number;
+                                            th.examlist[n].absence = absence.data.result.number;
+                                            th.examlist[n].manual = manual.data.result.manual;
+                                        }
+                                    }
+                                }).catch(err => console.error(err));
+                            }
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => console.error(err));
+                },
+                methods: {
+                    //查看当前考试的成绩列表
+                    btnResultView: function (row) {
+                        this.btnOpen(row, 'ResultsDetail', '查看成绩', 'e811', 1200, '80%');
+                    },
+                    //打开人工批阅
+                    btnResultManual: function (row) {
+                        this.btnOpen(row, 'ResultsManual', '人工判卷/批阅', 'a02e', 1000, '80%');
+                    },
+                    //打开未参加考试的人员
+                    btnAbsence: function (row) {
+                        this.btnOpen(row, 'AbsenceList', '未参加考试人员', 'e774', 1000, '80%');
+                    },
+                    btnOpen: function (row, file, title, icon, width, height) {
+                        file = $api.url.set(file, { 'id': row.Exam_ID });
+                        let boxid = file + "_" + row.Exam_ID;
+                        var title = title + '  - “' + row.Exam_Title + "” - " + row.Exam_Name;
+                        if (width == null) width = "80%";
+                        if (height == null) height = "80%";
+                        window.vapp.openbox(file, boxid, title, width, height, { 'ico': icon });
+                    },
+                },
+                template: `<div><el-row :gutter="20" class="row_title">
+                <el-col :span="14">考试场次</el-col>             
+                <el-col :span="2">及格/满分</el-col>              
+                <el-col :span="2">平均分</el-col>
+                <el-col :span="2">参考人次</el-col>
+                <el-col :span="2">缺考人数</el-col>
+                <el-col :span="2"></el-col>
+              </el-row>
+              <el-row :gutter="20" v-for="(item,index) in examlist"  :key="index">
+                <el-col :span="14" class='exam_name'>
+                （{{index+1}}） {{item.Exam_Name}}                                 
+                </el-col>             
+                <el-col :span="2">{{item.Exam_PassScore}}/{{item.Exam_Total}}</el-col>             
+                <el-col :span="2"><loading asterisk v-if="item.avg==-1"></loading><span v-else>{{item.avg}}</span></el-col>
+                <el-col :span="2" remark="参考人数"><loading asterisk v-if="item.number==-1"></loading>
+                    <el-tooltip  v-else content="点击查看成绩" placement="bottom" effect="light">
+                        <el-link type="primary" @click="btnResultView(item)"><span medium>{{item.number}}</span></el-link>      
+                    </el-tooltip>   
+                </el-col>
+                <el-col :span="2" remark="缺考人数"><loading asterisk v-if="item.absence==-1"></loading>
+                    <el-tooltip  v-else content="查看/导出缺考人员" placement="bottom" effect="light">
+                        <el-link type="info" @click="btnAbsence(item)"><span medium>{{item.absence}}</span></el-link>      
+                    </el-tooltip> 
+                </el-col>
+                <el-col :span="2">
+                    <el-tooltip  content="点击查看成绩" placement="bottom" effect="light">
+                        <el-link type="success" @click="btnResultView(item)"><icon>&#xe811</icon>查看成绩</el-link>      
+                    </el-tooltip>   
+                </el-col>
+                <el-col :span="2" v-if="item.manual" v-show="false">
+                    <el-tooltip content="考试存在主观题，需要人工判卷" placement="bottom" effect="light">
+                        <el-link type="primary" @click="btnResultManual(item)"><icon>&#xa02e</icon>批阅</el-link> 
+                    </el-tooltip> 
+                </el-col>
+              </el-row>
+            </div>`
+            }
+        }
+    });
+
+});

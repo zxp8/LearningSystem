@@ -1,0 +1,7 @@
+﻿@charset "utf-8";
+#some-element{
+    height: 30px;
+    width: 150px;
+ background-color: brown;
+ font-weight: 700;
+}

@@ -1,0 +1,73 @@
+.quesscores {
+
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    --score-color: #fff;
+    --score-border: #62b1ff;
+    --score-zero-border: #eee;
+    --score-zero-color: #777;
+}
+
+.quesscores>div {
+    border: solid 1px var(--score-border);
+    border-radius: 3px;
+    display: flex;
+    margin: 0px 10px 10px 0px;
+    flex: 0 0 calc(25% - 10px);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.quesscores>div>span {
+    padding: 5px 5px;
+    line-height: 20px;
+}
+
+.quesscores>div>span:first-child {
+    border-right: solid 1px var(--score-border);
+    background-color: var(--score-border);
+    color: var(--score-color);
+    width: 20px;
+    text-align: center;
+}
+
+.quesscores>div>span:last-child {
+    color: #409EFF;
+    flex: 1;
+    text-align: center; 
+    box-sizing: border-box;
+    font-size: 13px;   
+}
+
+.quesscores>div>span:last-child b {
+    font-size: 16px;
+}
+
+.quesscores>div[zero] {
+    border: solid 1px var(--score-zero-border);
+}
+
+.quesscores>div[zero] span:first-child {
+    border-right: solid 1px var(--score-zero-border);
+    background-color: var(--score-zero-border);
+    color: var(--score-zero-color);
+}
+
+.quesscores>div[zero]>span:last-child {
+    color: var(--score-zero-color);
+}
+
+.ques_type icon::after {
+    font-size: 16px;
+}
+
+.typename {
+    font-size: 16px;
+    line-height: 12px;
+}
+.truename{
+    color: #aaa;
+    font-size: 13px;
+}

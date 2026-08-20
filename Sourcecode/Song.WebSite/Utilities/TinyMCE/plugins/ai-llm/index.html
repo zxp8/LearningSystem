@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI大语言模型</title>
+    <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/marked.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Utilities/Fonts/icon.css" />
+    <link type="text/css" rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+    <div id="vapp" :editorid="editorid">
+        <div class="inputbox">
+            <input type="text" v-model.trim="input" placeholder="请输入内容" @keydown.enter="send" :disabled="loading" />
+            <button @click="send" :disabled="loading">
+                <loading v-if="loading" star> ...</loading>
+                <span v-else>发 送</span>
+            </button>
+        </div>
+
+        <div class="messages_area">
+            <div class="welcome" v-if="messages.length<1">
+                <div class="welcome_title">
+                    <div class="ai_icon"> </div>
+                    <div>您好！我是基于大语言模型的AI助手</div>
+                </div>
+                <div class="welcome_text">无论是写作辅助，还是创意灵感，我都用最专业、最贴心的方式助你一臂之力。随时提问，我会以最真诚的态度为你服务！
+                </div>
+            </div>
+            <template v-for="(item,index) in messages" v-else>
+                <!--用户消息-->
+                <div class="user_message" v-if="item.role=='user'">
+                    <div v-if="editindex==index" class="editcontent">
+                        <textarea v-model.trim="editcontent" @keyup.enter="editsend(index)"></textarea>
+                        <div class="edit_btn" >
+                            <icon back @click="editindex=-1">取消</icon>
+                            <icon submit @click="editsend(index)">提交</icon>                           
+                        </div>
+                    </div>
+                    <template v-else>
+                        <div class="user_message_content" v-html="item.content"></div>
+                        <div class="user_btn" v-if="!loading">
+                            <icon @click="copy(item.content)" title="复制">&#xa060</icon>
+                            <icon @click="edit(index)" title="编辑当前消息">&#xe64d</icon>
+                        </div>
+                    </template>
+                </div>
+                <!--AI消息-->
+                <template v-else>
+                    <div class="ai_msg">
+                        <div class="ai_msg_icon"></div>
+                        <div class="ai_msg_area">
+                            <div class="ai_btn" v-if="item.role!='error'">
+                                <button class="ai_btn_copy" @click="copy(item.content)">复制</button>
+                                <button class="ai_btn_fresh" @click="fresh(index)">重新生成</button>
+                                <button class="ai_btn_fresh" @click="insert(item.content)">插入到编辑器</button>
+                            </div>
+                            <div class="ai_msg_content error" v-if="item.role=='error'">
+                                <div>错误信息：</div>
+                                <div class="error_content" v-html="item.content"></div>
+                            </div>
+                            <div class="ai_msg_content" v-else v-html="item.content"></div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <span loading="p2" v-if="loading">loading...</span>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="index.js"></script>
+
+</html>

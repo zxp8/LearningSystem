@@ -1,0 +1,7 @@
+﻿@charset "utf-8";
+.el-table{
+    height: calc(100% - 36px);
+}
+.course_count{
+	font-size: 16px;
+}

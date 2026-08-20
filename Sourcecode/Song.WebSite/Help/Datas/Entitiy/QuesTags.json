@@ -1,0 +1,52 @@
+{
+  "Cou_ID": {
+    "mark": "课程ID",
+    "intro": "标注这个标签属于哪个课程。如果是考试专用的，则不标注。",
+    "relation": "Course"
+  },
+  "Org_ID": {
+    "mark": "",
+    "intro": "",
+    "relation": "Organization"
+  },
+  "Qtag_CrtTime": {
+    "mark": "创建时间",
+    "intro": "",
+    "relation": ""
+  },
+  "Qtag_ID": {
+    "mark": "主键",
+    "intro": "",
+    "relation": ""
+  },
+  "Qtag_Name": {
+    "mark": "名称",
+    "intro": "标签的名称",
+    "relation": ""
+  },
+  "Qtag_Order": {
+    "mark": "排序号",
+    "intro": "",
+    "relation": ""
+  },
+  "Qtag_PID": {
+    "mark": "父ID",
+    "intro": "原计划是做多级分类，实际只采用一级。这个字段没有起作用",
+    "relation": ""
+  },
+  "Qtag_UpdateTime": {
+    "mark": "修改时间",
+    "intro": "最后修改时间",
+    "relation": ""
+  },
+  "Qtag_Weight": {
+    "mark": "权重",
+    "intro": "标签的权重，可以理解为是这个标签的重要度",
+    "relation": ""
+  },
+  "Qtag_IsDeleted": {
+    "mark": "删除",
+    "intro": "是否被删除",
+    "relation": ""
+  }
+}

@@ -1,0 +1,163 @@
+﻿a{
+	color: #333;
+}
+context {
+	display: flex;
+	width: 1200px;
+	min-height: 800px;
+	margin: 50px auto 0px auto;	
+}
+
+context .left {
+	display: flex;	
+	flex: 1;
+}
+
+context .right {
+	margin-right: 60px;
+	width: 400px;
+	margin-left: 50px;
+	padding-left: 50px;
+	box-sizing: border-box;
+	border-left: dashed 1px #ddd;
+}
+
+hr {
+	background-color: #ddd;
+	margin-bottom: 20px;
+	display: block;
+}
+
+#artBox {
+	margin: 0px 0px 80px 0px;
+	
+}
+#artBox loading{
+	margin: 50px auto;
+	display: block;
+}
+#artBox h1 {
+	font-size: 37px;
+	font-weight: 600;
+	line-height: 56px;
+	color: #000;
+
+}
+
+
+.artAttrBar {
+	margin: 16px 0 36px;
+	font-size: 14px;
+	line-height: 20px;
+	color: #707070;
+}
+.artAttrBar>span{
+    margin: 0px 20px;
+}
+#artImg {
+	text-align: center;
+}
+
+#artImg img {
+	max-width: 100% !important;
+}
+
+.artContext {
+	margin-bottom: 20px;
+	text-align: left;
+}
+
+.artContext p {
+	margin-top: 10px;
+	margin-left: 10px;
+	text-indent: 2em;
+}
+
+.artContext img, .artContext table {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    max-width: 100% !important;
+    height: auto;
+}
+table td{
+	word-break: break-all;
+}
+
+.img-box {
+	text-align: center;
+}
+
+#artIntro {
+	font-size: 18x !important;
+	line-height: 30px !important;
+	background-color: transparent !important;
+	margin-bottom: 1em;
+}
+
+.artContext, .artContext p, .artContext font, .artContext div, .artContext span {
+	font-size: 18px !important;
+	line-height: 35px !important;
+	background-color: transparent !important;
+	font-family: '' !important;
+}
+
+.artContext p {
+	margin-top: 0.5em;
+}
+
+.nocontext {
+	padding: 20px;
+	text-align: center;
+	font-size: 18px;
+	margin: 80px;
+
+}
+
+.nocontext::before {
+	content: "\e849";
+	font-family: webdesk_icon;
+	font-size: 140px;
+	display: block;
+	color: #999;
+}
+
+/*通知公告*/
+.notices {
+	text-align: left;
+}
+
+.notices .tit {
+	font-size: 22px;
+	line-height: 40px;
+}
+
+.notices .tit icon {
+	font-size: 28px;
+}
+
+.notices .noItem {
+	font-size: 18px;
+	line-height: 40px;
+	padding: 0px 20px;
+	width: 100%;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+}
+.notices .noItem b{
+	margin-right: 10px;
+	color: #999;
+}
+.notices .noItem:nth-child(2) b{
+	color: rgb(179, 11, 44);
+}
+.notices .noItem:nth-child(3) b{
+	color: rgb(238, 23, 66);
+}
+.notices .noItem:nth-child(4) b{
+	color: #ff9a03;
+}

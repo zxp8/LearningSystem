@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>人工批阅</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+
+            <btngroup show="" ref='btngroup' width="600" height="500" idkey='Exam_ID' table="datatable"></btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <date_range @change="selectDate"></date_range>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.search" placeholder="考试名称" style="width:160px"> </el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+        <el-table ref="datatable" border resizable :data="datas" tooltip-effect="dark" style="width: 100%"
+            index-key="Exam_Order" row-key="Exam_ID">
+            <empty slot="empty" class="large">
+                没有需要批阅的考试 
+            </empty>
+            <el-table-column type="index" width="50">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="考试场次名称">
+                <template slot-scope="scope">
+                    <span v-html='showsearch(scope.row.Exam_Name,form.search)' class="large"></span>
+                </template>
+            </el-table-column>
+            <el-table-column label="考试主题">
+                <template slot-scope="scope">
+                    <span v-html='showsearch(scope.row.Exam_Title,form.search)'></span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="参考人次" width="120" align="center">
+                <template slot-scope="scope">
+                    <stnumber :examid="scope.row.Exam_ID"></stnumber>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="批阅" width="120" align="center">
+                <template slot-scope="scope">
+                    <el-tooltip content="考试存在主观题，需要人工判卷" placement="bottom" effect="light">
+                        <el-link type="primary" @click="btnResultManual(scope.row)"><icon>&#xa02e</icon>批阅</el-link> 
+                    </el-tooltip> 
+                </template>
+            </el-table-column>
+        </el-table>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-size="form.size"
+                :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</body>
+
+</html>

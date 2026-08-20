@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>导入试题</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div v-show="tname==''" class="selectType">
+            <div class="head">
+                请选择要导入的课程和题型
+                <loading v-if="within && loading">...</loading>
+            </div>
+            <el-form ref="form" :model="form" :rules="rules" @submit.native.prevent label-width="60px" :disabled="within && loading">
+                <el-form-item label="专业" prop="Sbj_ID">
+                    <sbj_cascader ref="subject" :orgid="organ.Org_ID" showitem="ques" :disabled="within" @change="id=>sbjChange(id)">
+                    </sbj_cascader>
+                </el-form-item>
+                <el-form-item label="课程" prop="Cou_ID">
+                    <el-select v-model="form.Cou_ID" style="width: 100%;" filterable clearable :disabled="within"
+                        placeholder="-- 课程(可搜索) --" @change="courseChange">
+                        <el-option v-for="(item,i) in courses" :key="item.Cou_ID" :label="item.Cou_Name"
+                            :value="item.Cou_ID">
+                            <span>{{i+1}} . </span>
+                            <span>{{item.Cou_Name}}</span>
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="题型" prop="Qus_Type">
+                    <div class="btn_list">
+                        <el-button type="primary" plain v-for="(type,i) in types" @click="selectType(i+1)">
+                            <ques_type :type="i+1" :types="types" :showname="true" :showicon="true"></ques_type>
+                        </el-button>
+                    </div>
+                </el-form-item>
+            </el-form>
+
+        </div>
+        <template v-if="qtype!=0">
+            <div class="navibar">
+                <el-link type="primary" class="back" :disabled="step!=0" @click="qtype=0">
+                    <icon>&#xe748</icon>返回
+                </el-link>
+                <el-tag type="success">
+                    <ques_type :type="qtype" :types="types" :showname="true"></ques_type>
+                </el-tag>
+                <el-tag type="info">
+                    <icon course></icon>{{course.Cou_Name}}
+                </el-tag>
+            </div>
+            <upload-excel ref="upload" :template="tname+'题.xls'" :config="tname+'题.xml'" :title="tname+'题'"
+                apiurl="Question/ExcelImport" @finish="finish" @step="s=>step=s" :params="{'type':qtype,'couid':form.Cou_ID}">
+            </upload-excel>
+        </template>
+    </div>
+</body>
+
+</html>

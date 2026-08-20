@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="inc/meta.inc" />
+    <title>联系我们</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <context>
+            <van-sticky>
+                <page_header title="联系我们" icon="&#xe766" :fresh="false"></page_header>
+            </van-sticky>
+            <div class="platform">
+                <img :src="org.Org_Logo" v-if="org.Org_Logo!=''" class="logo" />
+                <img src="Images/def_logo.gif" style="height: 32px;" class="logo" v-else />
+                <div v-html="org.Org_PlatformName" class="platinfo"></div>
+            </div>
+            <van-cell-group :title="org.Org_Name">
+                <van-cell title="电话" :value="org.Org_Phone"></van-cell>
+                <van-cell title="传真" :value="org.Org_Fax"></van-cell>
+                <van-cell title="Email" :value="org.Org_Email"></van-cell>
+                <van-cell title="邮编" :value="org.Org_Zip"></van-cell>
+                <van-cell title="地址" :label="org.Org_Address"></van-cell>
+                <van-cell>
+                    <map_show :lat="org.Org_Latitude" :lng="org.Org_Longitude" 
+                    style="height: 300px; width: 100%;"></map_show>                   
+                </van-cell>
+            </van-cell-group>
+            <baidumap></baidumap>
+        </context>
+    </div>
+    <div id="map"> </div>
+</body>
+
+</html>

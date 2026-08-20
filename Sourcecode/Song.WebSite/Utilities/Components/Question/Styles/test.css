@@ -1,0 +1,218 @@
+/*试题区*/
+
+div.quesArea dl dd {
+	overflow-y: auto;
+	overflow-x: hidden;
+	flex: 1;
+	touch-action: pan-y !important;
+	/* 禁止iOS浏览器默认双击缩放、滚动回弹，交给Hammer接管 */
+	touch-action: manipulation;
+	/* 允许触摸事件穿透子元素冒泡 */
+	pointer-events: auto;
+}
+
+div.quesArea dl dd card {
+	touch-action: pan-y !important;
+}
+
+div.quesArea dl, div.quesArea dd {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+}
+
+div.quesArea dd {
+	line-height: 2em !important;
+	font-size: 20px;
+}
+
+div.quesArea dd card {
+	min-height: calc(100% - 30px);
+	overflow: auto;
+	margin: 15px 15px;
+}
+
+div.quesArea dd card card-title {
+	word-wrap: break-word;
+	/* 允许长单词换行 */
+	overflow-wrap: break-word;
+	/* 标准属性，同上 */
+}
+
+div.quesArea dd card card-title::before {
+	content: ""attr(index) " .";
+	display: inline-block;
+	transform: scale(.8);
+	color: #333;
+}
+
+div.quesArea dd card card-title::after {
+	content: "（"attr(number) "分）";
+	display: inline-block;
+	transform: scale(.8);
+	color: #999;
+}
+
+div.quesArea dd card card-title>*:first-child {
+	display: inline-block;
+}
+
+div.quesArea dd img {
+	max-width: 100% !important;
+}
+
+div.quesArea dd table {
+	overflow: auto;
+	width: 100% !important;
+}
+
+div.quesArea dd td {
+	word-break: break-all;
+}
+
+/*试题选项*/
+
+.ans_area {
+	margin-left: 5px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-content: flex-start;
+}
+
+.ans_area>div {
+	position: relative;
+	margin: 10px;
+}
+
+card[qid] .ans_area i {
+	font-style: normal;
+	margin-right: 10px;
+	white-space: nowrap;
+}
+
+.ans_area div[selected] {
+	color: #409EFF !important;
+}
+
+.ans_area>div[ansid] i {
+	font-style: normal;
+	margin-right: 15px !important;
+	display: inline-block;
+}
+
+.ans_area>div[ansid] i::before {
+	font-family: "webdesk_icon" !important;
+	font-style: normal;
+	font-size: 20px;
+	margin-right: 5px;
+}
+
+dd[qid] card .type1>div {
+	cursor: pointer;
+}
+
+.type1>div[ansid] i::before {
+	content: '\e85c';
+}
+
+.type1>div[selected] i::before {
+	content: '\e85b';
+}
+
+.ans_area>div[ansid] {
+	display: flex;
+}
+
+.ans_area>div[ansid] * {
+	margin: 0px;
+	padding: 0px;
+}
+
+.ans_area>div[ansid] * {
+	line-height: auto !important;
+}
+
+
+.ans_area>div[correct]::before {
+	content: '\a048';
+}
+
+dd[qid] card .type2>div {
+	cursor: pointer;
+}
+
+.type2>div i::before {
+	content: '\e603';
+}
+
+.type2>div[selected] i::before {
+	content: '\e78b';
+}
+
+/*判断题*/
+card[qid] .type3 {
+	display: flex;
+	flex-direction: row;
+}
+
+dd[qid] card .type3>div {
+	cursor: pointer;
+}
+
+card[qid] .type3>div:first-child {
+	margin-right: 40px;
+}
+
+card[qid] .type3 i {
+	font-size: 18px;
+}
+
+card[qid] .type3>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e603';
+	font-style: normal;
+	margin-right: 5px;
+	font-size: 22px;
+}
+
+card[qid] .type3>div[selected] i::before {
+	content: '\e78b';
+}
+
+.type4 button {
+	float: right;
+	height: 35px;
+	margin-bottom: 20px;
+	margin-right: 10px;
+}
+
+/*填空题*/
+.type5 input[type='text'] {
+	font-size: 16px;
+	padding: 5px 10px;
+	margin-top: 5px;
+}
+
+/*简答题*/
+.type4 textarea {
+	width: calc(100% - 20px);
+	font-size: 16px;
+	padding: 5px 10px;
+}
+
+/*竖屏，手机端显示*/
+@media only screen and (orientation: portrait) {
+	div.quesArea {
+		overflow: hidden;
+	}
+
+	table {
+		overflow: auto;
+		width: 100% !important;
+	}
+
+	td {
+		word-break: break-all;
+	}
+}

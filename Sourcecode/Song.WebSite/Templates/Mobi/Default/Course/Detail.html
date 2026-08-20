@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>课程详情</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <div class="loading" v-if="loading_init"></div>
+        <div class="photo">
+            <img src="/Utilities/Images/cou_nophoto.jpg" v-if="course.Cou_Logo==''" />
+            <img :src="course.Cou_Logo" v-else>
+
+            <div class="couName">
+                <a icon="&#xe72a" @click="window.history.go(-1); "></a>
+                <span v-html="course.Cou_Name"></span>
+            </div>
+            <a class="go-home" href="/mobi/index"> </a>
+            <div class="info"><span class="study" v-html="datainfo.student"></span> /<span class="view"
+                    v-html="course.Cou_ViewNum"></span>
+                <template v-if="!config.IsMobileRemoveMoney">
+                    / <span class="moneyfree" v-if="!purchased && !forever">
+                        <i class="free" v-if="course.Cou_IsFree">免费</i>
+                        <template v-else-if="course.Cou_IsLimitFree">
+                            <i class="free">限时免</i>
+                            （{{course.Cou_FreeStart|date('yyyy/M/d')}}
+                            - {{course.Cou_FreeEnd|date('yyyy/M/d')}}）
+                        </template>
+                        <template v-else>
+                            <span class="money" v-if="prices && prices.length>0">
+                                {{prices[0].CP_Price}}元/{{prices[0].CP_Span}}{{prices[0].CP_Unit}}
+                            </span>
+                            <span class="money" v-else>未设置价格</span>
+                        </template>
+                    </span>
+                    <span v-else>
+                        <template v-if="forever">
+                            不限时
+                        </template>
+                        <template v-else>
+                            {{purchase.Stc_StartTime|date('yyyy-M-d')}} -- {{purchase.Stc_EndTime|date('yyyy-M-d')}}
+                        </template>
+                    </span>
+                </template>
+            </div>
+        </div>
+        <van-sticky>
+            <!--按钮组-->
+            <course_menus ref='menus' :course="course" :account="account" :canstudy="canstudy" :purchase="purchase"
+                :studied="studied" :owned="owned" :loading="loading" :datainfo="datainfo">
+            </course_menus>
+            <!--选项卡-->
+            <van-tabs v-model="tabActive" class="tab">
+                <van-tab title="detail">
+                    <template #title>
+                        <span icon="&#xe813">课程介绍</span>
+                    </template>
+                </van-tab>
+                <van-tab title="outline"> <template #title>
+                        <span icon="&#xe841">章节</span>
+                    </template>
+                </van-tab>
+                <van-tab title="target"> <template #title>
+                        <span icon="&#xe816">学习目标</span>
+                    </template>
+                </van-tab>
+                <van-tab title="teacher"> <template #title>
+                        <span icon="&#xe6a1">讲师</span>
+                    </template>
+                </van-tab>
+            </van-tabs>
+        </van-sticky>
+        <div class="card" id="Context">
+            <!--课程详情-->
+            <template v-if="tabActive==0">
+                <van-tag type="primary" class="type" v-if="course.Cou_Type==2">试题库</van-tag>
+                <div class="introBox" v-if="course.Cou_Intro!=''" v-html="course.Cou_Intro"></div>
+                <div class="introBox" v-else>没有内容</div>
+            </template>
+            <!--章节-->
+            <template v-if="tabActive==1">
+
+                <van-cell-group v-if="outlines && outlines.length>0" class="outline">
+                    <van-cell v-for="o in outlines">
+                        <template #title>
+                            <div :style="'padding-left:'+(o.Ol_Level*20)+'px'">{{o.Ol_XPath}}{{o.Ol_Name}}
+                                <van-tag type="danger" v-if="!o.Ol_IsFinish">未完结</van-tag>
+                            </div>
+                            <div class="tag">
+                                <template v-if="course.Cou_IsTry && o.Ol_IsFree">
+                                    <van-tag type="success" v-if="o.Ol_IsVideo" @click="$refs.menus.btnEvt(null,o)">免费
+                                    </van-tag>
+                                </template>
+                                <template v-else>
+                                    <span v-if="owned || course.Cou_IsFree || course.Cou_IsLimitFree"
+                                        @click="$refs.menus.btnEvt(null,o)">
+                                        <progress_video :videolog="videolog" :outline="o" text="学习" v-if="o.Ol_IsVideo && course.Cou_Type==0">
+                                        </progress_video>
+                                        <van-tag type="success" plain v-else>学习</van-tag>
+                                    </span>
+                                    <template v-else>
+                                        <van-tag type="primary" plain @click="$refs.menus.btnEvt(null,null)">购买
+                                        </van-tag>
+                                    </template>
+                                </template>
+                            </div>
+                        </template>
+                    </van-cell>
+                </van-cell-group>
+            </template>
+            <!--学习目标-->
+            <template v-if="tabActive==2">
+                <div class="couTarget" v-html="course.Cou_Target"></div>
+            </template>
+            <!--教师-->
+            <template v-if="tabActive==3">
+                <div class="teacher" v-if="teacher">
+                    <avatar :teacher="teacher" circle="true" size="60"></avatar>
+                    <div class="thname">
+                        <span v-html="teacher.Th_Name" ></span>
+                        <span v-if="teacher.Ths_Name!=''" class="thsname">({{teacher.Ths_Name}})</span>
+                    </div>
+                    <div v-html="teacher.Th_Intro" class="thintro"></div>
+                </div>
+                <div class="nodata" v-else>没有指定教师</div>
+            </template>           
+        </div>
+    </div>
+</body>
+
+</html>

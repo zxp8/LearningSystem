@@ -1,0 +1,22 @@
+{
+  "Acc_ID": {
+    "mark": "",
+    "intro": "",
+    "relation": "EmpAccount"
+  },
+  "Qcl_CrtTime": {
+    "mark": "创建时间",
+    "intro": "",
+    "relation": ""
+  },
+  "Qcl_ID": {
+    "mark": "主键",
+    "intro": "",
+    "relation": ""
+  },
+  "Qus_ID": {
+    "mark": "",
+    "intro": "",
+    "relation": "Questions"
+  }
+}

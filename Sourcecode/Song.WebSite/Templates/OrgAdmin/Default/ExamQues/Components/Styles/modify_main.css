@@ -1,0 +1,70 @@
+﻿/*课程数据*/
+
+.panel {
+	width: 100%;
+	height: calc(100% - 65px);
+}
+
+/*编辑区域*/
+.panel>div[remark] {
+	height: calc(100% - 30px);
+	overflow: auto;
+	position: relative;
+}
+.panel>div[remark='解析'] .tox-tinymce {
+	border: none !important;
+	border-bottom: 1px solid #ccc !important;
+}
+.panel>div[remark='解析'] .tox-statusbar{
+	border: none !important;
+}
+
+/*试题解析的编辑器*/
+#explain.editor {
+	margin: 15px;
+	width: calc(100% - 30px);
+	height: calc(100% - 30px);
+
+}
+
+#explain.editor .content {
+	height: calc(100% - 37px) !important;
+}
+
+/*AI生成的按钮*/
+.ai_btn{
+	position: absolute;
+	z-index: 10;
+	top: 10px;
+	right: 10px;	
+}
+.ai_btn>span{
+	display: block;
+	display: flex;
+	line-height: 20px;
+	cursor: pointer;
+	color: brown;
+}
+.ai_btn>span::before{
+	content: '';
+	display: block;
+	background-image: url("/Utilities/Images/ai.png");
+	width: 20px;
+	height: 20px;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	margin-right: 8px;
+}
+.ai_btn>span:hover{
+	transform: scale(1.05);
+	text-shadow: 1px 1px 3px #444;
+}
+
+/*知识点的选择*/
+.selectknl {
+	margin: 15px;
+	width: calc(100% - 30px) !important;
+	height: calc(100% - 30px) !important;
+	position: relative;
+	display: flex;
+}

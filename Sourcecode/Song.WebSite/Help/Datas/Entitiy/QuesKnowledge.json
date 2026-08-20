@@ -1,0 +1,67 @@
+{
+  "Org_ID": {
+    "mark": "机构ID",
+    "intro": "",
+    "relation": "Organization"
+  },
+  "Qk_Count": {
+    "mark": "试题数",
+    "intro": "",
+    "relation": ""
+  },
+  "Qk_CrtTime": {
+    "mark": "创建时间",
+    "intro": "",
+    "relation": ""
+  },
+  "Qk_Details": {
+    "mark": "详情",
+    "intro": "",
+    "relation": ""
+  },
+  "Qk_ID": {
+    "mark": "主键",
+    "intro": "",
+    "relation": ""
+  },
+  "Qk_Intro": {
+    "mark": "简介",
+    "intro": "",
+    "relation": ""
+  },
+  "Qk_IsDeleted": {
+    "mark": "是否删除",
+    "intro": "",
+    "relation": ""
+  },
+  "Qk_IsUse": {
+    "mark": "使用",
+    "intro": "",
+    "relation": ""
+  },
+  "Qk_Name": {
+    "mark": "名称",
+    "intro": "知识点的标题",
+    "relation": ""
+  },
+  "Qk_Order": {
+    "mark": "排序号",
+    "intro": "",
+    "relation": ""
+  },
+  "Qk_PID": {
+    "mark": "上级节点ID",
+    "intro": "",
+    "relation": ""
+  },
+  "Qk_UpdateTime": {
+    "mark": "修改时间",
+    "intro": "",
+    "relation": ""
+  },
+  "Qk_Weight": {
+    "mark": "权重",
+    "intro": "是否是重点知识，可以用数字标注",
+    "relation": ""
+  }
+}

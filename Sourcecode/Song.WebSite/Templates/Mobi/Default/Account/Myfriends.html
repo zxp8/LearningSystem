@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>我的朋友</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <van-sticky>
+            <page_header title="我的朋友" icon="&#xe67d" :fresh="true"></page_header>
+        </van-sticky>
+        <div class="header">
+            <van-row>
+                <div class="header_info" v-if="!islogin" remark="未登录" @click="navigateTo(commonaddr('signin'))">
+                    <div class="acc_photo nophoto"></div>
+                    <div class="accInfo">
+                        <div class="acc-name">未登录
+                        </div>
+                        <span class="acc-money"> ... </span>
+                    </div>
+                </div>
+                <div class="header_info" v-if="islogin" remark="已经登录" @click="navigateTo(commonaddr('myself'))">
+                    <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                        :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                    <template v-else>
+                        <div class="acc_photo woman" v-if="account.Ac_Gender==2"></div>
+                        <div class="acc_photo man" v-else></div>
+                    </template>
+                    <div class="accInfo">
+                        <div class="acc-name">
+                            <icon :woman="account.Ac_Gender==2" hide :man="account.Ac_Gender!=2">
+                                <span v-html='account.Ac_Name' v-if="account.Ac_Name!=''"></span>
+                                <span v-else class="noname">(没有名字)</span>
+                            </icon>
+                            <span class="acc-acname" v-html="account.Ac_AccName"></span>
+                        </div>
+                        <div class="acc-money">
+                            <span>
+                                <van-tag type="success">
+                                    <icon>&#xe67d</icon>好朋友{{friends}}个
+                                </van-tag>
+                                <van-tag type="warning">累计朋友{{friendAll}}个</van-tag>
+                            </span>
+                            <a href="share" class="income">分享</a>
+                        </div>
+
+                    </div>
+                </div>
+            </van-row>
+        </div>
+<help>通过分享连接注册的账号</help>
+        <van-list v-if="islogin" v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
+            @load="onload">
+            <template v-for="(item,i) in datas">
+
+                <van-swipe-cell>
+                    <template #left>
+
+                    </template>
+                    <van-cell :border="false" class="row-box">
+                        <template #title>
+                            <avatar :account="item" circle="true" size="50"></avatar>
+                            <div class="account">
+                                <icon :woman="item.Ac_Gender==2" small :man="item.Ac_Gender!=2">
+                                    <span v-html='item.Ac_Name' v-if="item.Ac_Name!=''"></span>
+                                    <span v-else class="noname">(没有名字)</span>
+                                </icon>
+
+                                <icon mobile >
+                                    <span v-html='item.Ac_MobiTel1' v-if="item.Ac_MobiTel1!=''"></span> 
+                                    <span v-else class="noname">无</span>
+                                </icon>
+                            </div>
+                            <div class="datainfo">
+                                <icon money title="资金余额"> {{item.Ac_Money}}</icon>
+                                <icon coupon title="卡券">{{item.Ac_Coupon}}</icon>
+                                <icon point title="积分">{{item.Ac_Point}}</icon>
+                            </div>
+                        </template>
+                    </van-cell>
+                    <template #right>
+                        d
+                    </template>
+                </van-swipe-cell>
+            </template>
+
+
+        </van-list>
+
+        <!-- 底部和侧边导航-->
+        <aside_menu ref='aside_menu' :account="account" :config="config"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

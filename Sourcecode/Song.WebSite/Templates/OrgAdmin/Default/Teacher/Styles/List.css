@@ -1,0 +1,68 @@
+﻿@charset "utf-8";
+.organs_option {
+	height: 70px;
+}
+
+
+.info {
+	width: calc(100% - 50px);
+	height: 48px;
+	float: left;
+	line-height: 24px;	
+	overflow: hidden;
+	font-size: 16px;
+	color: #333;
+}
+.info>icon:first-child{
+	display: none;
+}
+.woman{
+	color: rgb(240, 104, 117);
+}
+.man{
+	color: rgb(72, 127, 210);
+}
+.woman>icon:first-child,.man>icon:first-child{
+	display: inline-block;
+}
+.teacher::before {
+	color: rgb(3, 167, 3);
+	margin: 0px;
+}
+
+.money {
+	font-size: 16px;
+	color: coral;
+	display: inline-block;
+	cursor: pointer;
+}
+.coupon{
+	margin-right: 10px;
+}
+.coupon, .point{
+	cursor: pointer;
+}
+.coupon:hover, .point:hover{
+	text-decoration: underline;
+}
+
+/*头像组件*/
+
+.ws_avatar {
+	float: left;
+	margin-right: 5px;	
+}
+.noname{
+	color: #aaa;
+	font-size: 12px;
+}
+td .el-tag{
+	cursor: pointer;
+}
+.null{
+	font-size: 12px;
+	color: #999;
+}
+.course_count{
+	font-size: 16px;
+}

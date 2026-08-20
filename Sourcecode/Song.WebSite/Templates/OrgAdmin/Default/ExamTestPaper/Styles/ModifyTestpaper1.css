@@ -1,0 +1,164 @@
+#vapp {
+    display: flex;
+
+}
+
+:root {
+    --chinese-font: "隶书", "LiSu", "STKaiti", "KaiTi", "楷体",
+        "Microsoft YaHei", "微软雅黑", sans-serif;
+}
+
+.footer {
+    width: 400px;
+}
+
+.el-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+}
+
+/*左侧区间*/
+#vapp>*:first-child {
+    flex: 1;
+    margin-right: 10px;
+    padding-right: 5px;
+    flex-direction: column;
+}
+
+section.left {
+    overflow-y: auto;
+}
+
+section.left .el-card.theme {
+    height: auto;
+}
+
+section.left .el-card {
+    margin-bottom: 15px;
+
+}
+
+/*右侧区间*/
+section.right {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+section.right .el-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+}
+
+
+
+section.right .el-form>.el-card:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+section.right .el-form .el-card:last-child {
+    flex: 1;
+    margin-bottom: 60px;
+}
+
+.el-form-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+section.right .quescard {
+    display: flex;
+    flex-direction: column;
+}
+
+section.right .quescard .el-form-item__error {
+    left: -10px !important;
+    white-space: nowrap;
+}
+
+section.right .quescard .el-card__body {
+    overflow-y: auto;
+}
+
+/*试题主题区*/
+.theme .el-card__body {
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.null {
+    font-family: var(--chinese-font);
+}
+
+.tpname>span {
+    font-size: 2rem;
+    font-family: var(--chinese-font);
+    margin: .5rem;
+    cursor: pointer;
+}
+
+.tpsubname {
+    font-size: 1.2rem;
+    font-family: var(--chinese-font);
+    margin: .5rem 0px 1.2rem 0px;
+}
+
+.tpinfo {
+    margin: 8px;
+}
+
+.tpinfo>* {
+    margin: 5px 10px;
+}
+
+.tpremind {
+    text-align: left;
+    flex: 1;
+    line-height: 1.5;
+}
+
+
+/*试题区域*/
+section.content {
+    flex: 1;
+}
+
+section.content>.el-card .el-card__body {
+    padding: 10px;
+}
+
+/*当某个题型没有试题时，不显示空白区域，以及标题的下划线*/
+section.content>.el-card .el-card__body:empty {
+    display: none;
+}
+
+section.content>.el-card:has(.el-card__body:empty) .el-card__header {
+    border: none;
+}
+
+/*题型的按钮区*/
+.qtype_btns {
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/*题卡区域*/
+.scoreitems>div.ques_type {
+    height: 33px;
+    margin-bottom: 10px;
+}
+
+.scoreitems>div.ques_type>div:first-child * {
+    line-height: 33px;
+    height: 33px;
+}
+
+.quescard .el-card__body {
+    padding: 15px;
+}

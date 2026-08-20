@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>试题编辑-填空</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <modify_main ref="main" @load="quesload" @init="(o,c,t)=>{org=o;config=c;types=t}">
+            <!-- 编辑区域-->
+            <el-form ref="entity" :model="entity" @submit.native.prevent label-width="60px">
+                <el-form-item label="题干" prop="Qus_Title">
+                    <editor ref="editor_title" :content="entity.Qus_Title" id="title" :menubar="false" model="question"
+                        upload="ques" :dataid="entity.Qus_ID" style="height: 300px;"
+                        @change="text=>entity.Qus_Title=text"></editor>
+                </el-form-item>
+                <el-form-item label="选项" prop="Qus_Items">
+                    <dl class="ans" id="ansitems">
+                        <dd v-for="(item,index) in ansitems">
+                            <index :title="'id:'+item.Ans_ID">{{index+1}}</index>
+                            <input type="text" autocomplete="off" class="text" v-model="item.Ans_Context"
+                                placeholder="请输入内容" />
+                            <div class="btns">
+                                <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                                    title="确定删除吗？" @confirm="ansitems.splice(index, 1)">
+                                    <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除 </el-link>
+                                </el-popconfirm>
+                            </div>
+                        </dd>
+                        <dt>
+                            <el-link type="success" plain icon="el-icon-circle-plus-outline" @click='additemrow'>添加新项
+                            </el-link>
+                        </dt>
+                    </dl>
+                </el-form-item>
+            </el-form>
+            <ques_ansitem ref="ques_ansitem" :question="entity" @close="ansEnter"></ques_ansitem>
+        </modify_main>
+        <enter_button ref="enterbutton" :question="entity" :verify="verify" :org="org"></enter_button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <title>帮助中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="Images/help.ico" />
+    <link type="text/css" rel="stylesheet" href="../Utilities/Fonts/icon.css">
+    <link href="Styles/index.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/utils.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="vapp">
+        <header>
+            <div icon="&#xa026">帮助中心</div>
+            <div copyright="title"></div>
+            <div class="rightbtns">
+                <span icon="&#xa047" copyright="tel"> </span>
+                <a href="http://www.weisha100.net/" icon="&#xa026" target="_blank">使用教程</a>
+                <a href="/" icon="&#xa020" target="_blank">首页</a>
+            </div>
+            <div mobi icon="&#xa00c" @click="showmenu=true"></div>
+        </header>
+        <section>
+            <nav :mobi="showmenu">
+                <template v-for="(item,i) in menus">
+                    <p v-if="item.type=='line'" class="line"></p>
+                    <template v-else>
+                        <a :href="item.url" v-if="item.type=='link'" :style="nodestyle(item)"
+                            :current="item.name==current.name && i!=0" target="_blank">
+                            <icon v-html="'&#x'+item.icon.i" :style="iconstyle(item.icon)"></icon>
+                            <span v-html="item.name"></span>
+                            <hot v-if="item.hot"></hot>
+                        </a>
+                        <div v-else @click="menuclk(item,i)" :style="nodestyle(item)"
+                            :current="item.name==current.name && i!=0">
+                            <icon v-html="'&#x'+item.icon.i" :style="iconstyle(item.icon)"></icon>
+                            <span v-html="item.name"></span>
+                            <hot v-if="item.hot"></hot>
+                        </div>
+                    </template>
+                </template>
+
+            </nav>
+            <aside>
+                <iframe name="content" id="content" frameborder="0" border="0" marginwidth="0" marginheight="0"
+                    :src="iframeurl"></iframe>
+            </aside>
+        </section>
+        <footer>
+            <a class="copyright" copyright="website" target="_blank"><span copyright="company"></span></a>
+            <span> <a class="powerby" copyright="website" target="_blank">
+                    Copyright © <span copyright="powerby"></span> All rights reserved </a> </span>
+            <span copyright="email"></span>
+        </footer>
+
+    </div> <img copyright="weixinqr" />
+</body>
+<script type="text/javascript" src="Scripts/index.js"></script>
+
+</html>

@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>我的课程</title>
+</head>
+
+<body>
+    <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <div class="header" :login="islogin">
+            <van-row>
+                <div class="header_info" v-if="!islogin" remark="未登录"  @click="navigateTo(commonaddr('signin'))">
+                    <div class="acc_photo nophoto"></div>
+                    <div class="accInfo">
+                        <div class="acc-name">未登录
+                        </div>
+                        <span class="acc-money"> ... </span>
+                    </div>
+                </div>
+                <div class="header_info" v-if="islogin" remark="已经登录"  @click="navigateTo(commonaddr('myself'))">
+                    <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                        :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                    <template v-else>
+                        <div class="acc_photo woman" v-if="account.Ac_Gender==2"></div>
+                        <div class="acc_photo man" v-else></div>
+                    </template>
+                    <div class="accInfo">
+                        <div class="acc-name">{{account.Ac_Name}} </div>
+                        <span class="acc-acname">{{account.Ac_AccName}}</span>
+
+                    </div>
+                </div>
+            </van-row>
+            <van-row style="margin-top: 20px;" v-if="islogin">
+                <van-tag type="warning" @click="gourl('../Recharge/index')">
+                    <icon money>{{account.Ac_Money}}元</icon>
+                </van-tag>
+                <van-tag type="primary" @click="gourl('../Point/index')">
+                    <icon coupon>券{{account.Ac_Coupon}}</icon>
+                </van-tag>
+                <van-tag type="primary" @click="gourl('../Point/index')" plain>
+                    <icon point>积分{{account.Ac_Point}}</icon>
+                </van-tag>
+            </van-row>
+        </div>
+        <!--未登录，显示推荐课程-->
+        <courses :sbjid="0" v-if="!islogin" title="推荐课程" :orgid="org.Org_ID" :config="config" count="6"></courses>
+
+        <van-sticky v-if="islogin">
+            <van-tabs v-model="active" v-if="islogin" @change="tabChange">
+                <van-tab title="purchased">
+                    <template #title>
+                        <span icon="&#xe813">我的课程</span>
+                    </template>
+                </van-tab>
+                <van-tab title="overdue"> <template #title>
+                        <span icon="&#xa039">过期课程</span>
+                    </template>
+                </van-tab>
+                <van-tab title="ontrial"> <template #title>
+                        <span icon="&#xe84d">试学课程</span>
+                    </template>
+                </van-tab>
+            </van-tabs>
+        </van-sticky>
+        <van-list v-model="loading" :finished="finished" v-if="islogin" finished-text="没有更多了" error-text="请求失败，点击重新加载"
+            @load="onload">
+            <purchase_data v-for="(item,index) in datas" :couid="item.Cou_ID" :account="account" v-slot="scope">
+                <van-swipe-cell class="course" @open="cell_swipe">
+                    <template #left>
+
+                    </template>
+                    <van-cell :border="false" class="cour_box">
+                        <template #title>
+                            <picture @click="godetail(item.Cou_ID)">
+                                <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall!=''" />
+                                <img :src="defimg" v-else />
+                                <rec v-if="item.Cou_IsRec"></rec>
+                                <van-tag type="danger" class="view" v-if="item.Cou_ViewNum>0">{{item.Cou_ViewNum}}
+                                </van-tag>
+                                <div class="topbar">
+                                    <van-tag type="warning" class="type" v-if="item.Cou_Type">题库</van-tag>   
+                                    <span class="ai" v-if="item.Cou_EnabledAI"><icon svg="ai"></icon>AI助教</span>            
+                                </div>                                
+                            </picture>
+                            <info @click="godetail(item.Cou_ID)">
+                                <div class="curname">
+                                    <van-tag type="success " class="free"
+                                        v-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">限时免
+                                    </van-tag>
+                                    <van-tag type="success " class="free" v-else-if="item.Cou_IsFree">免费</van-tag>
+                                    {{item.Cou_Name}}
+                                </div>
+                                <div class="cursubject"> {{item.Sbj_Name}}</div>
+                                <price>
+                                    <template v-if="scope.forever">
+                                        <van-tag type="success">
+                                            <icon>&#xa048</icon>不限时
+                                        </van-tag>
+                                    </template>
+                                    <van-tag type="success " class="free"
+                                        v-else-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
+                                        免费至 {{item.Cou_FreeEnd|date('yyyy-MM-dd')}}
+                                    </van-tag>
+                                    <van-tag type="warning" v-else-if="!item.Cou_IsFree">
+                                        <icon>&#xe671</icon>{{scope.data.Stc_EndTime|date("yyyy-M-d ")}} 过期
+                                        {{item.endtime|date("yyyy年M月d日")}}
+                                    </van-tag>
+                                </price>
+                            </info>
+                            <div class="progress">
+                                <video_progress v-if="item.Cou_Type!=2" :course="item" :stid="account.Ac_ID"
+                                    :config="config" :purchase="scope.data">
+                                </video_progress>
+                                <ques_progress :course="item" :stid="account.Ac_ID" :purchase="scope.data">
+                                </ques_progress>
+                                <exam_test :course="item" v-show="false" :stid="account.Ac_ID" :config="config"
+                                    :purchase="scope.data">
+                                </exam_test>
+                                <!-- 综合成绩 --->
+                                <result_score :purchase="scope.data"></result_score>
+                            </div>
+                        </template>
+                    </van-cell>
+                    <template #right>
+                        <course_data :couid="item.Cou_ID" :viewnum="item.Cou_ViewNum"></course_data>
+                    </template>
+                </van-swipe-cell>
+            </purchase_data>
+        </van-list>
+        <aside_menu ref='aside_menu' :account="account" :config="config"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

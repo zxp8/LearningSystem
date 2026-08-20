@@ -1,0 +1,14 @@
+﻿@charset "utf-8";
+ #vapp {
+	display: flex;
+}
+#sort_area{
+	width: 0px;
+	background-color: aqua;
+	width: 300px;
+	display: none;
+}
+#link_area{
+	
+	width: 100%;
+}

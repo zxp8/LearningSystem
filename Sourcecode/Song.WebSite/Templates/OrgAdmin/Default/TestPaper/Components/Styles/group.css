@@ -1,0 +1,17 @@
+﻿.type_title{
+    display: flex;
+    height: 30px;
+    line-height: 35px;
+    margin-bottom: 10px;
+}
+.type_info{
+   font-size:.9rem;
+   color: #444;
+   margin-left: 15px;
+}
+.type_info::before{
+    content: '(';
+}
+.type_info::after{
+    content: ')';
+}

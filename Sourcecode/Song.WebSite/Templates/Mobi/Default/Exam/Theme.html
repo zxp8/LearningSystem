@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>考试主题</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="(acc,login)=>{account = acc;loading_login=login;}"
+            @load="(o,c,p)=>{org=o,config=c,platinfo=p}">
+        </generic>
+        <div class="header" :login="islogin">
+            <van-row>
+                <div class="header_info" v-if="!islogin" remark="未登录" @click="navigateTo(commonaddr('signin'))">
+                    <div class="acc_photo nophoto"></div>
+                    <div class="accInfo">
+                        <div class="acc-name">未登录
+                        </div>
+                        <span class="acc-money"> ... </span>
+                    </div>
+                </div>
+                <div class="header_info" v-if="islogin" remark="已经登录" @click="navigateTo(commonaddr('myself'))">
+                    <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                        :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                    <template v-else>
+                        <div class="acc_photo woman" v-if="account.Ac_Gender==2"></div>
+                        <div class="acc_photo man" v-else></div>
+                    </template>
+                    <div class="accInfo">
+                        <div class="acc-name">{{account.Ac_Name}} </div>
+                        <span class="acc-acname">{{account.Ac_AccName}}</span>
+
+                    </div>
+                </div>
+            </van-row>
+        </div>
+        <card class="theme" shadow="hover">
+            <card-title>
+                <header>
+                    <b>{{theme.Exam_Title}}</b>
+                    <span small>{{theme.Exam_Intro}}</span>
+                </header>
+                <div class="grouptype">
+                    <van-tag v-if="theme.Exam_GroupType == 1">全体学员</van-tag>
+                    <van-tag v-if="theme.Exam_GroupType == 2">限定学员组</van-tag>
+                    <van-tag v-if="theme.Exam_GroupType == 3">指定学员</van-tag>
+                </div>
+            </card-title>
+            <card-content>
+                <theme_item v-for="(e,index) in exams" :exam="e" :theme="theme" :index="index" :account="account">
+                </theme_item>
+            </card-content>
+        </card>
+        <aside_menu ref='aside_menu' :account="account" :config="config"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+﻿.final_condition>div:not(:last-child) {
+	padding-right: 60px;
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.final_condition .van-tag {
+	position: absolute;
+	top: 7px;
+	right: 0px;
+}

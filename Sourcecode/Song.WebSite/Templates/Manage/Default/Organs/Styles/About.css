@@ -1,0 +1,5 @@
+@charset "utf-8";
+
+.editor{
+    height: calc(100% - 55px) !important;
+}

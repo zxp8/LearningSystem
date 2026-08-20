@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>考试成绩</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <el-tag v-if="false">
+                <icon>&#xe654</icon>考试成绩
+            </el-tag>
+            <btngroup show="" ref='btngroup' width="600" height="500" idkey='Exam_ID'
+                table="datatable"></btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <date_range @change="selectDate"></date_range> 
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.search" placeholder="考试主题" style="width:160px"> </el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+        <template>
+            <el-table ref="datatable"  border resizable  :data="datas" :height="$dom.height() - 60"
+                tooltip-effect="dark" style="width: 100%" index-key="Exam_Order" row-key="Exam_ID"
+                @row-click.self="clickTable" default-expand-all>
+                <el-table-column type="index" width="50">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column type="expand">
+                    <template slot-scope="scope">
+                        <exams :uid="scope.row.Exam_UID"></exams>
+                    </template>
+                </el-table-column>
+                <el-table-column label="考试主题">
+                    <template slot-scope="scope">
+                        <el-tooltip content="查看成绩" placement="bottom" effect="light">
+                            <el-link type="primary" @click="btnResultSummarize(scope.row)" class="theme_Name">
+                                <span v-html='scope.row.Exam_Title' class="large"></span>
+                            </el-link>
+                        </el-tooltip>
+                    </template>
+                </el-table-column>
+                <el-table-column label="参考人数" width="100" align="center">
+                    <template slot-scope="scope">
+                        <el-tooltip content="查看成绩" placement="bottom" effect="light">
+                            <el-link type="primary" @click="btnResultSummarize(scope.row)" >
+                                <attendcount :exam="scope.row"  @click="btnResultSummarize(scope.row)" medium></attendcount>
+                            </el-link>
+                        </el-tooltip>                        
+                    </template>
+                </el-table-column>
+                <el-table-column label="应考人数" width="100" align="center">
+                    <template slot-scope="scope">
+                        <studenttotal :exam="scope.row"></studenttotal>
+                    </template>
+                </el-table-column>
+                <el-table-column label="参考人员">
+                    <template slot-scope="scope">
+                        <group :exam="scope.row"></group>
+                    </template>
+                </el-table-column>
+                <el-table-column label="成绩" width="120" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="primary" plain @click.stop="btnResultSummarize(scope.row)"><icon>&#xe696</icon> 查看成绩
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" 
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

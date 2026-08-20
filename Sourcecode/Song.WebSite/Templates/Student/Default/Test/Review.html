@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>测试成绩回顾</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="header">
+            <span>
+                <span class="noprint">成绩：</span>
+                <score :class="scoreStyle(result.Tr_Score)">{{result.Tr_Score}} 分</score>
+                <span class="tag noprint">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
+                <span class="tag noview">({{paper.Tp_PassScore}}及格/满分{{paper.Tp_Total}})</span>
+                <span class="noprint">时间：</span> {{result.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}
+
+                <el-button :type="init ? 'primary' : 'info'" size="mini" class="noprint" @click="window.print()" :loading="!init">
+                    <span v-if="!init">加载中...</span>
+                    <span v-else icon="&#xa046">打印</icon>
+                </el-button>
+            </span>
+
+            <div class="header_info" v-if="!islogin" remark="未登录">
+                <div class="acc_photo nophoto"></div>
+                <a :href="commonaddr('signin')">未登录 </a>
+            </div>
+            <div class="header_info" v-if="islogin" remark="已经登录">
+                <img class="acc_photo noprint" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                    :src="account.Ac_Photo">
+                </img>
+                <template v-else>
+                    <div class="acc_photo woman" v-if="account.Ac_Gender==2"></div>
+                    <div class="acc_photo man" v-else></div>
+                </template>
+                <span class="acc-name">{{account.Ac_Name}} （{{account.Ac_AccName}}） </span>
+            </div>
+        </div>
+        <div v-if="loading">
+            <card>
+                <card-title>
+                    <loading type="spinner">正在加载中...</loading>
+                </card-title>
+            </card>
+        </div>
+        <context>
+            <div class="course">课程：{{course.Cou_Name}}</div>
+            <div v-if="!loading" class="tp_name">
+                《<span v-html="paper.Tp_Name"></span>》
+            </div>
+            
+            <template v-if="error==''">
+                <div class="sticky">
+                    <el-tabs v-model="tabactive">
+                        <el-tab-pane name="all">
+                            <template slot="label">
+                                <span icon="&#xe75e">所有({{ques_all_count}})
+                            </template>
+                        </el-tab-pane>
+                        <el-tab-pane name="success"> <template slot="label">
+                                <span icon="&#xa048">正确({{ques_success_count}})
+                            </template>
+                        </el-tab-pane>
+                        <el-tab-pane name="error"> <template slot="label">
+                                <span icon="&#xe6fe">错误({{ques_error_count}})
+                            </template>
+                        </el-tab-pane>
+                        <el-tab-pane name="unasnwered"> <template slot="label">
+                                <span icon="&#xa01f">未做({{ques_unanswerd_count}})
+                            </template>
+                        </el-tab-pane>
+                    </el-tabs>
+                    <span class="score" v-if="paper">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
+                    <alert v-else>试卷不存在</alert>
+                </div>
+                <div class="question">
+                    <group v-for="(type,index) in questions" :item="type" :index="index" :types="types"
+                        :state="tabactive">
+                        <question v-for="(q,i) in type.ques" :account="account.Ac_ID" :exam="null" :qans="q" :index="i"
+                            :state="tabactive" :groupindex="index" :org="organ" :questions="questions"></question>
+                    </group>
+                </div>
+            </template>
+
+        </context>
+    </div>
+</body>
+
+</html>

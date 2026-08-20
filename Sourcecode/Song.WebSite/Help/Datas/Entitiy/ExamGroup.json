@@ -1,0 +1,32 @@
+{
+  "Eg_ID": {
+    "mark": "主键",
+    "intro": "",
+    "relation": ""
+  },
+  "Eg_Type": {
+    "mark": "类型",
+    "intro": "默认为2，原本设计时，考试在选择参考范围时，2表示按学员组，3按学员；后来学员范围选择时，设计了表Exam_Accounts。于是该不再使用。",
+    "relation": ""
+  },
+  "Sts_ID": {
+    "mark": "学员组的id",
+    "intro": "",
+    "relation": "StudentSort"
+  },
+  "Exam_UID": {
+    "mark": "考试uid",
+    "intro": "考试主题的UID（全局唯一值）",
+    "relation": "Examination"
+  },
+  "Org_ID": {
+    "mark": "机构ID",
+    "intro": "",
+    "relation": "Organization"
+  },
+  "Org_Name": {
+    "mark": "",
+    "intro": "",
+    "relation": "Organization"
+  }
+}

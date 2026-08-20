@@ -1,0 +1,9 @@
+.papertype{
+    cursor: default;
+}
+.papertype[type='2'] * { 
+    color: #409eff;
+}
+.papertype[type='1'] * { 
+    color: #46961e;
+}

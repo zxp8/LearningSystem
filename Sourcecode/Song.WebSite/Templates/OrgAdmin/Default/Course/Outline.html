@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title>章节</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar" v-show="!loading">
+            <btngroup show="新增" ref='btngroup' @add="openbox(null,'OutlineModify','章节管理 - 新增',850,600,'e841')"
+                width="850" idkey='Ol_ID' height="600"></btngroup>
+            <query_panel :loading="loading">
+                <el-form-item label="">
+                    <el-tag type="success">
+                        <icon>&#xe750</icon>当前课程有 <strong v-html="total">-</strong> 个章节
+                    </el-tag>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="filterText" clearable style="width:160px" placeholder="搜索"
+                        suffix-icon="el-icon-search"></el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+        <div class="tree-box">
+            <el-tree :data="datas" node-key="Ol_ID" ref="tree" :props="{children: 'children', label: 'Ol_Name'}"
+                expand-on-click-node default-expand-all :filter-node-method="filterNode" @node-drag-end="handleDragEnd"
+                :expand-on-click-node="false" draggable @node-expand="nodeexpand" @node-collapse="nodecollapse"
+                :default-expanded-keys="expanded" v-loading="loading || loading_sumbit">
+                <span class="custom-node" slot-scope="{ node, data }">
+                    <div class="node_name draghandle">
+                        <span>{{data.serial}}</span>
+                        <span v-html="showsearch(data.Ol_Name,filterText)" class="large"></span>
+                        <span class="date" v-if="data.Ol_ModifyTime"
+                            :title="data.Ol_ModifyTime|date('最后编辑时间：yyyy-MM-dd HH:mm:ss')">
+                            ({{data.Ol_ModifyTime.untilnow()}})
+                        </span>                       
+                    </div>
+                    <div class="btns">
+                        <span class="column_video">
+                            <el-tag @click="openbox(data,'video','视频管理','80%','80%','e83a')"
+                                :type="data.Ol_IsVideo ? 'success' : 'info'">
+                                <icon>&#xe83a</icon>视频
+                            </el-tag>
+                            <el-tag @click="openbox(data,'OutlineModify?active=live','章节管理',800,600,'e841')"
+                                :type="data.Ol_IsLive ? 'success' : 'info'">
+                                <icon>&#xe6bf</icon> 直播
+                            </el-tag>
+                            <el-tag @click="openbox(data,'OutlineAccessory','附件管理',600,300,'e853')"
+                                :type="data.Ol_IsAccessory ? 'success' : 'info'" title="附件">
+                                <icon>&#xe853</icon> 附件
+                            </el-tag>
+                        </span>
+
+                        <span class="column_state">
+                            <template v-if="loadingid!=data.Ol_ID">
+                                <el-link :type="data.Ol_IsUse ? 'success' : 'danger'"
+                                    @click="changeState(data,'Ol_IsUse')">
+                                    <icon v-if="data.Ol_IsUse" title="启用">&#xe634</icon>
+                                    <icon v-else title="禁用">&#xe7ad</icon>
+                                </el-link>
+                                <el-link :type="data.Ol_IsFinish ? 'success' : 'danger'"
+                                    @click="changeState(data,'Ol_IsFinish')">
+                                    <icon v-if="data.Ol_IsFinish" title="完结">&#xe634</icon>
+                                    <icon v-else title="未完">&#xe85c</icon>
+                                </el-link>
+                                <el-link :type="data.Ol_IsFree ? 'success' : 'warning'"
+                                    @click="changeState(data,'Ol_IsFree')">
+                                    <icon v-if="data.Ol_IsFree" title="免费">&#xe740</icon>
+                                    <icon v-else title="收费">&#xe818</icon>
+                                </el-link>
+                            </template>
+                        </span>
+                        <span class="column_btn">
+                            <loading v-if="loadingid==data.Ol_ID" star></loading>
+                            <template v-else>
+                                <el-link type="success"
+                                    @click="openbox(null,'OutlineModify?pid='+data.Ol_ID,'新增下级章节',850,600,'e841')">
+                                    <icon>&#xe6ea</icon>新增下级
+                                </el-link>
+                                <el-link type="primary" @click="openbox(data,'OutlineModify','章节管理',850,600,'e841')">
+                                    <icon>&#xa02e</icon>编辑
+                                </el-link>
+                                <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
+                                    <el-link type="danger" slot="reference">
+                                        <icon>&#xe800</icon>删除
+                                    </el-link>
+                                </el-popconfirm>
+                            </template>
+                        </span>
+                    </div>
+                </span>
+            </el-tree>
+        </div>
+    </div>
+</body>
+
+</html>

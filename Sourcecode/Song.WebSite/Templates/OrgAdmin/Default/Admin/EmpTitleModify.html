@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修改信息</title>
+    <include file="../inc/meta.inc" />
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent @keyup.native.enter="btnEnter('entity',false)" label-width="80px">
+
+            <el-form-item label="名称" prop="Title_Name">
+                <el-input v-model="entity.Title_Name"></el-input>
+            </el-form-item>
+            <el-form-item label="说明" prop="Title_Intro">
+                <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="entity.Title_Intro"></el-input>
+            </el-form-item>
+            <el-form-item label="状态">
+                <el-switch v-model="entity.Title_IsUse" :active-text="entity.Title_IsUse ? '启用' : '禁用'"
+                    inactive-text="">
+                </el-switch>
+            </el-form-item>
+            <el-form-item label="排序号" v-if="entity.Title_Order>0">
+                <el-input-number v-model="entity.Title_Order"></el-input-number>
+            </el-form-item>
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain
+                @click="btnEnter('entity',true)">保存
+            </el-button>
+            <el-button type="primary" v-if="!isadd" native-type="submit" define="apply" :loading="loading" plain
+                @click="btnEnter('entity',false)">
+                应用
+            </el-button>
+            <el-button type='close' :loading="loading">取消</el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

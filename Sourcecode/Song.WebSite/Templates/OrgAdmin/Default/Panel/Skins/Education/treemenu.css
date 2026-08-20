@@ -1,0 +1,73 @@
+﻿@charset "utf-8";
+
+.treemenu {
+   /*左侧选项卡的背景、背景色、选中背景色（右侧面板同色）*/
+    --tag-color: #444;
+    --tag-bg: transparent;
+    --tag-selected-bg: rgb(218 255 244 / 60%);
+
+    /*选项卡被选时中的字体色*/
+    --tag-selected-color: #333;
+    --tag-selected-shadowcolor: rgb(7 53 47);
+    --tag-selected-shadow: 0px 0px 2px rgb(255, 255, 255);
+
+    /*菜单项右侧标题颜色与背景*/
+    --title-color: #fff;
+    --title-bg: rgb(81 147 117);
+    /*菜单项，滑标滑过的效果，依次为：前景色、背景色、边线、阴影*/
+    --node-hover-color: rgb(81 147 117);
+    --node-hover-bg: transparent;
+    --node-hover-border: solid 1px rgb(163 159 159 / 80%);
+    --node-hover-shadow: none;
+    /*菜单项，当前选中的颜色与背景色*/
+    --node-curr-color: rgb(81 147 117);
+    --node-curr-bg: rgba(255, 255, 255, 0.8);
+    --node-curr-border: solid 1px rgba(1, 128, 96, 0.6);
+
+     /*查询面板，依次：背景色、内阴影、边框颜色、内容区背景*/
+     --querypanel-title-color: rgb(0 67 83);
+     --querypanel-bg-color: rgb(171 231 253 / 40%);
+     --querypanel-bg-shadow: rgba(194, 194, 194, 0.2);
+     --querypanel-border-color: #829a9f;
+     --querypanel-area-bgcolor: rgb(255 255 255 / 20%);
+      /*查询面板中的文字颜色*/
+      --querypanel-treetit-color: rgb(251 251 251);
+      --querypanel-treenode-color: #535151;
+     --querypanel-treenode-shadow: none;
+}
+
+.treemenu tree_area tree_tit {
+    text-shadow: 1px 1px 2px #333;
+}
+
+.treemenu tree-node:hover:before {
+    border: var(--node-hover-border);
+    background: var(--node-hover-bg);
+    box-shadow: rgba(255, 255, 255, .3) 0px 0px 10px inset;
+}
+.treemenu tree_box.current>tree-node::before {
+    box-shadow: none !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+.treemenu a, .treemenu tree-node{
+    text-shadow: none;
+}
+div.querypanel>section{
+    background-image:none;
+}
+div.querypanel>section>section>tree_area {
+    padding: 0px;
+    box-sizing: border-box;
+    height: calc(100% - 30px);
+    background-color: var(--querypanel-area-bgcolor);
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%,
+            transparent 25%, transparent 50%, rgba(255, 255, 255, 0.05) 50%,
+            rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
+}
+
+/*左侧菜单树的选项卡，垂直居中*/
+.treemenu tree_tags{
+    justify-content: center;
+    padding-bottom: 40px;
+    box-sizing: border-box;
+}

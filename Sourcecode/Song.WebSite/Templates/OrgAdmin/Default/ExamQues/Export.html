@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>试题导出</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="form" :model="form" :rules="rules" @submit.native.prevent label-width="100px"
+            :disabled="loading_export || loading">
+            <el-form-item label="题型" prop="types">
+                <el-checkbox-group v-model="form.types">
+                    <el-checkbox v-for="(t,i) in types" :label="i+1" checked>
+                        <ques_type :type="i+1" :types="types" :showname="true" :showicon="false"></ques_type>
+                    </el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+            <el-form-item label="分类" prop="parts">
+                <el-link type="primary" @click="showpanel.parts=true">
+                    <span v-if="parts.length>0 && parts.length<2">{{parts[0].Qp_Name}}</span>
+                    <template v-if="parts.length>1">
+                        <span v-for="(p,i) in parts" v-else v-if="i<2"> {{p.Qp_Name}}，</span>
+                        <span v-if="parts.length>2">……共 {{parts.length}} 个分类</span>
+                    </template>
+                    (点击选择)
+                </el-link>
+            </el-form-item>
+            <el-form-item label="关键字" prop="tags">
+                <selecttag ref="selecttag" :org="org" @change="v=>form.tagid=v.join(',')"></selecttag>
+            </el-form-item>
+            <el-form-item label="知识点" prop="knls">
+                <el-link type="primary" @click="showpanel.knls=true">
+                    <span v-if="knls.length>0 && knls.length<2">{{knls[0].Qk_Name}}</span>
+                    <template v-if="knls.length>1">
+                        <span v-for="(p,i) in knls" v-else v-if="i<2"> {{p.Qk_Name}}，</span>
+                        <span v-if="knls.length>2">……共 {{knls.length}} 个知识点</span>
+                    </template>
+                    (点击选择)
+                </el-link>
+            </el-form-item>
+            <el-form-item label="难度" prop="diffs">
+                <el-checkbox-group v-model="form.diffs">
+                    <el-checkbox v-for="l in 5" :label="l" checked>{{l}}</el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+        </el-form>
+        <div v-if="files.length>0" class="filepanel">
+            <el-divider content-position="left">已经生成的导出文件 -
+                <el-popconfirm title="确定删除所有文件吗？" @confirm="deleteFileAll()" v-if="files.length>0">
+                    <el-link type="danger" v-loading="loading" slot="reference">
+                        <icon>&#xe6fe</icon>删除所有
+                    </el-link>
+                </el-popconfirm>
+            </el-divider>
+            <dl class="files">
+                <dd v-for="(f,i) in files">
+                    <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
+                        {{f.name}}</a>
+                    <span>{{f.size|size}}</span>
+                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                        <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+                </dd>
+            </dl>
+        </div>
+        <div class="footer">
+            <el-tag type="warning" class="questotal">
+                <loading v-if="loading_total" bubble> 正在计算 ...</loading>
+                <span v-else>当前选择的试题共 ： <b class="red">{{questotal}} </b>道</span>
+            </el-tag>
+            <span>
+                <el-button type="primary" plain @click="btnExportEvent" :loading="loading_export || loading"
+                    :disabled="loading_export || loading">
+                    <icon>&#xe73e</icon>导出excel文件
+                </el-button>
+                <el-button type='close'>取消</el-button>
+            </span>
+        </div>
+
+        <!-- 试题分类的选择框 -->
+        <el-dialog title="请选择试题分类" :visible.sync="showpanel.parts" :append-to-body="true" custom-class="parts_panel"
+            width="80%">
+            <selectpart :orgid="org.Org_ID" @update="updateparts"></selectpart>
+        </el-dialog>
+        <!-- 试题分类的选择框 -->
+        <el-dialog title="请选择试题知识点" :visible.sync="showpanel.knls" :append-to-body="true" custom-class="parts_panel"
+            width="80%">
+            <selectknl :orgid="org.Org_ID" @update="updateknl"></selectknl>
+        </el-dialog>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>课程专业编辑</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="panel">
+            <el-tabs type="border-card" v-model="activeName">
+                <el-tab-pane name="general">
+                    <span slot="label">
+                        <icon>&#xe6a4</icon> 基本信息
+                    </span>
+                </el-tab-pane>
+                <el-tab-pane name="logo">
+                    <span slot="label">
+                        <icon style="font-size: 18px;">&#xe672</icon> 展示图片
+                    </span>
+                </el-tab-pane>
+                <el-tab-pane name="detail">
+                    <span slot="label">
+                        <icon>&#xe72f</icon> 详情
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+            <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent
+                @keyup.native.enter="btnEnter('entity',false)" label-width="80px">
+                <div v-show="activeName=='general'" remark="基本信息" tab="general">
+                    <el-form-item label="名称" prop="Sbj_Name">
+                        <el-input v-model.trim="entity.Sbj_Name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="别名" prop="Sbj_ByName">
+                        <el-input v-model="entity.Sbj_ByName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="上级专业">
+                        <el-cascader style="width: 100%;" v-model="sbjSelects" :options="subjects" separator="／"
+                            :props="defaultProps" filterable>
+                            <template slot-scope="{ node, data }">
+                                <span class="serial">{{data.serial}}</span>
+                                <span>{{ data.Sbj_Name }}</span>                                  
+                              </template>
+                        </el-cascader>
+
+                    </el-form-item>
+                    <el-form-item label="状态" prop="Sbj_IsUse">
+                        <el-switch v-model="entity.Sbj_IsUse" :active-text="entity.Sbj_IsUse ? '启用' : '禁用'">
+                        </el-switch>
+                        <el-switch v-model="entity.Sbj_IsRec" :active-text="entity.Sbj_IsRec ? '推荐' : '未推荐'">
+                        </el-switch>
+                    </el-form-item>
+                    <el-form-item label="说明" prop="Sbj_Intro">
+                        <el-input type="textarea" :rows="6" placeholder="请输入内容" v-model="entity.Sbj_Intro">
+                        </el-input>
+                    </el-form-item>
+                </div>
+
+                <div v-show="activeName=='logo'" remark="展示图片" tab="logo">
+                    <upload-img @change="(file)=>upfile=file" :data="entity" size="1024" ext="jpg,png,gif">
+                        <template v-if="islogo">
+                            <img v-if="upfile!=null" :src="upfile.base64" />
+                            <img v-else :src="entity.Sbj_Logo" />
+                            <el-link type="danger" class="remove" icon="el-icon-delete"
+                                @click.stop="()=>{upfile=null;entity.Sbj_Logo = entity.Sbj_LogoSmall=''}">
+                                清除图片</el-link>
+                        </template>
+                        <div class="nophoto" v-else>
+                            <div>
+                                <el-tooltip content="点击上传图片" placement="right" effect="light">
+                                    <icon>&#xe6ea</icon>
+                                </el-tooltip>
+                            </div>
+                        </div>
+                        <help multi slot="help">
+                            图像要求：<br />
+                            1、图片文件最大限1Mb<br />
+                            2、图片格式限jpg、png、gif<br />
+                            3、图形像素大小不限<br />
+                        </help>
+                    </upload-img>
+                </div>
+                <div v-show="activeName=='detail'" class="about_editor" tab="detail" remark="详情">
+                    <editor ref="editor" :content="entity.Sbj_Details" :menubar="false" model="mini" upload="Subject"
+                        :dataid="entity.Sbj_ID" @change="text=>entity.Sbj_Details=text"></editor>
+                </div>
+            </el-form>
+        </div>
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',true)">
+                保存
+            </el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',false)">应用
+            </el-button>
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+﻿@charset "utf-8";
+
+.panel {
+    width: 100%;
+    height: calc(100% - 55px);
+    border: 1px solid #DCDFE6;
+    box-sizing: border-box;
+}
+
+.panel>div:not(:first-child) {
+    border-top: none;
+}
+.panel>div[tab]{
+    box-sizing: border-box;
+    height: calc(100% - 50px);
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+.panel>div[tab='second']{
+    padding: 0px;
+}
+.el-tabs__content {
+    display: none;
+}
+.el-tabs--border-card {
+    box-shadow: none;
+    border: none;
+}
+
+.first_intro {
+    margin: 10px 0px 10px 0px;
+    line-height: 30px;
+}
+
+.inputText {
+    height: calc(100% - 80px);
+}
+
+.inputText>textarea {
+    height: 100%;
+}
+.woman{
+	color: rgb(104, 160, 212);
+}
+/*已经禁用的学员*/
+.disable{
+ color: #999;
+}
+.disable icon{
+    display: none;
+}
+.disable::before{
+	content: "\e7ad";
+	color: #999;
+	font-family: "webdesk_icon" !important;
+}
+/*帮助说明*/
+.help_title{
+    padding-top: 10px;
+}

@@ -1,0 +1,66 @@
+﻿@charset "utf-8";
+#app {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.tree_area {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin: 0px;
+    padding: 0px;
+}
+
+.tree_area>div {
+    flex: 1;
+    float: left;
+    height: calc(100% - 70px);
+    margin: 10px 10px 10px 0px;
+}
+.tree_area>div:first-child{
+    margin: 10px 10px 10px 10px;
+}
+.tree_area>div .el-card__body {
+    overflow-y: auto;
+    height: calc(100% - 80px);
+    padding: 10px;
+    margin-right: 3px;
+}
+
+.custom-tree-node{
+    font-size: 14px;
+    flex: 1;
+    display: flex;
+}
+.el-tree-node__content{
+    display: flex;
+}
+.custom-tree-node>span{
+    width: 100%;
+}
+.tree-node {
+    display: flex;
+    width: calc(100% - 310px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+    border-radius: 3px;
+    height: 20px;
+}
+.tree-node icon {
+    display: block;
+    margin-right: 5px;
+    height: 20px;
+    line-height: 20px;
+}
+
+.tree-node[unfinish]::after{
+    content: '未完成';
+    margin-left: auto;
+    margin-right: 8px;
+    font-size: 14px;  
+ }

@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>资金明细</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <van-sticky>
+            <page_header title="资金明细" icon="&#xe749" :fresh="true"></page_header>
+        </van-sticky>
+        <div class="header">
+            <van-row>
+                <div class="header_info" v-if="!islogin" remark="未登录"  @click="navigateTo(commonaddr('signin'))">
+                    <div class="acc_photo nophoto"></div>
+                    <div class="accInfo">
+                        <div class="acc-name">未登录
+                        </div>
+                        <span class="acc-money"> ... </span>
+                    </div>
+                </div>
+                <div class="header_info" v-if="islogin" remark="已经登录" @click="navigateTo(commonaddr('myself'))">
+                    <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                        :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                    <template v-else>
+                        <div class="acc_photo woman" v-if="account.Ac_Gender==2"></div>
+                        <div class="acc_photo man" v-else></div>
+                    </template>
+                    <div class="accInfo">
+                        <div class="acc-name"><span v-html="account.Ac_Name"></span>
+                            <span class="acc-acname" v-html="account.Ac_AccName"></span>
+                        </div>
+                        <div class="acc-money" @click.stop="toRecharge()">
+                            <span>
+                                <icon>&#xe746</icon>余额<b v-html="account.Ac_Money"></b>元
+                            </span>
+                            <a href="/mobi/Recharge/index" class="income">充值</a>
+                        </div>
+
+                    </div>
+                </div>
+            </van-row>
+        </div>
+
+        <van-list v-if="islogin" v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载" @load="onload">
+            <template v-for="(m,i) in details">
+                <div class="month">
+                    <icon>&#xe666</icon>{{m.month}}
+                </div>
+                <van-swipe-cell v-for="(item,i) in m.items" :class="{'error':!item.Ma_IsSuccess}">
+                    <template #left>
+
+                    </template>
+                    <van-cell :border="false" class="row-box" @click="godetail(item)">
+                        <template #title>
+                            <icon v-if="item.Ma_Type==1" class="type1">&#xe773</icon>
+                            <icon v-if="item.Ma_Type==2" class="type2">&#xe807</icon>
+                            <div class="right_area">
+                                <money>
+                                    <span v-if="item.Ma_Type==1">-</span>
+                                    <span v-if="item.Ma_Type==2">+</span>
+                                    {{item.Ma_Money}}
+                                </money>
+                                <span class="total">余额：{{item.Ma_Total}}元</span>
+                                <div class="time">{{item.Ma_CrtTime|date('MM-dd HH:mm')}}</div>
+                                <div class="info">
+                                    <template v-if="item.Ma_Type==2">
+                                        {{item.Ma_Source}}
+                                    </template> {{item.Ma_Remark}} {{item.Ma_Info}}
+                                </div>
+                            </div>
+                            <error v-if="!item.Ma_IsSuccess" class="type">失败</error>
+                            <template v-else>
+                                <span v-if="item.Ma_Type==1" class="type1 type">支出</span>
+                                <span v-if="item.Ma_Type==2" class="type2 type">收入</span>
+                            </template>
+                        </template>
+                    </van-cell>
+                    <template #right>
+                        <van-button type="danger" class="btnDelete" @click="btnDelete(item)">删除</van-button>
+                    </template>
+                </van-swipe-cell>
+            </template>
+
+
+        </van-list>
+        <!-- 详情-->
+        <van-popup v-model="show_detail" class="show_detail" closeable close-icon="close">
+            <div class="detail_title">
+                <icon v-if="show_item.Ma_Type==1" class="type1">&#xe773</icon>
+                <icon v-if="show_item.Ma_Type==2" class="type2">&#xe807</icon>
+                <span v-if="show_item.Ma_Type==1">-</span>
+                <span v-if="show_item.Ma_Type==2">+</span>
+                {{show_item.Ma_Money}}
+            </div>
+            <div class="detail_content">
+                <div title="余额">
+                    <icon>&#xe81c</icon>{{show_item.Ma_Total}} 元
+                </div>
+                <div title="明细">
+                    <span v-if="show_item.Ma_Type==1">-</span>
+                    <span v-if="show_item.Ma_Type==2">+</span>
+                    {{show_item.Ma_Money}} 元
+                </div>
+                <div title="时间">
+                    {{show_item.Ma_CrtTime|date('yyyy-MM-dd')}}
+                    <br />
+                    {{show_item.Ma_CrtTime|date('HH:mm:ss')}}
+                </div>
+                <div title="类型">
+                    <span v-if="show_item.Ma_Type==1">支出</span>
+                    <span v-if="show_item.Ma_Type==2">收入</span>
+                    <van-tag v-if="!show_item.Ma_IsSuccess" type="danger">失败</van-tag>
+                </div>
+                <div class="queryOrder" v-if="!show_item.Ma_IsSuccess">
+                    <loading v-if="loading_query"></loading>
+                    <van-button v-else type="primary" @click="queryOrder(show_item)">
+                        <icon>&#xf004c</icon>查询订单
+                    </van-button>
+                </div>
+                <div title="交易号">
+                    {{show_item.Ma_Serial}}
+                </div>
+                <div title="来源">
+                    {{show_item.Ma_Source}}
+                </div>
+                <div title="说明">
+                    {{show_item.Ma_Info}}
+                </div>
+                <div title="备注">
+                    {{show_item.Ma_Remark}}
+                </div>
+            </div>
+        </van-popup>
+        <!-- 底部和侧边导航-->
+        <aside_menu ref='aside_menu' :account="account" :config="config"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

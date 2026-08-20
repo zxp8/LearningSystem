@@ -1,0 +1,11 @@
+int -> Int32
+smallint -> Int32
+nvarchar -> String
+varchar -> String
+ntext ->  String
+text ->  String
+datetime-> DateTime
+bit ->  Boolean
+bigint -> Int64
+decimal ->  Decimal
+float ->  Single

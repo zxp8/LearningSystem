@@ -1,0 +1,58 @@
+﻿@charset "utf-8";
+
+:root {
+    /*颜色,依次为：默认前景色、焦点窗口的背景色、遮罩颜色*/
+    --pbox-def-bgcolor: rgb(45 45 45 / 70%);
+    --pbox-focus-bgcolor: rgb(133 132 132);
+    --pbox-mask-bgcolor: rgb(0 0 0 / 30%);
+    /*焦点窗体*/
+    --pbox-focus-shadow: rgb(137 137 137 / 30%);
+    --pbox-focus-title: rgb(223, 223, 223);
+    /*边线，窗体边线、遮罩边线*/
+    --pbox-border-color: rgba(62, 63, 63, 0.6);
+    --pbox-margin-border: #a7a7a7;
+    /*标题*/
+    --pbox-title-color: #afafaf;
+    --pbox-title-shadow: rgb(67 67 67);
+    /*下拉菜单,依次为：背景色、边线、分割线、前景色、禁用色*/
+    --pbox-dropmenu-bgcolor: rgb(155 155 155);
+    --pbox-dropmenu-border: #ccc;
+    --pbox-dropmenu-hr: #ddd;
+    --pbox-dropmenu-color: #666;
+    --pbox-dropmenu-disable: #666;
+    /*下拉菜单的鼠标移入色、鼠标移入边线、鼠标移入背景色*/
+    --pbox-dropmenu-hover: #666;
+    --pbox-dropmenu-hoverborder: rgb(182 183 183 / 80%);
+    --pbox-dropmenu-hoverbgcolor: rgb(191 191 191 / 20%);
+
+    /*按钮组*/
+    --pbox-btn-color: #333;
+    --pbox-btn-hoverbg: #eee;
+    --pbox-btn-hovershadow: rgb(255, 255, 255);
+    --pbox-btn-bgcolor: rgba(255, 255, 255, 0.8);
+    --pbox-btn-disable: rgba(220, 220, 220, .4);
+
+    /*内容区，依次为：背景色、遮罩色*/
+    --pbox-content-bgcolor: transparent;
+    --pbox-content-mask: rgba(255, 255, 255, 0.3);
+
+    /*窗体管理按钮,依次为：图标前景色，阴影色、窗体数的颜色*/
+    --pbox-collect-color: #333;
+    --pbox-collect-shadow: #ccc;
+    --pbox-collect-total: rgba(255, 255, 255, 1);
+    --pbox-collect-totalbg: #ab1111;
+
+    /*窗体管理区域*/
+    --pbox-minarea-bgcolor: rgba(238, 238, 238, .8);
+    --pbox-minarea-border: #ccc;
+    --pbox-minarea-shadow: rgb(238, 238, 238);
+
+    /*最小化窗体,依次为：背景色、阴影色、鼠标移入背景色、边线、鼠标移入阴影*/
+    --pbox-min-bgcolor: rgb(215 215 215 / 40%);
+    --pbox-min-shadow: rgba(255, 255, 255, 1);
+    --pbox-min-hoverbg: rgb(179 180 181 / 80%);
+    --pbox-min-border: rgba(62, 63, 63, 0.3);
+    --pbox-min-hovershadow: rgba(155, 155, 155, 0.3);
+    --pbox-min-btncolor: #d5d5d5;
+    --pbox-min-btnbgcolor: rgb(227 21 21);
+}

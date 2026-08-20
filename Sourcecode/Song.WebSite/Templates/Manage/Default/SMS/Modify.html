@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>短信接口</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-form-item label="短信平台">
+                <el-tag type="success">{{entity.name}}</el-tag>
+
+            </el-form-item>
+            <el-form-item label="账号" prop="user">
+                <el-input v-model.trim="entity.user" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="pw">
+                <el-input type="password" v-model.trim="entity.pw" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="余额">
+                <loading v-if="loading"></loading>
+                <template v-else>
+                    <alert v-if="error!=''">{{error}}</alert>
+                    <el-tag v-else>{{count}}</el-tag>
+                    <el-link type="primary" class="fresh" @click="btnFresh('entity')">
+                        <icon>&#xe651</icon>刷新
+                    </el-link>
+                </template>
+            </el-form-item>
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" define="enter" :loading="loading" plain @click="btnEnter('entity')">
+                确认修改</el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <include file="../inc/meta.inc" />
+  <title>学员登录</title>
+</head>
+
+<body>
+  <div id="vapp" v-cloak>
+    <page_header ref='header' @load="(o,c,p)=>{organ=o;config=c;plate=p;}" @login="acc=>account = acc">
+      loading ...</page_header>
+
+
+    <context class="first">
+      <section>
+        <notices :org="organ" :count="6" v-if="true"></notices>
+        <div id="login_box" remark="登录框" v-if="!islogin">
+          <login :config="config"  @success="successful"></login>
+        </div>
+
+        <div id="logged-area" v-cloak remark="登录后的状态" v-else>
+          <avatar :account="account" circle="true" size="120"></avatar>
+          <template v-if="islogin">
+            <div class="accname" v-if="account.Ac_Name!=''" v-html="account.Ac_Name"></div>
+            <div class="accname" v-else> (名称为空) </div>
+          </template>
+          <div>
+            <el-button type="primary" @click="gourl('/web/account')">
+              <icon>&#xe669</icon>个人中心
+            </el-button>
+          </div>
+          <div>
+            <el-button type="info" @click="logout">
+              <icon>&#xe739</icon>退出登录
+            </el-button>
+          </div>
+        </div>
+      </section>
+    </context>
+
+    <context class="rec">
+      <subject_rec :subject="null" :count="8"  :org="organ" :mincount="4" order="rec"></subject_rec>
+    </context>
+    <page_footer :organ="organ" v-if="true">loading ...</page_footer>
+  </div>
+</body>
+
+</html>

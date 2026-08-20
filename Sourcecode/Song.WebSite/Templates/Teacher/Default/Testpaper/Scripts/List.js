@@ -1,0 +1,170 @@
+$ready(function () {
+
+    window.vapp = new Vue({
+        el: '#vapp',
+        data: {
+            couid: $api.querystring('id'),
+            org: {},
+            config: {},      //当前机构配置项
+
+            form: {
+                'orgid': '', 'sbjid': '', 'couid': $api.querystring('id'),
+                'search': '', 'isuse': '', 'del': false, 'diff': '', 'size': 20, 'index': 1
+            },
+
+            datas: [],
+            total: 1, //总记录数
+            totalpages: 1, //总页数
+            selects: [], //数据表中选中的行
+
+            drawer: false,
+            curr: {},        //当前要查看的试卷
+
+            loading: false,
+            loadingid: 0,
+        },
+        mounted: function () {
+            var th = this;
+            this.org = window.org;
+            //机构配置信息
+            th.config = window.config;
+            th.form.orgid = th.org.Org_ID;
+            th.handleCurrentChange(1);
+        },
+        created: function () {
+
+        },
+        computed: {
+
+        },
+        watch: {
+        },
+        methods: {
+            //加载数据页
+            handleCurrentChange: function (index) {
+                if (index != null) this.form.index = index;
+                var th = this;
+                //每页多少条，通过界面高度自动计算
+                let area = $dom.height() - 100;
+                th.form.size = Math.floor(area / 64);
+                th.loading = true;
+                var loading = this.$fulloading();
+                $api.get("TestPaper/Pager", th.form).then(function (d) {
+                    if (d.data.success) {
+                        var result = d.data.result;
+                        th.datas = result;
+                        th.$nextTick(function () {
+                            loading.close();
+                        });
+                        th.totalpages = Number(d.data.totalpages);
+                        th.total = d.data.total;
+                    } else {
+                        throw d.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err, '错误');
+                    console.error(err);
+                }).finally(() => th.loading = false);
+            },
+            //删除
+            deleteData: function (datas) {
+                var th = this;
+                th.loading = true;
+                var loading = this.$fulloading();
+                $api.delete('TestPaper/Delete', { 'id': datas }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$notify({
+                            type: 'success',
+                            message: '成功删除' + result + '条数据',
+                            center: true
+                        });
+                        th.handleCurrentChange();
+                        th.$nextTick(function () {
+                            loading.close();
+                        });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                }).finally(() => th.loading = false);
+            },
+            //双击事件
+            rowdblclick: function (row, column, event) {
+                console.log(row);
+                this.$refs.btngroup.modify(row[this.$refs.btngroup.idkey]);
+            },
+            //更改使用状态
+            changeState: function (row) {
+                var th = this;
+                this.loadingid = row.Tp_Id;
+                $api.post('TestPaper/ModifyState', { 'id': row.Tp_Id, 'use': row.Tp_IsUse, 'rec': row.Tp_IsRec }).then(function (req) {
+
+                    if (req.data.success) {
+                        th.$notify({
+                            type: 'success',
+                            message: '修改状态成功!',
+                            center: true
+                        });
+                    } else {
+                        throw req.data.message;
+                    }
+
+                }).catch(function (err) {
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
+            },
+            //批量修改状态
+            batchState: function (use) {
+                use = Boolean(use);
+                var th = this;
+                this.$confirm('批量更改当前页面的试卷为“' + (use ? '启用' : '禁用') + '”, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var ids = '';
+                    for (var i = 0; i < th.datas.length; i++) {
+                        ids += th.datas[i].Tp_Id;
+                        if (i < th.datas.length - 1) ids += ',';
+                    }
+                    var loading = this.$fulloading();
+                    $api.post('TestPaper/ModifyState', { 'id': ids, 'use': use, 'rec': null }).then(function (req) {
+                        if (req.data.success) {
+                            th.$notify({
+                                type: 'success',
+                                message: '修改状态成功!',
+                                center: true
+                            });
+                            th.handleCurrentChange();
+                            th.$nextTick(function () {
+                                loading.close();
+                            });
+                        } else {
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err);
+                    });
+                }).catch(() => {
+
+                });
+            },
+            btnadd: function (btn, ctr) {
+                let couid = $api.querystring('id');
+                var url = $api.url.set(ctr.path, 'couid', couid);
+                console.log(url);
+                ctr.add(url);
+            },
+            //查看成绩
+            viewResults: function (row) {
+                var url = $api.url.set('/orgadmin/TestPaper/Results', 'tpid', row.Tp_Id);
+                this.$refs.btngroup.pagebox(url, '《' + row.Tp_Name + '》的成绩', null, 800, 600, { 'ico': 'e696' });
+            }
+        }
+    });
+
+});

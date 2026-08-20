@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>考试成绩</title>
+</head>
+
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="删除,导出,清空" ref='btngroup' @delete="deleteData" @clear="clear" @output="output" width="600"
+                height="600" :selects='selects' idkey='Exr_ID' table="datatables">
+                <el-button plain type="primary" @click="allcalcResultScore" @dblright="()=>{}">
+                    <icon>&#xa067</icon>重新计算
+                </el-button>
+            </btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-dropdown @command="dorphandle">
+                        <span class="el-dropdown-link">
+                            {{scorerange}}<i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item command="-1">
+                                <el-tag type="info">全部</el-tag>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="1">
+                                <el-tag>优良({{Math.floor(entity.Exam_Total*0.8)}}分以上)</el-tag>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="2">
+                                <el-tag type="success">及格({{entity.Exam_PassScore}}分以上)</el-tag>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="3">
+                                <el-tag type="danger">不及格({{entity.Exam_PassScore}}分以下)</el-tag>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="4">
+                                <el-tag type="info">零分</el-tag>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-select v-model="form.stsid" placeholder="请选择" style="width: 160px;"
+                        @change="handleCurrentChange(1)">
+                        <el-option label="-- 所有学员 --" :value="0"> </el-option>
+                        <el-option label="-- 未分组学员 --" :value="-1"> </el-option>
+                        <el-option v-for="(item,i) in sorts" :key="item.Sts_ID" :label="item.Sts_Name"
+                            :value="item.Sts_ID">
+                            <span>{{i+1}}. {{item.Sts_Name}}</span>
+                            <span class="sortcount" title="参考学员数量">{{item.Sts_Count}} </span>
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.name" style="width:100px" clearable placeholder="学员姓名"></el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.idcard" style="width:120px" clearable placeholder="身份证"></el-input>
+                </el-form-item>
+
+            </query_panel>
+        </div>
+        <el-table ref="datatables" border resizable :data="datas" :stripe="true" tooltip-effect="dark"
+            style="width: 100%;" @selection-change="val=>selects=val" row-key="Exr_ID" v-loading="loading">
+            <el-table-column type="selection" width="40">
+            </el-table-column>
+            <el-table-column type="index" width="50" label="#">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="姓名" width="150">
+                <template slot-scope="scope">
+                    <el-link type="primary" plain @dblright:300="setScoreShow(scope.row)">
+                        <icon :woman="scope.row.Ac_Gender=='2'" :man="scope.row.Ac_Gender!='2'"
+                            v-html='showsearch(scope.row.Ac_Name,form.name)' class="large"
+                            @click="getaccount(scope.row)">
+                        </icon>
+                    </el-link>
+                </template>
+            </el-table-column>
+            <el-table-column label="身份证">
+                <template slot-scope="scope">
+                    <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)' class="link"
+                        @click="getaccount(scope.row)"></span>
+                </template>
+            </el-table-column>
+            <el-table-column label="学员组">
+                <template slot-scope="scope">
+                    <stsname :stsid="scope.row.Sts_ID"></stsname>
+                </template>
+            </el-table-column>
+            <el-table-column label="考试时间" align="center">
+                <template slot-scope="scope">
+                    {{scope.row.Exr_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}
+                </template>
+            </el-table-column>
+            <el-table-column label="考试用时" width="120" align="center">
+                <template slot-scope="scope">
+                    {{scope.row|duration}}
+                </template>
+            </el-table-column>
+            <el-table-column label="成绩" width="110" align="right" class-name="scope_column">
+                <template slot="header" slot-scope="scope">                  
+                    <el-dropdown @command="batcalcResultScore">
+                        <span class="el-dropdown-link">
+                            成绩<i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item :command="1">
+                                <icon>&#xa067</icon>重新计算
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </template>
+                <template slot-scope="scope">
+                    <loading v-if="scope.row.inprocess!=null && scope.row.inprocess"></loading>
+                    <el-dropdown v-else @command="handleCommand" :exrid="scope.row.Exr_ID">
+                        <span class="el-dropdown-link">
+                            <score :value="scope.row.Exr_ScoreFinal" :passscore="entity.Exam_PassScore"></score> 
+                            <i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item command="review">
+                                <el-link type="info" plain icon="el-icon-document" :underline="false">成绩回顾</el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item divided command="calc">
+                                <el-link type="primary" plain icon="el-icon-refresh" :underline="false"> 重新计算 </el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="delete">
+                                <el-link type="danger" plain icon="el-icon-delete" :underline="false">删除 </el-link>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </template>
+            </el-table-column>          
+        </el-table>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-size="form.size"
+                :pager-count="12" v-show="!loading" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+            <el-tag v-if="examiningCount>0">正在考试：{{examiningCount}} 人</el-tag>
+        </div>
+        <!--考生信息-->
+        <el-dialog title="考生信息" :visible.sync="accountVisible">
+            <div slot="title">
+                <icon style="font-size: 25px;">&#xe669</icon>考生信息
+            </div>
+            <el-row :gutter="20">
+                <el-col :span="24" class="accountInfo">
+                    <avatar :account="account" circle="true" size="80"></avatar>
+                    <div>
+                        <icon :woman="account.Ac_Gender=='2'" :man="account.Ac_Gender!='2'">
+                            <b>{{account.Ac_Name}}</b>
+                        </icon>
+                        <span title="账号">({{account.Ac_AccName}})</span>
+                    </div>
+                    <div icon="&#xe68f" title="身份证" v-html="account.Ac_IDCardNumber"></div>
+                    <div icon="&#xa047" title="电话">
+                        <span v-html='account.Ac_MobiTel1'></span>
+                        <span
+                            v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!='' && account.Ac_MobiTel1!= account.Ac_MobiTel2 ">/</span>
+                        <span v-if="account.Ac_MobiTel1!= account.Ac_MobiTel2 " v-html='account.Ac_MobiTel2'></span>
+                    </div>
+
+                </el-col>
+            </el-row>
+            <el-divider></el-divider>
+            <div class="examInfo">
+                <el-row :gutter="20">
+                    <el-col :span="4">
+                        考试
+                    </el-col>
+                    <el-col :span="20">
+                        {{entity.Exam_Title}}
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20" v-if="accountVisible">
+                    <el-col :span="4">
+                        &nbsp;
+                    </el-col>
+                    <el-col :span="20">
+                        <el-tag type="success">开始时间</el-tag>
+                        <el-tag type="info">{{current.Exr_CrtTime|date('yyyy-MM-dd HH:mm:ss')}}</el-tag>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="4">
+                        &nbsp;
+                    </el-col>
+                    <el-col :span="20">
+                        <el-tag>交卷时间</el-tag>
+                        <el-tag type="info">{{current.Exr_LastTime|date('yyyy-MM-dd HH:mm:ss')}}</el-tag>
+                        <el-tag type="info">用时 {{current|duration}}</el-tag>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="4">
+                        成绩
+                    </el-col>
+                    <el-col :span="20">
+                        <b>{{current.Exr_ScoreFinal}} </b>分
+
+                        <el-tag type="danger" v-if="current.Exr_ScoreFinal<entity.Exam_PassScore"> 不及格</el-tag>
+                        <el-tag type="info">满分 {{entity.Exam_Total}} 分，{{entity.Exam_PassScore}} 分及格</el-tag>
+                    </el-col>
+                </el-row>
+            </div>
+        </el-dialog>
+        <!--build exr-->
+        <setscore ref="setscore" :exam="entity" @update="setScoreupdate"></setscore>
+    </div>
+
+
+</body>
+
+</html>

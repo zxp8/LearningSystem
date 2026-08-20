@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource disabledmenu disabledselect disabledcopy>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>考试中...</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <page_header v-show="false" @login="acc=>account = acc"></page_header>
+        <card v-if="!islogin">
+            <card-title>
+                <span icon="&#xe748" @click="window.history.go(-1);"></span>
+                学员登录后才能考试！
+            </card-title>
+            <card-content>
+                <div class="acc_photo nophoto"></div>
+                <div class="accInfo null_icon">
+                    <div class="acc-name"> <a href="/web/sign/in">点击此处登录 </a>
+                    </div>
+                    <span class="acc-money"> ... </span>
+                </div>
+            </card-content>
+        </card>
+
+        <span loading="p2" v-else-if="loading.init" style="margin-top: 20px;">加载初始数据...</span>
+        <template v-else>
+            <header>
+                <div class="title" @click="showExam=true" v-if="isexam">
+                    <icon>&#xe810</icon>{{exam.Exam_Name}}
+                    <div class="info"><span v-if="paper">限时：{{exam.Exam_Span}}分钟</span>
+                        <span>题量：{{exam.Exam_QuesCount}}道</span>
+                        <span>总分：{{exam.Exam_Total}}分（{{exam.Exam_PassScore}}分及格）</span>
+                    </div>
+                </div>
+                <div class="title" v-else>
+                    <icon>&#xe7ad</icon>考试不存在，或被禁用
+                </div>
+                <div class="account" v-if="islogin">
+                    <avatar :account="account" circle="true" size="80"></avatar>
+                    <div>
+                        <icon :woman="account.Ac_Gender==2" :man="account.Ac_Gender!=2">
+                            <span v-if="!!account.Ac_Name" v-html="account.Ac_Name"></span>
+                            <span v-else class="noname">(无名)</span>
+                            （{{account.Ac_AccName}})
+                        </icon>
+                        <div icon="&#xa047">
+                            <span v-if="account.Ac_MobiTel1!=''" v-html="account.Ac_MobiTel1"></span>
+                            <span v-else>(无）</span>
+                        </div>
+                        <div icon="&#xe68f">
+                            <span v-if="account.Ac_IDCardNumber!=''" v-html="account.Ac_IDCardNumber"></span>
+                            <span v-else>(无）</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="account" v-else>
+                    学员未登录
+                </div>
+            </header>
+            <content>
+                <div class="body">
+                    <loading class="loading_init" v-if="loading.init">正在加载初始数据...</loading>
+                    <div v-if="!loading.init && !examstate.doing" class="context" remark="无法考试的各种原因">
+                        <template v-if="!examstate.islogin">
+
+                        </template>
+                        <template v-else-if="!examstate.exist">
+                            <card>
+                                <card-title>
+                                    <span icon="&#xe748" @click="window.history.go(-1);"></span>
+                                    当前考试不存在，或考试被禁！
+                                </card-title>
+                                <card-content>
+                                    <div class="null_icon" icon="&#xe849">
+                                        没有内容
+                                    </div>
+                                </card-content>
+                            </card>
+                        </template>
+                        <template v-else remark="考试存在">
+                            <card>
+                                <card-content>
+                                    <row>时间：
+                                        <span v-if="exam.Exam_DateType==1">
+                                            <!--准时开始-->
+                                            {{starttime|date("yyyy-M-dd HH:mm:ss")}} （准时开始）
+                                        </span>
+                                        <span v-else>
+                                            <!--区间时间-->
+                                            {{exam.Exam_Date|date("yyyy-M-dd HH:mm")}} 至
+                                            {{exam.Exam_DateOver|date("yyyy-M-dd HH:mm")}} 之间
+                                        </span>
+                                    </row>
+                                    <template v-if="exam.Exam_Purpose==0">
+                                        <row>专业：{{subject.Sbj_Name}} </row>
+                                        <row>课程：{{paper.Cou_Name}}</row>
+                                    </template>
+                                </card-content>
+                            </card>
+                            <template v-if="!examstate.allow">
+                                <card>
+                                    <card-title>
+                                        <span icon="&#xe6bd"></span> 不需要参加此次考试
+                                    </card-title>
+                                    <card-content>
+                                        <div class="null_icon" icon="&#xe60e">
+                                            您不在考试人员范围内！
+                                        </div>
+                                    </card-content>
+                                </card>
+                            </template>
+
+                            <template v-else-if="examstate.issubmit">
+                                <card>
+                                    <card-title> <span icon="&#xe6bd"></span>您已经交过卷了
+                                    </card-title>
+                                    <card-content>
+                                        <a class="null_icon" icon="&#xe654" :href="goreview('/student/exam/review')">
+                                            点击此处查看成绩！
+                                        </a>
+                                    </card-content>
+                                </card>
+                            </template>
+                            <template v-else-if="examstate.isover">
+                                <card>
+                                    <card-title>
+                                        <span icon="&#xe6bd"></span>考试时间已过
+                                    </card-title>
+                                    <card-content>
+                                        <div class="null_icon" icon="&#xe854">
+                                            好像错过了什么！
+                                        </div>
+                                        <el-tag type="success">开始时间：
+                                            {{starttime|date('yyyy-MM-dd HH:mm:ss')}}
+                                        </el-tag>
+                                        <el-tag type="warning">结束时间：
+                                            <!--开始时间-->
+                                            {{time.over|date('yyyy-MM-dd HH:mm:ss')}}
+                                        </el-tag>
+                                    </card-content>
+                                </card>
+                            </template>
+                            <template v-else-if="!examstate.isstart">
+                                <card>
+                                    <card-title> <span icon="&#xe6bd"></span>还没有开始
+                                        <el-tag type="success" style="float:right">开始时间：
+                                            <!--开始时间-->
+                                            {{starttime|date('yyyy-MM-dd HH:mm:ss')}}
+                                        </el-tag>
+                                    </card-title>
+                                    <card-content>
+                                        <div class="time_icon" icon="&#xa039">
+                                            <div>
+                                                <el-tag type="primary">当前时间</el-tag>
+                                                <!--当前时间-->
+                                                {{nowtime|date('yyyy-MM-dd HH:mm:ss')}}
+                                            </div>
+                                            <div>
+                                                <el-tag type="danger">距离开考</el-tag>
+                                                <red>{{howtime}}</red>
+                                            </div>
+                                            <template v-if="isgenerate">
+                                                <hr />
+                                                <span v-if="false">{{time.load|date('yyyy-MM-dd HH:mm:ss')}}</span>
+                                                <div>试卷加载完成，请静待考试开始</div>
+                                            </template>
+                                        </div>
+                                    </card-content>
+                                </card>
+                            </template>
+                        </template>
+                    </div>
+
+                    <template v-if="!loading.init && examstate.doing" mark="允许考试时，才输出">
+                        <div loading="p4" v-if="questotal<=0"></div>
+                        <div class="move_btn" v-else>
+                            <span @click="swiperight()" :disabled="swipeIndex<=0">
+                                <icon>&#xe803</icon>上一题
+                            </span>
+                            <span @click="swipeleft()" :disabled="swipeIndex>=questotal-1">
+                                <icon>&#xe802</icon>下一题
+                            </span>
+                        </div>
+                        <quesarea ref='quesarea' remark="试题区域" :paperques="paperQues" :types="types" :account="account"
+                            :fontsize="1" @swipe="idx=>swipeIndex=idx"></quesarea>
+
+                    </template>
+                </div>
+
+                <div class="quesCard" remark="答题卡" v-if="!loading.init && examstate.doing && questotal>0">
+                    <answercard ref='answercard' :questions="paperAnswer.ques" :types="types" :index="swipeIndex"
+                        @click="shiftques">
+                    </answercard>
+                    <footer v-show="examstate.record">
+                        <div icon="&#xe81a" @click="showTime=true"> {{surplustime|surplus}} </div>
+                        <div icon="&#xe6cf" @click="submitManual"> 交&nbsp;卷</div>
+                    </footer>
+                </div>
+            </content>
+        </template>
+
+        <el-dialog :visible.sync="showTime" class="showTime" title="时间信息">
+            <template slot="title">
+                <icon>&#xa039</icon>时间信息
+            </template>
+            <row>当前时间： {{nowtime|date("yyyy-MM-dd HH:mm:ss")}}</row>
+            <row>开始时间： {{time.begin|date("yyyy-MM-dd HH:mm:ss")}}</row>
+            <row>结束时间： {{time.over|date("yyyy-MM-dd HH:mm:ss")}}</row>
+            <row>考试时限： {{time.span}} 分钟</row>
+            <row>剩余时间： {{surplustime|surplus}}</row>
+        </el-dialog>
+        <el-dialog :visible.sync="showExam" class="showExam" ramark="考试信息">
+            <template slot="title">
+                <icon>&#xe6b0</icon>考试信息
+            </template>
+            <card v-if="exam">
+                <card-title>《{{exam.Exam_Name}}》
+                </card-title>
+                <card-content>
+                    <row>时间：
+                        <span v-if="exam.Exam_DateType==1">
+                            <!--准时开始-->
+                            {{exam.Exam_Date|date("yyyy-M-dd HH:mm")}} （准时开始）
+                        </span>
+                        <span v-else>
+                            <!--区间时间-->
+                            {{exam.Exam_Date|date("yyyy-M-dd HH:mm")}} 至
+                            {{exam.Exam_DateOver|date("yyyy-M-dd HH:mm")}} 之间
+                        </span>
+                    </row>
+                    <row v-if="paper">限时：{{exam.Exam_Span}}分钟</row>
+                    <row>题量：{{exam.Exam_QuesCount}}道</row>
+                    <row>总分：{{exam.Exam_Total}}分（{{exam.Exam_PassScore}}分及格）</row>
+                    <template v-if="exam.Exam_Purpose==0">
+                        <row>专业：{{subject.Sbj_Name}} </row>
+                        <row>课程：{{paper.Cou_Name}}</row>
+                    </template>
+                    <row>考试主题：{{exam.Exam_Title}}</row>
+                </card-content>
+            </card>
+        </el-dialog>
+        <el-dialog :visible.sync="submitState.show" class="submitState" :close-on-click-modal="false"
+            :close-on-press-escape="false" :show-close="false">
+            <loading size="24px" v-if="submitState.loading">考试成绩提交中...</loading>
+            <result :state="submitState" :exam="exam" :paper="paper"> </result>
+        </el-dialog>
+    </div>
+</body>
+
+</html>

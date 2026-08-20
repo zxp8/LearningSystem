@@ -1,0 +1,43 @@
+.panel div[tab] {
+    height: calc(100% - 40px);
+    box-sizing: border-box;
+    display: flex;
+}
+
+.panel div[tab] .tree-box {
+    width: 300px;
+    border-right: 1px solid #DCDFE6;
+}
+
+/*内容区的右侧，即试题列表区域*/
+.panel div[tab]>div:last-child {
+    position: relative;
+    flex: 1;
+}
+.panel div[tab]>div:last-child>div.queslist { 
+    height: calc(100% - 35px);
+    overflow: auto;
+} 
+.panel .pager-box {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+}
+/*查询区*/
+.ques-query{
+    position: absolute;
+    top: -38px;
+    right: 0;
+}
+.ques-query .el-button-group .el-button{
+    border: none !important;
+}
+/*节点样式*/
+.el-tree-node__content{
+    display: flex;
+    height:auto !important;
+}
+.el-tree-node{
+    white-space:wrap !important;  
+}

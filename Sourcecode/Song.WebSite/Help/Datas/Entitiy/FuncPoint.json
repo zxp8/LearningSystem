@@ -1,0 +1,32 @@
+{
+  "FPI_Id": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "FPI_IsShow": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "FPI_IsUse": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "FPI_Name": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Org_Id": {
+    "mark": "",
+    "intro": "",
+    "relation": "Organization"
+  },
+  "Org_Name": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  }
+}

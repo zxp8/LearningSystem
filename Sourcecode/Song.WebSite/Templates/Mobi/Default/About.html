@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="inc/meta.inc" />
+    <title>关于</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <context>
+            <van-sticky>
+                <page_header title="关于" icon="&#xa031" :fresh="false" :home="true">
+                    <a v-html="org.Org_PlatformName" href="/Mobi/"></a>
+                </page_header>
+
+            </van-sticky>
+
+            <img :src="org.Org_Logo" v-if="org.Org_Logo!=''" class="logo" />
+            <img src="Images/def_logo.gif" style="height: 32px;" class="logo" v-else />
+            <div v-html="org.Org_PlatformName" class="platinfo"></div>
+
+
+
+
+            <div class="intro" v-html="org.Org_Intro" v-if="org.Org_Intro && org.Org_Intro.length>0">
+            </div>          
+
+            <card class="version"  shadow="hover">
+                <card-title icon="&#xa037">版本<span v-html="editon.Edition" class="editon"></span></card-title>
+                <card-content>
+                    <div>
+                        <span class="key">Published version:</span>
+                        <span class="val" v-html="version.major+'.'+version.minor"></span>
+                    </div>
+                    <div>
+                        <span class="key">Version stage:</span>
+                        <span class="val" v-html="version.stage"></span>
+                    </div>
+                    <div>
+                        <span class="key">Build version:</span>
+                        <span class="val" v-html="version.version"></span>
+                    </div>
+                    <div>
+                        <span class="key">Release date:</span>
+                        <span class="val nowrap" v-html="version.release"></span>
+                    </div>
+                </card-content>
+            </card>
+            <card class="browser" shadow="hover">
+                <card-title icon="&#xa030">设备信息</card-title>
+                <card-content>
+                    <div>
+                        <span class="key">doman:</span>
+                        <span class="val" v-html="window.location.host"></span>
+                    </div>
+                    <div v-for="(v,k) in browser">
+                        <span class="key">{{k}}:</span>
+                        <span class="val">{{v}}</span>
+                    </div>
+                </card-content>
+            </card>
+            <div class="copyright">
+                Copyright &copy; <span v-html="year"></span> <span v-html="copyright('powerby')"></span> All rights
+                reserved.
+            </div>
+        </context>
+    </div>
+
+
+</body>
+
+</html>

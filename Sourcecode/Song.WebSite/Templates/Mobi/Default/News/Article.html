@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>新闻</title> 
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <div class="header">
+            <a icon="&#xe748" @click="window.history.go(-1); "></a>
+            <a icon="&#xa020" href="/mobi/index"> </a>
+            <search_input></search_input>
+        </div>
+        <div class="context">
+            <van-loading size="24px" v-if="loading">加载中...</van-loading>
+            <div id="artBox">
+                <van-sticky :offset-top="45">
+                    <div class="artTitle">
+                        {{article.Art_Title}}
+                    </div>
+                </van-sticky>
+                <div class="artAttrBar">
+                    <span icon="&#xa039" v-html="article.Art_PushTime ? article.Art_PushTime.untilnow() : ''"></span>
+                    <span icon="&#xa03a"> {{article.Art_Number}} </span>
+                    <span @click="isformat=!isformat" :class="{'formatbtn':true, 'format':isformat}">
+                        <span icon="&#xa041" v-if="isformat">格式化 </span>
+                        <span icon="&#xa042" v-else>未格式化 </span>
+                    </span>
+                </div>
+                <!--摘要 -->
+
+                <div id="artIntro" v-if="article.Art_Intro && article.Art_Intro!=''"><span class="tit">摘要：</span>
+                    {{article.Art_Intro}}
+                </div>
+
+                <!--图片 -->
+                <div id="artImg" v-if="article.Art_Logo!=''"> <img :src="article.Art_Logo" />
+                </div>
+                <!--正文 -->
+                <div :class="{'artContext':isformat}" v-html="article.Art_Details">
+
+                </div>
+                <!--附件 -->
+                <dl id="artAcc" v-if="accessory.length>0" remark="资讯的附件">
+                    <dt>相关附件：</dt>
+                    <dd class="accItem" v-for="(data,i) in accessory">
+                        <span class="filename">{{(i+1)}}、<a :href="data.As_FileName" target="_blank" type="link"
+                                :download="data.As_Name">{{data.As_Name}}</a></span>
+                        <span class="filesize">{{data.As_Size|size}}</span>
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+        <aside_menu ref='aside_menu' :account="account" :config="config"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

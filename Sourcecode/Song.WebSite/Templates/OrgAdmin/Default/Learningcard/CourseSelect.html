@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>学习卡设置中的课程选择</title>
+
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="topbox">
+         
+                <el-cascader :options="sbjs" v-model="sbjids" placeholder="请选择专业" :show-all-levels="true"
+                    style="width:calc(50% - 5px)" :props="{ checkStrictly: true }" clearable></el-cascader>
+          
+          
+        </div>
+
+        <el-row :gutter="10" class="context">
+            <el-col :span="12">
+                <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                        <span>课程({{courses.length}})</span>
+                        <el-input v-model="form.search" placeholder="课程检索" style="width:120px" clearable
+                            prefix-icon="el-icon-search"></el-input>
+                        <el-button v-on:click="handleSelectCourse()" type="text">全选 </el-button>
+                    </div>
+                    <loading v-if="loading"></loading>
+                    <div v-for="(c,i) in courses" class="item" v-else>
+                        {{i+1}}.{{c.Cou_Name }}
+                        <el-button type="text" size="small" v-on:click="handleSelectCourse(c)">选择</el-button>
+                    </div>
+                </el-card>
+            </el-col>
+            <el-col :span="12">
+                <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                        <icon course>已选择课程 ({{selects.length}})</icon>
+                      
+                        <el-popconfirm title="确定清空已经选择的课程？" @confirm="handleRemoveourse">
+                            <el-button type="text" style="float: right; padding: 3px 0" slot="reference">清空</el-button>
+                        </el-popconfirm>
+                    </div>
+                    <div v-for="(c,i) in selects" class="item">
+                        {{i+1}}.{{c.Cou_Name }}
+                        <el-button type="danger" icon="el-icon-delete" size="mini" circle
+                            v-on:click="handleRemoveourse(c)"></el-button>
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
+    </div>
+
+
+</body>
+
+</html>

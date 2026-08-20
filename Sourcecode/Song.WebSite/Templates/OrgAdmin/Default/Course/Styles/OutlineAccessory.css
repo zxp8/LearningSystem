@@ -1,0 +1,30 @@
+﻿@charset "utf-8";
+dl.files{
+    margin: 10px;
+    height: calc(100% - 60px);
+    overflow-y: auto;
+}
+.nofiles{
+	margin: 20px;
+	text-align: center;
+	padding: 50px;
+}
+.nofiles icon{
+	font-size: 50px;
+	display: block;
+	margin-bottom: 20px;
+	color: #999;
+}
+
+
+.upload_file_area {
+    margin-right: 10px;
+
+}
+.footer>div[loading]{
+    width: 30%;
+    float: right;
+}
+.footer:has(div[loading]){
+    display: block;
+}

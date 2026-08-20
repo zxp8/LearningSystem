@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>学习进度校正</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="" ref='btngroup' table="datatables"></btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+
+                <el-form-item label="账号">
+                    <el-input v-model="form.acc" placeholder="学员账号" tabindex="0" clearable style="width:120px">
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="姓名">
+                    <el-input v-model="form.name" placeholder="姓名" tabindex="1" clearable style="width:120px">
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="移动电话">
+                    <el-input v-model="form.mobi" placeholder="移动电话" style="width:120px" tabindex="3" clearable>
+                    </el-input>
+                </el-form-item>
+                <template v-slot:more>
+                    <el-form-item label="身份证">
+                        <el-input v-model="form.idcard" placeholder="身份证号" tabindex="2" clearable>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="时间">
+                        <date_range @change="selectDate" :start="form.start" :end="form.end"></date_range>
+                    </el-form-item>
+                </template>
+            </query_panel>
+        </div>
+        <!--数据列表-->
+        <el-table ref="datatables"  border resizable :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+            v-loading="loading" row-key="Ac_ID" cell-class-name="tdcell">
+
+            <el-table-column type="index" label="#" width="60" align="center">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="姓名" width="100" class-name="stname">
+                <template slot-scope="scope">
+                    <avatar :account="scope.row" circle="true" size="20"></avatar>
+                    <icon :woman="scope.row.Ac_Gender==2" class="medium" :man="scope.row.Ac_Gender!=2">
+                        <span v-html='showsearch(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"></span>
+                        <span v-else class="noname">(没有名字)</span>
+                    </icon>
+                </template>
+            </el-table-column>
+            <el-table-column label="账号">
+                <template slot-scope="scope">
+                    <icon :woman="scope.row.Ac_Gender==2" class="acc" :man="scope.row.Ac_Gender!=2"
+                        v-html='showsearch(scope.row.Ac_AccName,form.acc)'></icon>
+                </template>
+            </el-table-column>
+            <el-table-column label="移动电话">
+                <template slot-scope="scope" v-if="showTel(scope.row)!=''">
+                    <icon>&#xe677</icon>
+                    <span v-html='showsearch(showTel(scope.row),form.mobi)'></span>
+                </template>
+            </el-table-column>
+            <el-table-column label="学员组">
+                <template slot-scope="scope" v-if="scope.row.Sts_Name!=''">
+                    <span title="学员组" v-html='scope.row.Sts_Name'></span>
+                </template>
+            </el-table-column>
+            <el-table-column label="课程数" align="center" width="60">
+                <template slot-scope="scope">
+                    <span title="选修课程数" v-html='scope.row.Ac_CurrCourse'></span>
+                </template>
+            </el-table-column>
+            <el-table-column label="数据校正" width="120" align="center">
+                <template slot-scope="scope">
+                    <el-link type="primary" plain @click='btnopenbox(scope.row)'>
+                        <icon>&#xe732</icon>学习进度
+                    </el-link>
+                </template>
+            </el-table-column>
+        </el-table>
+        <!--分页导航-->
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" 
+                :page-size="form.size" :pager-count="15" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</body>
+
+</html>

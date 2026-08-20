@@ -1,0 +1,114 @@
+﻿@charset "utf-8";
+
+#vapp {
+    overflow: auto;
+}
+
+card {
+    margin: 30px 30px 30px 10px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+card-content {
+    padding: 10px 0px;
+}
+
+card div.row {
+    line-height: 35px;
+    padding: 5px 20px;
+    cursor: pointer;
+    position: relative;
+}
+
+card div.row:hover {
+    background-color: #eee;
+}
+
+card div.row icon {
+    font-size: 22px;
+    margin-right: 15px;
+}
+
+card div.row[right]::after {
+    content: '\e777';
+    font-family: "webdesk_icon";
+    display: block;
+    position: absolute;
+    right: 0px;
+    bottom: 8px;
+    color: #999;
+    font-size: 22px;
+}
+
+/*第三方登录的项*/
+.config>div {
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    height: 46px;
+}
+
+.config>div[disabled] {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: gray;
+}
+
+
+/*图标与名称*/
+.config>div.row {
+    display: flex;
+    justify-content: space-between;
+    cursor: default;
+}
+.config>div.row .name{
+    width:  calc(100% - 400px);
+}
+.config>div .name .tagname {
+    font-size: 14px;
+    font-weight: normal;
+    color: #666;
+    margin-left: 15px;
+}
+
+.config>div img {
+    height: 25px;
+    width: 25px;
+    float: left;
+    margin-right: 15px;
+    margin-top: 5px;
+}
+
+/*右侧内容*/
+.right {
+    float: right;
+}
+
+.right .phone {
+    margin-right: 10px;
+}
+
+.null {
+    color: #999;
+    font-size: 14px;
+}
+
+/*第三方账号的信息*/
+.thirdparty {  
+    min-width: 200px;
+    display: flex;
+    text-align: left;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.thirdparty img {
+   border-radius: 50%;
+}
+.thirdparty icon{
+    font-size: 25px !important;
+}

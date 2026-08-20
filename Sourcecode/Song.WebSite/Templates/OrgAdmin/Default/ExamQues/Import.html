@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>导入试题</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="first" v-show="maintstep==0">
+            <header>
+                <icon large>&#xe69f</icon>请选择要导入的试题类型、试题分类和知识点
+                <loading v-if="loading">...</loading>
+            </header>
+            <el-tabs type="border-card">
+                <el-tab-pane label="所属“试题分类”">
+                    <selectpart :orgid="org.Org_ID" @update="updatepart"></selectpart>
+                </el-tab-pane>
+                <el-tab-pane label="关联“知识点”">
+                    <selectknl :orgid="org.Org_ID" @update="updateknl"></selectknl>
+                </el-tab-pane>
+            </el-tabs>
+            <div class="types">
+                <span>题型：</span>
+                <el-radio-group v-model="form.type">
+                    <el-radio-button v-for="(item,i) in types" :label="i+1">
+                        <ques_type :type="i+1" :types="types" :showname="true"></ques_type>
+                    </el-radio-button>
+                </el-radio-group>
+            </div>
+        </div>
+        <!--上传组件-->
+        <div class="second"  v-show="maintstep==1">
+            <upload-excel ref="upload" :template="tname+'题 - 考试试题.xls'" :config="tname+'题 - 考试试题.xml'" :title="tname+'题（考试试题）'"
+                apiurl="ExamQues/ExcelImport" @finish="finish" @step="s=>step=s"
+                :params="form">
+            </upload-excel>
+        </div>
+        <!--底部按钮-->
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain v-if="maintstep>0"
+                @click="goback">
+                <icon>&#xe748</icon>返 回
+            </el-button>
+            <el-button type="primary" native-type="submit" :loading="loading" plain v-if="maintstep<1"
+                @click="maintstep++">
+                下一步 <icon>&#xe802</icon>
+            </el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
+    </div>
+</body>
+
+</html>

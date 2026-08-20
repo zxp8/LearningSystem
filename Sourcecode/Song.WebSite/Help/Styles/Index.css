@@ -1,0 +1,369 @@
+html {}
+
+html, body, #vapp {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+#vapp {
+    position: absolute;
+    top: 0px;
+    padding: 20px 20px 0px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/*普通屏幕设备*/
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    #vapp {
+        left: 0px;
+        width: 100%;
+    }
+
+    nav {
+        width: 180px !important;
+        margin-right: 0px !important;
+    }
+}
+
+
+/*超大屏幕设备*/
+@media only screen and (min-width: 1600px) {
+    #vapp {
+        left: calc((100% - 1600px)/2);
+        max-width: 1600px;
+    }
+
+    nav {
+        width: 250px !important;
+    }
+
+    nav>div, nav>a {
+        font-size: 20px;
+    }
+
+    nav>* icon {
+        transform: scale(1.2);
+        margin-top: 3px;
+    }
+
+    nav>div[current]::after, nav>a[current]::after {
+        right: -6px !important;
+        bottom: 1px !important;
+    }
+}
+/* 额外效果：高度小于500px时调整布局 */
+        @media (max-height: 800px) {
+             nav>div, nav>a {
+       padding: 5px 6px 5px 55px !important;
+    }
+        }
+
+*::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 3px;
+    /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+
+*::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
+    background: #808080;
+}
+
+*::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
+    border-radius: 3px;
+    background: #EDEDED;
+}
+
+a {
+    color: #aaa;
+    text-decoration: none;
+}
+
+a[href] {
+    color: #333;
+}
+
+a[href]:hover {
+    text-decoration: underline;
+}
+
+a icon {
+    font-size: 22px;
+    margin-right: 6px;
+}
+
+*[mobi] {
+    display: none;
+}
+
+/*头部*/
+header {
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    width: calc(100% - 20px);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    padding: 0px 0px 0px 15px;
+}
+
+header>div:first-child {
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 6px;
+    color: #444;
+}
+
+header>div[copyright=title] {
+    color: #999;
+    flex: 1;
+    box-sizing: border-box;
+    padding: 15px 20px;
+}
+
+header>div:first-child::before {
+    font-size: 33px;
+    margin: 8px 10px 0px 0px;
+    display: inline-block;
+}
+
+header>div:last-child {
+    padding: 15px 0px 0px 0px;
+}
+
+header>div:last-child>*:not(*:last-child) {
+    margin: 0px 15px;
+}
+
+header *[copyright=tel] {
+    color: #409EFF;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+header .rightbtns>* {
+    margin-left: 15px;
+}
+
+/*底部区域*/
+footer {
+    height: 30px;
+    line-height: 30px;
+    display: flex;
+    box-sizing: border-box;
+    padding: 5px 5px 5px 30px;
+    justify-content: space-between;
+}
+
+footer * {
+    font-size: 14px;
+}
+
+/*内容区域*/
+section {
+    display: flex;
+    width: 100%;
+    height: calc(100% - 110px);
+}
+
+section aside {
+    flex: 1;
+}
+
+section aside iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/*菜单*/
+nav {
+    width: 200px;
+    height: 100%;
+    padding: 0px 10px 0px 10px;
+    margin-right: 20px;
+    overflow: hidden auto;
+}
+
+nav>div, nav>a {
+    padding: 10px 6px 10px 55px;
+    display: block;
+
+    position: relative;
+    color: #333;
+    margin: 0px 8px 0px 0px;
+    border-radius: 3px;
+    --background-image: linear-gradient(-45deg, transparent 5%, rgba(255, 255, 255, 0.6) 85%, transparent);
+    cursor: pointer;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 1px solid transparent;
+}
+
+nav>div:hover, nav>a:hover {
+    color: #333;
+}
+
+nav>div[current], nav>a[current] {
+    background: rgb(236, 245, 255);
+
+    border: 1px solid rgb(140, 197, 255);
+    color: #409EFF !important;
+}
+
+nav>div[current], nav>a[current], div[current] *:first {
+    color: #409EFF !important;
+}
+
+nav>div[current] hot::before, nav>a[current] hot::before {
+    color: #409EFF;
+}
+
+nav>div[current]:hover, nav>a[current]:hover {
+    color: #409EFF
+}
+
+nav>div[current]::before, nav>a[current]::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: -20px;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 40px solid #409EFF;
+    transform: rotate(3deg);
+    z-index: 1;
+
+}
+
+nav>div[current]::after, nav>a[current]::after {
+    content: '\e777';
+    font-size: 16px;
+    font-family: "webdesk_icon" !important;
+    color: #fff;
+    position: absolute;
+    bottom: -1px;
+    right: -6px;
+    z-index: 2;
+    transform: rotate(-4deg);
+}
+
+nav>p.line {
+    margin: 15px 0px;
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(to right, transparent, #ccc, transparent);
+}
+
+nav>* icon {
+    position: absolute;
+}
+
+nav>* hot {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 8px;
+}
+
+
+
+nav>* hot::before {
+    content: '\e856';
+    font-family: "webdesk_icon" !important;
+    color: #ff0000;
+}
+
+nav a.copyright {
+    margin: 0px;
+    padding: 5px 0px 5px 45px;
+    position: absolute;
+    bottom: 10px;
+    left: 35px;
+    text-align: left;
+    font-size: 12px;
+    color: #999;
+    width: 240px;
+    background-color: transparent;
+    background-image: none;
+}
+
+img[copyright='weixinqr'] {
+    display: none;
+}
+
+/*竖屏，手机端显示*/
+@media only screen and (orientation: portrait) {
+    #vapp {
+        top: 0px;
+        left: 0px;
+        padding: 0px !important;
+
+    }
+
+    section {
+        height: calc(100%);
+    }
+
+    section>nav {
+        display: none;
+    }
+
+    section>nav[mobi] {
+        display: block;
+        position: absolute;
+        width: 100%;
+        left: 0px;
+        top: 80px;
+        height: calc(100% - 80px);
+        z-index: 200;
+        background-color: #fff;
+        box-sizing: border-box;
+        padding: 10px 15px;
+    }
+
+    header>div[copyright=title] {
+        display: none;
+    }
+
+    header>*:not(:first-child) {
+        display: none;
+    }
+
+    *[mobi] {
+        display: block !important;
+    }
+
+    header div[mobi][icon] {
+        font-size: 22px;
+        display: block;
+    }
+
+    footer {
+        display: none;
+    }
+}
+
+@media (min-width: 1500px) {
+    img[copyright='weixinqr'] {
+        display: block;
+        position: absolute;
+        right: 10px;
+        bottom: -10px;
+    }
+
+    footer {
+        padding-right: 130px;
+    }
+}

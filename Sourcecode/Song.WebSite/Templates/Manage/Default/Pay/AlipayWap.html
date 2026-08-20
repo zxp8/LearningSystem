@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>支付宝手机支付</title>
+</head>
+
+
+<body>
+    <div id="vapp" v-cloak>
+        <modifybox :entity="entity" :config='config' :rules="rules" @init="(e,c)=>{entity=e;config=c;}">
+            <el-form-item label="" prop="Pai_Pattern">
+                <interface_type ref="interface_type" :entity="entity"></interface_type>
+            </el-form-item>
+            <el-form-item label="支付名称" prop="Pai_Name">
+                <el-input v-model="entity.Pai_Name"></el-input>
+            </el-form-item>
+            <el-form-item label="" prop="Pai_IsEnable">
+                <el-switch v-model="entity.Pai_IsEnable" active-color="#13ce66" inactive-color="#ff4949"
+                    :active-text="entity.Pai_IsEnable ? '启用' : '禁用'">
+                </el-switch>
+
+            </el-form-item>
+            <el-form-item label="合作者身份" prop="Pai_ParterID">
+                <el-input v-model="entity.Pai_ParterID" style="width: 50%"></el-input>
+                <help>即：ParterID</help>
+            </el-form-item>
+            <el-form-item label="商户的私钥" prop="Privatekey">
+                <el-input type="textarea" :rows="5" v-model.trim="config.Privatekey" placeholder="请输入内容"></el-input>
+            </el-form-item>
+            <el-form-item label="回调域" prop="Pai_Returl">
+                <el-input v-model.trim="entity.Pai_Returl"></el-input>
+            </el-form-item>
+
+            <el-form-item label="费率" prop="Pai_Feerate">
+                <el-input v-model="entity.Pai_Feerate" style="width: 50%">
+                    <template slot="append">%</template>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="简介" prop="Pai_Intro">
+                <el-input type="textarea" v-model="entity.Pai_Intro" :rows="2" placeholder="请输入内容"></el-input>
+            </el-form-item>
+
+        </modifybox>
+    </div>
+
+
+</body>
+
+</html>

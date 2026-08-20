@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>设置固定试卷的基本信息</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <papertype type="2"></papertype>
+        <div class="panel">
+            <el-tabs type="border-card" v-model="activeName">
+                <el-tab-pane :name="tab.tab" v-for="(tab,i) in tabs">
+                    <span slot="label">
+                        <icon v-html="'&#x'+tab.icon"></icon> {{tab.name}}
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+            <el-form ref="form" :model="entity" :rules="rules" v-loading="loading" @submit.native.prevent
+                label-width="100px">
+                <div v-show="activeName=='general'" remark="基本信息" tab="general">
+                    <el-form-item label="试卷名称" prop="Etp_Name">
+                        <el-input v-model="entity.Etp_Name" maxlength="255"></el-input>
+                    </el-form-item>
+                    <el-form-item label="副标题" prop="Etp_SubName">
+                        <el-input v-model="entity.Etp_SubName" maxlength="255"></el-input>
+                    </el-form-item>                  
+                   
+                    <el-row :gutter="20"> 
+                        <el-col :span="12">
+                            <el-form-item label="时长" prop="Etp_Span">
+                                <el-input placeholder="请输入内容" v-model.trim="entity.Etp_Span" type="number" style="width: 300px;">
+                                    <template slot="prepend">限时</template>
+                                    <template slot="append">分钟</template>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12"> 
+                            <el-form-item label="难度范围" prop="Etp_Diff">
+                                <el-row :gutter="20">
+                                    <el-col :span="12">
+                                        <el-slider v-model="Etp_Diff" :step="1" range show-stops :min="1" :max="5"
+                                            @change="arr=>{entity.Etp_Diff=arr[0];entity.Etp_Diff2=arr[1];}">
+                                        </el-slider>
+                                    </el-col>
+                                    <el-col :span="10">
+                                        <el-tag type="info">{{entity.Etp_Diff}} - {{entity.Etp_Diff2}}</el-tag>
+                                    </el-col>
+                                </el-row>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>    
+                    <el-form-item label="注意事项" prop="Etp_Remind">
+                        <editor :content="entity.Etp_Remind" id="range" :menubar="false" model="general"
+                            class="remind_editor" upload="TestPaper" :dataid="entity.Etp_Id"
+                            @change="text=>entity.Etp_Remind=text"></editor>
+                    </el-form-item>
+
+                </div>              
+                <div v-show="activeName=='intro'" remark="简介" class="intro_editor" tab="intro">
+                    <editor :content="entity.Etp_Intro" id="intro" class="intro_editor" :menubar="false" model="general" upload="TestPaper"
+                        :dataid="entity.Etp_Id" @change="text=>entity.Etp_Intro=text"></editor>
+                </div>
+                <div v-show="activeName=='other'" remark="其它" tab="other">
+                    <el-form-item label="出卷人">
+                        <el-input v-model="entity.Etp_Author" style="width: 180px;"></el-input>
+                    </el-form-item>
+                    <el-form-item label="试卷Logo">
+                        <div class="img_tools">
+                            <upload-img @change="f=>upfile=f" :data="entity" size="1024" height="30" ext="jpg,png,gif">
+                                <el-tooltip content="允许的图片格式：jpg,png,gif" placement="right" effect="light">
+                                    <span style="cursor: pointer;">
+                                        <icon>&#xe6ea</icon>点击上传图片
+                                    </span>
+                                </el-tooltip>
+                            </upload-img>
+                            <template v-if="entity.Etp_Logo!='' || upfile!=null">
+                                <el-link type="primary" @click.stop="()=>{upfile=null;entity.Etp_Logo = '';}">清除图片
+                                </el-link>
+                            </template>
+                        </div>
+                        <div v-if="entity.Etp_Logo!='' || upfile!=null" class="img_div">
+                            <img v-if="upfile!=null" :src="upfile.base64" />
+                            <img v-else :src="entity.Etp_Logo" />
+                        </div>
+                    </el-form-item>
+                </div>
+     
+            </el-form>
+        </div>
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('form',true)">确认</el-button>        
+            <el-button type='close'>取消</el-button>
+        </div>
+    </div>
+</body>
+
+</html>

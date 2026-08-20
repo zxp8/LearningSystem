@@ -1,0 +1,57 @@
+{
+  "Org_ID": {
+    "mark": "机构ID",
+    "intro": "",
+    "relation": "Organization"
+  },
+  "QP_Count": {
+    "mark": "试题数",
+    "intro": "",
+    "relation": ""
+  },
+  "Qp_CrtTime": {
+    "mark": "创建时间",
+    "intro": "",
+    "relation": ""
+  },
+  "Qp_ID": {
+    "mark": "主键",
+    "intro": "",
+    "relation": ""
+  },
+  "Qp_Intro": {
+    "mark": "简介",
+    "intro": "",
+    "relation": ""
+  },
+  "Qp_IsUse": {
+    "mark": "是否启用",
+    "intro": "",
+    "relation": ""
+  },
+  "Qp_Name": {
+    "mark": "名称",
+    "intro": "试题分类的名称",
+    "relation": ""
+  },
+  "Qp_Order": {
+    "mark": "排序号",
+    "intro": "",
+    "relation": ""
+  },
+  "Qp_PID": {
+    "mark": "上级ID",
+    "intro": "",
+    "relation": ""
+  },
+  "Qp_UpdateTime": {
+    "mark": "更新时间",
+    "intro": "",
+    "relation": ""
+  },
+  "Qp_IsDeleted": {
+    "mark": "是否删除",
+    "intro": "标记为逻辑删除",
+    "relation": ""
+  }
+}

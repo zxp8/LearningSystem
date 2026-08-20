@@ -1,0 +1,24 @@
+.title_box {
+	width: 100%;
+	display: flex;
+	position: relative;
+	padding: 2px 0px 0px 2px;
+}
+
+.title_box img {
+	height: 40px;
+	margin-right: 10px;
+	margin-left: 1px;
+}
+
+.title_box div {
+	height: 40px;
+	overflow: hidden;
+	line-height: 20px;
+	line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}

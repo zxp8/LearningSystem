@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <title>机构介绍</title>
+    <include file="../inc/meta.inc" />
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <editor ref="editor" :content="organ.Org_Intro" :menubar="false"
+        upload="Org" :dataid="organ.Org_ID"
+        model="general" @change="text=>organ.Org_Intro=text"></editor>
+
+
+        <div class="footer">            
+            <el-button type="primary" define="enter" @click="updateDetails" :loading="loading">保存修改</el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

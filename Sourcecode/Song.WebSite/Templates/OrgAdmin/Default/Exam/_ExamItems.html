@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>考试场次</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="exam" :model="exam" label-width="80px" :rules="rules">
+            <el-form-item label="场次名称" prop="Exam_Name">
+                <el-input v-model="exam.Exam_Name"></el-input>
+            </el-form-item>
+            <el-form-item label="分数">
+                <template v-if="ishavepaper">
+                    <el-tag>总分：{{exam.Exam_Total}}</el-tag>
+                    <el-tag type="success">及格分：{{exam.Exam_PassScore}}</el-tag>
+                </template>
+                <help v-else>请先选择考试试卷</help>
+            </el-form-item>
+            <el-form-item label="开始时间" prop="Exam_Date">
+                <span v-if="theme.Exam_DateType==1">
+                    <!--准时开始-->
+                    <el-date-picker v-model="exam.Exam_Date" type="datetime" placeholder="选择日期时间">
+                    </el-date-picker>
+                </span>
+                <span v-else>
+                    <!--区间时间-->
+                    <b>{{theme.Exam_Date|date("yyyy-M-dd HH:mm")}}</b> 至
+                    <b>{{theme.Exam_DateOver|date("yyyy-M-dd HH:mm")}}</b> 之间
+                </span>
+            </el-form-item>
+            <el-form-item label="限时" prop="Exam_Span">
+                <el-input v-model.number="exam.Exam_Span" type="number">
+                    <template slot="append">分钟</template>
+                </el-input>
+            </el-form-item>
+            <el-divider content-position="left">采用的试卷</el-divider>
+            <el-form-item label="">
+                <el-radio-group v-model="papertype">
+                    <el-radio-button :label="1">考试专用试卷</el-radio-button>
+                    <el-radio-button :label="0">课程模拟测试的试卷</el-radio-button>
+                </el-radio-group>
+            </el-form-item>
+            <select_papertype1 v-show="papertype==1" :org="org" :exam="exam" @change="selectexampaper">
+            </select_papertype1>
+            <select_papertype0 v-show="papertype==0" :org="org" :exam="exam" @change="selectcourpaper">
+            </select_papertype0>
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('exam')">
+                确定
+            </el-button>
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

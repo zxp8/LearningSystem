@@ -1,0 +1,119 @@
+﻿@charset "utf-8";
+
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	position: relative;
+	background-color: #fff;
+}
+
+context {
+	display: block;
+	width: 100%;
+	height: calc(100% - 88px);
+	padding: 44px 0px 0px 0px;
+	text-align: center;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+img.logo {
+	max-width: calc(60% - 40px);
+	padding: 20px 20px 0px 20px;
+}
+
+.platinfo {
+	box-sizing: border-box;
+	padding: 20px;
+	font-size: 22px;
+	text-shadow: 1px 1px 3px #999;
+	font-weight: bold;
+}
+
+.editon {
+	box-sizing: border-box;
+	padding: 0px 20px;
+	font-size: 13px;
+}
+
+.van-cell-group {
+	text-align: left;
+	box-sizing: border-box;
+	margin: 20px;
+}
+
+.intro {
+	text-align: left;
+	box-sizing: border-box;
+	background-color: #fff;
+	padding: 0px 20px 20px 20px;
+	margin: 0px 20px 20px 20px;
+
+}
+
+.intro, .intro * {
+	font-size: 16px;
+	line-height: 30px;
+	color: #323233;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+}
+
+.intro img, .intro table {
+	max-width: 100%;
+}
+
+.intro table td {
+	word-break: break-all;
+}
+
+.copyright {
+	height: 44px;
+	font-size: 12px;
+	position: fixed;
+	text-align: center;
+	width: 100%;
+	bottom: 0px;
+	z-index: 2;
+	line-height: 44px;
+	color: #666;
+}
+
+card {
+	text-align: left;
+}
+
+card div {
+	padding: 3px 8px;
+}
+
+card span.key {
+	display: inline-block;
+	width: 150px;
+}
+
+card span.val {
+	font-size: 12px;
+}
+card span.nowrap{
+	white-space: nowrap;
+} 
+card-title span {
+	float: right;
+}
+
+card.version card-content>div span.key {
+	width: 160px;
+}
+card.version card-content>div span.val {
+	flex: 1;
+}
+card.version card-content>div {
+	display: flex;
+}
+iframe {
+	max-width: 100% !important;
+}

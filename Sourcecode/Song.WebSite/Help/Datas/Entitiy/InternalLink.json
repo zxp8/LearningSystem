@@ -1,0 +1,47 @@
+{
+  "IL_CrtTime": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "IL_ID": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "IL_IsUse": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "IL_Name": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "IL_Target": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "IL_Title": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "IL_Url": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Org_ID": {
+    "mark": "",
+    "intro": "",
+    "relation": "Organization"
+  },
+  "Org_Name": {
+    "mark": "",
+    "intro": "",
+    "relation": "Organization"
+  }
+}

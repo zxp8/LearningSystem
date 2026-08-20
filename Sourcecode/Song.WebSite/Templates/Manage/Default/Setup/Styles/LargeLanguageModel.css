@@ -1,0 +1,34 @@
+﻿@charset "utf-8";
+#vapp {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+}
+
+.box-card {
+    margin: 15px;
+}
+
+.box-card:last-child {
+
+    display: flex;
+    flex-direction: column;   
+}
+
+.box-card:last-child .el-card__body {
+    flex: 1;
+}
+.el-card__header {
+   display: flex;
+   justify-content: space-between; 
+}
+/*模型选择框*/
+.select-model .el-select-dropdown__item{
+    height: auto;
+}
+.select-model .el-select-dropdown__item .name{
+    font-size: 18px;
+}
+.select-model .el-select-dropdown__item .descr{
+    color: #999;
+}

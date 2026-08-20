@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>缺考学员列表</title>
+
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="" ref='btngroup' width="600" height="500">
+                <el-button type="info" plain size="mini" @click="export_panel=true"
+                    @dblright="$refs['crtbtscore'].show()">
+                    <icon>&#xe73e</icon>导出
+                </el-button>
+            </btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-select v-model="form.stsid" placeholder="请选择" style="width: 160px;"
+                        @change="handleCurrentChange(1)">
+                        <el-option label="-- 所有缺考学员 --" :value="0"> </el-option>
+                        <el-option label="-- 未分组学员 --" :value="-1"> </el-option>
+                        <el-option v-for="(item,i) in sorts" :key="item.Sts_ID" :label="item.Sts_Name"
+                            :value="item.Sts_ID">
+                            <span>{{i+1}}. {{item.Sts_Name}}</span>
+                            <span class="sortcount" title="参考学员数量">{{item.Sts_Count}} </span>
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.name" style="width:100px" clearable placeholder="学员姓名"></el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.phone" style="width:100px" clearable placeholder="手机号"></el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.idcard" style="width:120px" clearable placeholder="身份证"></el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+        <el-table ref="datatables" v-loading="loading" border resizable :stripe="true" :data="datas"
+            tooltip-effect="dark" style="width: 100%" @selection-change="val=>selects=val"
+            @row-dblclick="row=>$refs.btngroup.modifyrow(row)"
+            :row-class-name="data=>{return data.row.Ac_IsUse ? 'enable' : 'disabled';}">
+            <el-table-column type="selection" width="35">
+            </el-table-column>
+            <el-table-column type="index" label="#" min-width="30" class-name="index" align="center">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="姓名" width="120" class-name="account">
+                <div slot-scope="scope">
+                    <el-link type="primary" plain
+                        :class="{'woman': scope.row.Ac_Gender==2,'man': scope.row.Ac_Gender==1,'large':true}"
+                        @dblright:300="$refs['crtscore'].show(scope.row)" @click="getaccount(scope.row)">
+                        <icon :woman="scope.row.Ac_Gender==2" :man="scope.row.Ac_Gender==1">
+                            <span v-html='showsearch(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"
+                                @dblclick.stop="copytext(scope.row.Ac_Name)"></span>
+                            <span v-else class="noname">(没有名字)</span>
+                        </icon>
+                    </el-link>
+                </div>
+            </el-table-column>
+            <el-table-column label="电话" width="100">
+                <template slot-scope="scope">
+                    <template v-if="!(scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2==scope.row.Ac_MobiTel1)">
+                        <span class="mobi" v-html='showsearch(showmobi(scope.row),form.phone)'></span>
+                    </template>
+                </template>
+            </el-table-column>
+            <el-table-column prop="Ac_Birthday" label="年龄" width="60">
+                <template slot-scope="scope">
+                    <template
+                        v-if="(!timeisnull(scope.row.Ac_Birthday) || scope.row.Ac_Age>0 ) && scope.row.Ac_Birthday<new Date() ">
+                        <span title="年龄" v-if="scope.row.Ac_Age>=0">
+                            {{scope.row.Ac_Age}} 岁
+                        </span>
+
+                    </template>
+                </template>
+            </el-table-column>
+            <el-table-column label="学员组">
+                <template slot-scope="scope">
+                    <el-tag type="info" v-if="scope.row.Sts_Name!=''">
+                        <span v-html='scope.row.Sts_Name'></span>
+                    </el-tag>
+                    <el-tag type="info" v-else>
+                        (无)
+                    </el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column label="身份证" width="180">
+                <template slot-scope="scope">
+                    <div @dblclick.stop="copytext(scope.row.Ac_IDCardNumber)">
+                        <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)'></span>
+                    </div>
+
+                </template>
+            </el-table-column>
+            <el-table-column label="籍贯" width="180">
+                <template slot-scope="scope">
+
+                    <span v-html='scope.row.Ac_Native'></span>
+
+                </template>
+            </el-table-column>
+        </el-table>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-size="form.size"
+                :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+        <!-- 导出面板-->
+        <el-dialog title="提示" :visible.sync="export_panel" width="80%" :show-close="false" :before-close="()=>{}">
+            <span slot="title">
+                <icon large>&#xe73e</icon>缺考人员信息导出
+            </span>
+            <dl class="files" v-if="files.length>0">
+                <dd v-for="(f,i) in files">
+                    <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
+                        {{f.file}}</a>
+                    <span>{{f.size|size}}</span>
+                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                        <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+                </dd>
+            </dl>
+            <help v-else>点击“生成导出文件”</help>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="export_panel = false" :disabled="loading">取 消</el-button>
+                <el-button type="primary" @click="toexcel" :loading="loading">生成导出文件</el-button>
+            </span>
+        </el-dialog>
+        <!--考生信息-->
+        <el-dialog title="考生信息" :visible.sync="accountVisible">
+            <div slot="title">
+                <icon style="font-size: 25px;">&#xe669</icon>考生信息
+            </div>
+            <el-row :gutter="20">
+                <el-col :span="24" class="accountInfo">
+                    <avatar :account="account" circle="true" size="80"></avatar>
+                    <div>
+                        <icon :woman="account.Ac_Gender=='2'" :man="account.Ac_Gender!='2'">
+                            <b>{{account.Ac_Name}}</b>
+                        </icon>
+                        <span title="账号">({{account.Ac_AccName}})</span>
+                    </div>
+                    <div icon="&#xe68f" title="身份证" v-html="account.Ac_IDCardNumber"></div>
+                    <div icon="&#xa047" title="电话">
+                        <span v-html='account.Ac_MobiTel1'></span>
+                        <span
+                            v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!='' && account.Ac_MobiTel1!= account.Ac_MobiTel2 ">/</span>
+                        <span v-if="account.Ac_MobiTel1!= account.Ac_MobiTel2 " v-html='account.Ac_MobiTel2'></span>
+                    </div>
+
+                </el-col>
+            </el-row>
+            <el-divider></el-divider>
+            <div class="examInfo">
+                <el-row :gutter="20">
+                    <el-col :span="4">
+                        考试
+                    </el-col>
+                    <el-col :span="20">
+                        {{entity.Exam_Title}}
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="4">
+                        成绩
+                    </el-col>
+                    <el-col :span="20">
+                        <warning>该学员缺考</warning>
+                    </el-col>
+                </el-row>
+            </div>
+        </el-dialog>
+        <!--build exr-->
+        <createscore ref="crtscore" :exam="entity" @update="crtscoreupdate"></createscore>
+        <createbatchscore ref="crtbtscore" :exam="entity" @completed="handleCurrentChange(1)"></createbatchscore>
+    </div>
+</body>
+
+</html>

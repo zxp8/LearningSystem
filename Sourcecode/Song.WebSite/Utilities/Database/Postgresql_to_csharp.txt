@@ -1,0 +1,9 @@
+character-> String
+boolean-> Boolean
+timestamp-> DateTime
+numeric->  Decimal
+text -> String
+integer->  Int32,Int16
+smallint-> Int16
+real -> Single
+bigint->  Int64

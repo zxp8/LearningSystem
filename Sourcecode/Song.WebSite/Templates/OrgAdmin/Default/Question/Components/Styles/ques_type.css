@@ -1,0 +1,28 @@
+﻿/*题型的图标*/
+
+icon[ques_type] {}
+
+icon[ques_type][showname=true]::after {
+	content: attr(title);
+	margin-left: 8px;
+}
+
+.el-tabs__header icon[ques_type][showname=true]::after {
+	font-size: 15px;
+}
+
+icon[ques_type][type="1"] {
+
+	margin-left: -2px;
+}
+
+/*填空题*/
+icon[ques_type][type="5"] {
+	margin-right: 0px;
+	margin-left: -3px;
+}
+
+icon[ques_type][type="5"]::after {
+	margin-left: 0px;
+	padding-top: 2px;	
+}

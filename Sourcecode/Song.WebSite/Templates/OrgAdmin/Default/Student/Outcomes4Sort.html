@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>导出学员组的学习成绩</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-menu class="el-menu-demo" mode="horizontal" :disabled="true"  @select="handleSelect">
+            <el-submenu index="sort">
+                <template slot="title"><icon>&#xe73e</icon>学员组关联课程</template>
+                <el-menu-item index="output_study"><icon>&#xe678</icon>导出学习成绩</el-menu-item>
+                <el-menu-item index="output_full"><icon>&#xe67d</icon>导出所有（包括未学习的）</el-menu-item>
+            </el-submenu>
+            <el-submenu index="all">
+              <template slot="title"><icon>&#xe813</icon>所有课程</template>
+              <el-menu-item index="output_all"><icon>&#xe76b</icon>导出所有（包括学员自主选修的课程）</el-menu-item>             
+            </el-submenu>          
+          </el-menu>
+
+
+        <dl v-if="files.length>0" class="files">
+            <dt icon="&#xe6a7">导出的学习成果 ({{files.length}})</dt>
+            <dd v-for="(f,i) in files">
+                <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
+                    {{f.file}}</a>
+                <span>{{f.size|size}}</span>
+                <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                    <el-link type="danger" icon="el-icon-delete" :disabled="loading" slot="reference">删除
+                    </el-link>
+                </el-popconfirm>
+            </dd>
+        </dl>
+        <div v-else class="nofiles">
+            <warning>没有文件，请点击右上方菜单项，导出相关数据</warning>
+        </div>
+
+        <div class="footer">
+            <el-button define="enter" type="primary" v-if="false" v-on:click="btnOutput(true)" class="el-icon-position"
+                :disabled="loading || loading_init" :loading="loading" native-type="submit">
+                导出所有（包括未学习的）
+            </el-button>
+            <el-button define="enter" type="primary" v-if="false"  v-on:click="btnOutput(false)" class="el-icon-position"
+                :disabled="loading || loading_init" :loading="loading" native-type="submit">
+                导出学习成绩
+            </el-button>
+            <el-button type='close'>
+                关闭
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

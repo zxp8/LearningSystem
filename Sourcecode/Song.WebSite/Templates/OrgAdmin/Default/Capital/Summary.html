@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <title>收入统计</title>
+    <include file="../inc/meta.inc" />
+
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <section class="first">
+            <div class="left">
+                <div class="datainfo">
+                    <div class="total">
+                        <span>累计收入：<b>{{total.pay|commas}}</b>元</span>
+                        <span>累计充值：<b>{{total.recharge|commas}}</b>元</span>
+                    </div>
+                    <div class="year">
+                        <span>年度收入：<b>{{year.pay|commas}}</b>元</span>
+                        <span>年度充值：<b>{{year.recharge|commas}}</b>元</span>
+                    </div>
+                    <div class="quarter">
+                        <span>季度收入：<b>{{quarter.pay|commas}}</b>元</span>
+                        <span>季度充值：<b>{{quarter.recharge|commas}}</b>元</span>
+                    </div>
+                    <div class="month">
+                        <span>本月收入：<b>{{month.pay|commas}}</b>元</span>
+                        <span>本月充值：<b>{{month.recharge|commas}}</b>元</span>
+                    </div>
+                </div>
+                <div class="monthlychart">
+                    <monthlychart :orgid="orgid"></monthlychart>
+                </div>
+            </div>
+            <div class="right">
+                <el-calendar v-model="currdate">
+                    <template slot="dateCell" slot-scope="{date, data}">
+
+                        {{ data.day.split('-').slice(1).join('-') }}
+
+                        <div class="money">
+                            <icon money>{{daymoney(data)}}</icon>
+                        </div>
+                    </template>
+                </el-calendar>
+            </div>
+        </section>
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

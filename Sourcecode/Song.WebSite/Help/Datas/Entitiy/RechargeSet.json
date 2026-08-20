@@ -1,0 +1,72 @@
+{
+  "Org_ID": {
+    "mark": "机构ID",
+    "intro": "",
+    "relation": "Organization"
+  },
+  "Rs_CodeLength": {
+    "mark": "充值码长度",
+    "intro": "充值卡的编码中的明文部分，类似之前手机充值卡的编码，一部分是数字代码（明文），一部分需要刮开的密码；这里是设置明文的长度；Rs_PwLength是设置密文的长度。",
+    "relation": ""
+  },
+  "Rs_Count": {
+    "mark": "充值码数量",
+    "intro": "",
+    "relation": ""
+  },
+  "Rs_CrtTime": {
+    "mark": "创建时间",
+    "intro": "",
+    "relation": ""
+  },
+  "Rs_ID": {
+    "mark": "",
+    "intro": "",
+    "relation": ""
+  },
+  "Rs_Intro": {
+    "mark": "说明",
+    "intro": "",
+    "relation": ""
+  },
+  "Rs_IsEnable": {
+    "mark": "是否启用",
+    "intro": "",
+    "relation": ""
+  },
+  "Rs_LimitEnd": {
+    "mark": "结束时间",
+    "intro": "充值卡有时效，这里是时效的结束时间",
+    "relation": ""
+  },
+  "Rs_LimitStart": {
+    "mark": "开始时间",
+    "intro": "同上，这里是充值卡可使用时间的开始时间",
+    "relation": ""
+  },
+  "Rs_Price": {
+    "mark": "价格",
+    "intro": "",
+    "relation": ""
+  },
+  "Rs_Pw": {
+    "mark": "密钥",
+    "intro": "用于生成充值编码的加密混淆码",
+    "relation": ""
+  },
+  "Rs_PwLength": {
+    "mark": "密码长度",
+    "intro": "同Rs_CodeLength的说明",
+    "relation": ""
+  },
+  "Rs_Theme": {
+    "mark": "主题",
+    "intro": "",
+    "relation": ""
+  },
+  "Rs_UsedCount": {
+    "mark": "已经使用的数量",
+    "intro": "",
+    "relation": ""
+  }
+}

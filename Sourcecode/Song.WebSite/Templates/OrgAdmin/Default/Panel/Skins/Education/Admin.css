@@ -1,0 +1,30 @@
+@charset "utf-8";
+:root {
+    /*页面背景色*/
+    --bg-color: rgb(27, 87, 148);
+    /*管理界面的背景色*/
+    --admin-bg-color: rgb(0, 135, 189);
+    /*标题的颜色*/
+    --title-color: rgb(248, 255, 205);
+    /*时间的颜色*/
+    --time-color: rgb(105 106 106 / 80%);    
+    /*预载条，前景色、背景色*/
+    --loading-color: rgb(255, 255, 255);
+    --loading-shadow: rgb(2, 2, 2);
+    --loading-background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.3) 0%,
+            rgba(255, 255, 255, 0) 100%);
+}
+
+
+panel#admin {
+    background-image: linear-gradient(to bottom right,  rgb(36 89 82),#58c198,#ffb83c 80%,#ffb83c 100%);
+}
+panel#admin {
+    background: url('bg.jpg');
+    background-size: cover;
+}
+#user-area drop_roots  drop-node * {
+    color: #eee !important;
+}
+

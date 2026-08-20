@@ -1,0 +1,21 @@
+
+
+p.download{  
+    margin: 20px 20px; 
+}
+
+.opensourse p,
+.opensourse p a {
+    font-size: 13px;
+    line-height: 20px;
+    color: #444;
+}
+
+dt icon{
+    font-size: 24px;
+    margin-right: 10px !important;
+}
+dl dl{
+    margin-left: 20px;
+    margin-bottom: 20px;
+}

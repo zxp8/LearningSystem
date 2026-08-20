@@ -1,0 +1,9 @@
+﻿@charset "utf-8";
+.scope_column .el-dropdown-link{
+  
+    display: flex;
+    justify-content: space-between;
+}
+.scope_column .el-dropdown-link i{
+    margin-top: 5px;
+}

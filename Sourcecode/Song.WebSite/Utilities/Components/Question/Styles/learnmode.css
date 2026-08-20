@@ -1,0 +1,46 @@
+.ws_ques_learnmode {
+    display: flex;
+    position: relative;
+    width: 100px;
+    height: 25px;
+    margin: 10px auto;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3), -1px -1px 1px rgba(255, 255, 255, 0.3),
+    1px -1px 1px rgba(255, 255, 255, 0.3), -1px 1px 1px rgba(255, 255, 255, 0.3); 
+}
+/*选中的按钮背景*/
+.ws_ques_learnmode::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: calc(50% - 2px);
+    height: calc(100% - 2px);
+    z-index: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    top: 1px;
+    left: calc(50% + 1px);
+    border-radius: 0px 5px 5px 0px;
+    transition: left 0.3s;
+}
+#vapp[view='night'] .ws_ques_learnmode::before {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+}
+.ws_ques_learnmode[even]::before {
+    left: 1px;
+    border-radius: 5px 0px 0px 5px;
+}
+
+.ws_ques_learnmode>div {
+    flex: 1;
+    line-height: 21px;
+    box-sizing: border-box;
+    padding: 2px 8px;
+    font-size: 14px;
+    color: #999;
+    z-index: 1;
+    text-align: center;
+}
+
+.ws_ques_learnmode>div[current] {
+    color: #333;
+}

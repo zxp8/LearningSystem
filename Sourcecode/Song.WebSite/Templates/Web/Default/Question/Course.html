@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <include file="../inc/meta.inc" />
+  <title>课程试题首页</title>
+</head>
+
+<body>
+
+  <!--主界面部分-->
+  <div id="vapp" v-clock>
+
+    <div class="topbox">
+      <div class="chart-area">
+        <div class="chart-back">
+          <div class="y"> </div>
+        </div>
+        <div class="chart-txt">
+           <span>通过率</span>
+          <loading v-if="loading"></loading>
+          <span class="cou-rate" v-else v-html="rate">-</span>     
+        </div>
+
+      </div>
+      <div class="top_right">
+        <dl class="quesnumbox">
+          <dd>总题量：<span class="sum" v-html="count.sum"></span>道</dd>
+          <dd>
+            <el-tag>练习 <span class="ansSum" v-html="count.exercise"></span> 道</el-tag>
+            <el-tag type="success">正确 <span class="ansSum" v-html="count.correct"></span> 道</el-tag>
+          </dd>
+        </dl>
+        <!--按钮组-->
+        <menus ref='menus' :couid="couid" :stid="stid"></menus>
+      </div>
+    </div>
+
+    <div class="outline">
+      <loading v-if="loading"> 加载中.... </loading>
+      <template v-else>
+        <div class="outline-tit">
+          <span icon="&#xe841">按章节练习</span>
+
+          <div>
+            <el-tag type="success" v-if="last!=null" class="continue" @click="gocontinue">继续练习</el-tag>
+            <el-tag type="primary" v-if="!showalloutline" class="continue" @click="showalloutline=!showalloutline">
+              显示所有章节
+            </el-tag>
+            <el-tag type="warning" v-else class="continue" @click="showalloutline=!showalloutline">隐藏没有试题章节</el-tag>
+          </div>
+        </div>
+        <template v-if="outlines && outlines.length>0">
+          <outlinelist ref="outlines" :showalloutline="showalloutline" :outlines="outlines" :course="course"
+            :acid="account.Ac_ID" :isbuy="owned">
+          </outlinelist>
+        </template>
+      </template>
+
+    </div>
+
+  </div>
+
+
+</body>
+
+</html>

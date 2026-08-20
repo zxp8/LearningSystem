@@ -1,0 +1,19 @@
+{
+	"Vue Component Template": {
+		"prefix": "tmpl:vue-child-component",
+		"description": "Vue Component  微厦在线学习系统的专用模板",
+		"body": [
+			" '$1': {",
+			"\tprops: ['value'],",
+			"\tdata: function () {",
+			"\t\treturn {",
+			"\t\t\tloading: false,",
+			"\t\t}",
+			"\t},",
+			"\twatch: {},",
+			"\tmethods: {},",
+			"\ttemplate: `<div>\n\t\t\t\n\t\t</div>`",
+			"}",
+		]
+	}
+}

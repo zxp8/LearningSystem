@@ -1,0 +1,203 @@
+﻿context.first {
+    display: block;
+    height: 500px;
+    --height: 100vh;
+    width: 100%;
+    padding: 0px !important;
+    text-align: center;
+    background-color: rgb(221, 133, 18);
+}
+
+context.first section {
+    display: block;
+    width: 1200px;
+    height: 100%;
+    margin: 0px auto;
+    position: relative;
+    --background-color: rgba(255, 255, 255, 0.3);
+    background-image: url(../images/bg1.png);
+    background-size: contain;
+    background-position: center 0;
+    background-repeat: no-repeat;
+}
+
+context.first {
+    width: 100wh;
+    color: #fff;
+    background: linear-gradient(-60deg, #ffcdbe, #befaae, #e4f7fd, #9efce6);
+    background-size: 400% 400%;
+    -webkit-animation: Gradient 15s ease infinite;
+    -moz-animation: Gradient 15s ease infinite;
+    animation: Gradient 15s ease infinite;
+}
+#logged-area {
+    width: 280px;
+    height: 320px;
+    top: calc((100% - 320px) / 2);
+    right: 60px;
+}
+/*已经登录*/
+#login-area {
+    position: absolute;
+    text-align: left;
+    color: #666;
+    z-index: 2;
+    border: 1px solid #fff;
+    border: none;
+    box-shadow: 0px 0px 200px #fff;
+    padding: 5px;
+    box-sizing: border-box;
+    background: rgba(119, 119, 119, 0.74);
+    background-color: rgba(200, 200, 200, 0.6);
+
+}
+
+#logged-area {  
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    padding: 30px;
+    box-sizing: border-box;
+    background-color: rgba(200, 200, 200, 0.3);
+}
+#logged-area .ws_avatar{
+    margin: auto;
+}
+#logged-area .accname{
+    margin: 5px;
+    color: #000;
+}
+#logged-area button {
+    font-size: 16px;
+}
+
+#logged-area icon {
+    font-size: 22px;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+
+#logged-area button {
+    width: 100%;
+    margin-top: 10px !important;
+}
+
+.loginbox .login_body button {
+    border: none !important;
+    background: rgba(33, 161, 255, .5) !important;
+
+}
+
+/*头尾部*/
+weisha_page_footer {
+    margin-top: 60px !important;
+}
+
+context.rec {
+    display: block;
+    width: 1200px;
+    margin: 60px auto;
+    position: relative;
+}
+
+/*通知公告*/
+.notices {
+    position: absolute;
+    width: calc(100% - 180px - 280px);
+    height: 320px;
+    top: calc((100% - 320px) / 2);
+    left: 60px;
+    --background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+
+.notices .noItem {
+    margin-top: 0px;
+    width: calc(50% - 20px);
+    margin: 0px 20px 20px 0px;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: all 0.5s;
+
+}
+
+.notices .noItem>div:first-child {
+    height: calc(100% - 30px);
+    line-height: 30px;
+    font-size: 18px;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.notices .noItem:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.notices .noItem>div b {
+    color: #999;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.notices .noItem:nth-child(1) b {
+    color: rgb(179, 11, 44);
+}
+
+.notices .noItem:nth-child(2) b {
+    color: rgb(238, 23, 66);
+}
+
+.notices .noItem:nth-child(3) b {
+    color: #ff9a03;
+}
+
+.notices .noItem a {
+    font-size: 20px;
+}
+
+.notices .noItem a span {
+    font-size: 14px;
+    color: #999;
+}
+
+.notices .nodate {
+    margin-left: 0px;
+    font-size: 14px;
+    margin-right: 10px;
+    color: #aaa;
+    bottom: 0px;
+    left: 0px;
+    height: 30px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+}
+
+/*登录框*/
+#login_box {
+    position: absolute;
+    text-align: left;
+    color: #666;
+    z-index: 2;
+    border: 1px solid #fff;
+    border: none;
+    box-shadow: 0px 0px 200px #fff;
+    padding: 10px 30px;
+    box-sizing: border-box;
+    background: rgba(119, 119, 119, 0.74);
+    background-color: rgba(200, 200, 200, 0.6);
+
+    width: 350px;
+    height: 400px;
+    top: calc((100% - 400px) / 2);
+    right: 30px;
+}

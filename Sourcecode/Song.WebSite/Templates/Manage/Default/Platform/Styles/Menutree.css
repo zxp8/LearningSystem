@@ -1,0 +1,138 @@
+
+section {
+    margin: 5px 0px 0px 20px;
+    max-width: calc(100% - 10px);
+    height: calc(100% - 60px);   
+    display: flex;
+    flex-direction: column;
+}
+
+.el-tree {
+    background-color: transparent !important;
+    background: transparent !important;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.drawer_item {
+    width: 50% !important;
+}
+
+.custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+}
+
+.tree_root {
+    height: 35px;
+    font-size: 16px;
+    line-height: 30px;
+    color: #0f50d1;
+    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+.tree_root icon{
+    font-size: 20px;
+}
+.tree_root .total{
+    margin: 0px 20px 0px 8px;
+    color: #aaa;
+    font-size: 15px;
+}
+.tree_root .el-input{
+    width: 200px !important;
+    margin-right: auto;
+}
+.drawer-title {
+    padding: 10px;
+    border-bottom: #d1cfcf 1px solid;
+    margin-bottom: 15px;
+}
+
+.el-link icon {
+    font-size: 20px;
+    margin: 0px 5px;
+}
+
+.el-tree-node__content {
+    cursor: default !important;
+}
+
+.tree-node {
+    display: flex;
+    width: calc(100% - 310px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+    border-radius: 3px;
+    height: 20px;
+    padding-left: 20px;
+    font-size: 15px;   
+}
+.tree-node[unfinish]::after{
+   content: '未完成';
+   margin-left: auto;
+   margin-right: 8px;
+   font-size: 14px;  
+   color: #777;
+}
+
+.tree-node icon {
+    display: block;
+    margin-right: 5px;
+    height: 20px;
+    line-height: 20px;
+    transform: scale(1.05);
+}
+
+.tree-node span.hr {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.mmlink {
+    font-size: 13px;
+    margin-left: 10px;
+    color: #aaa;
+    line-height: 25px;
+    max-width: 200px;
+    display: inline-block;
+}
+
+.el-checkbox {
+    margin-right: 10px;
+}
+
+.icon[setup] {
+    font-size: 20px;
+}
+
+
+.row{
+    height: 40px;
+    overflow: hidden;
+}
+.setup_icon{
+    display: block;
+    text-align: center;
+}
+
+/*编辑面板*/
+section.el-drawer__body{
+    margin-bottom: 0px;
+
+}
+/*菜单名称的输入框*/
+.MM_Name  .el-form-item__content{
+    display: flex;
+}
+.MM_Name  .el-form-item__content>*:first-child{
+    margin-right: 15px;
+}

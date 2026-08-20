@@ -1,0 +1,105 @@
+﻿html, body, #vapp {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;   
+    overflow: hidden;
+}
+
+#vapp {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+}
+
+header {
+    height: 26px;
+    width: calc(100vw - 24px);
+    line-height: 26px;
+    padding: 10px 12px;
+}
+
+/*登录框*/
+#login_box {
+    text-align: left;
+    color: #666;
+    z-index: 2;
+    border: 1px solid #fff;
+    border: none;
+    padding: 10px 30px;
+    box-sizing: border-box;
+    width: 350px;
+    height: calc(100vh - 80px);
+    margin: auto;
+}
+
+.login_register {
+    position: static !important;
+    margin-top: 20px;
+}
+
+.login_weisha {
+    min-height: 600px;
+}
+
+.config {
+    bottom: 30px !important;
+}
+
+.config::before {
+    content: '其它登录方式';
+    display: block;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.config>span:not(:last-child) {
+    margin: 8px 10px 0px 0px !important;
+}
+
+/*已经登录*/
+#logged-area {
+    text-align: center;
+    margin: auto;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+#logged-area .ws_avatar {
+    margin: auto;
+}
+
+#logged-area .accname {
+    margin: 5px;
+    color: #000;
+    margin: 30px auto;
+}
+
+#logged-area button {
+    font-size: 16px;
+}
+
+#logged-area icon {
+    font-size: 22px;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+
+#logged-area button {
+    width: 100%;
+    margin-top: 10px !important;
+}
+
+.loginbox .login_body button {
+    border: none !important;
+    background: rgba(33, 161, 255, .5) !important;
+
+}
+

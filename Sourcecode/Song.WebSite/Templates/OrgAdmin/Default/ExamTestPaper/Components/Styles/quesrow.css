@@ -1,0 +1,51 @@
+.quesrow{
+    margin: 0.75rem 10px;
+    padding: 5px 15px 15px 15px;
+    border-radius: 8px;
+    border: 1px solid #f3f3f3;
+    position: relative;
+}
+.quesrow:not(:last-child){
+    margin: 0.75rem 10px 2rem 10px;
+}
+.quesrow .queshead{
+    display: flex;
+    padding: 5px;
+    line-height: 30px;
+    margin: 10px 0px 10px 0px;
+}
+
+.quesrow .queshead .serial{
+    margin-right: 5px;
+}
+.quesrow .btns{
+    display: flex;
+    justify-content:space-between;
+   position: absolute;
+   right: 20px;
+   top: -15px;
+   width: 150px;
+   background-color: #fff;
+   border-radius: 15px;
+   padding: 5px 15px;
+   line-height: 20px;
+   height: 20px;
+   border: 1px solid #f3f3f3;
+}
+.quesrow .queshead .title>*{
+    margin: 0px;
+    padding: 0px;  
+}
+.quesrow .qus_items{
+    margin-left: 25px;
+}
+.quesrow .qus_items>*{
+    margin-bottom: 5px;
+}
+.quesrow .qus_items>*>*{ 
+    margin: 0px;
+    padding: 0px;  
+}
+.quesrow .qus_items>*>*:first-child{ 
+    display: inline-block;
+}

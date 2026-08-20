@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>教师列表</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除,导入,导出" ref='btngroup' @delete="deleteData" @output="output" @input="input"
+                path="Modify" width="600" height="600" :selects='selects' idkey='Th_ID' table="datatables"></btngroup>
+            <query_panel :model="form" :loading="loading" width="400px" @search="handleCurrentChange(1)">
+                <el-form-item label="名称">
+                    <el-input v-model="form.search" placeholder="名称" clearable style="width:160px"></el-input>
+                </el-form-item>
+                <el-form-item label="电话">
+                    <el-input v-model="form.phone" placeholder="电话" clearable style="width:160px"></el-input>
+                </el-form-item>
+
+                <template v-slot:more>
+                    <el-form-item label="职称">
+                        <el-select v-model="form.titid" placeholder="-- 职称 --" clearable style="width:220px">
+                            <el-option v-for="(item,i) in titles" :key="item.Ths_ID" :label="item.Ths_Name"
+                                :value="item.Ths_ID">
+                                <span style="float: left;margin-right: 10px;">{{ i+1 }}.&nbsp;</span>
+                                <span style="float: left">{{ item.Ths_Name }}</span>
+                                <el-tag type="info" v-if="!item.Ths_IsUse" style="float: right; ">被禁用</el-tag>
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="身份证">
+                        <el-input v-model="form.idcard" placeholder="身份证号" clearable style="width:220px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="性别">
+                        <el-radio-group v-model="form.gender">
+                            <el-radio-button :label="-1">所有</el-radio-button>
+                            <el-radio-button :label="1">男</el-radio-button>
+                            <el-radio-button :label="2">女</el-radio-button>
+                            <el-radio-button :label="0">未知</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="状态">
+                        <el-radio-group v-model="form.isuse">
+                            <el-radio-button label="">所有</el-radio-button>
+                            <el-radio-button label="true">启用</el-radio-button>
+                            <el-radio-button label="false">禁用</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                </template>
+            </query_panel>
+
+        </div>
+        <template>
+            <el-table ref="datatables" border resizable v-loading="loading" :stripe="true" :data="datas"
+                tooltip-effect="dark" style="width: 100%" @selection-change="val=>selects=val"
+                @row-dblclick="row=> $refs.btngroup.modifyrow(row)"
+                :row-class-name="data=>{return data.row.Th_IsUse ? 'enable' : 'disabled';}">
+                <el-table-column type="selection" width="35">
+                </el-table-column>
+                <el-table-column type="index" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="姓名/电话" width="250">
+                    <template slot-scope="scope">
+                        <avatar :teacher="scope.row" circle="true" size="45"></avatar>                       
+                        <div class="info" :class="{'woman': scope.row.Th_Gender==2,'man': scope.row.Th_Gender==1}">
+                            <span v-html='showsearch(scope.row.Th_Name,form.search)' v-if="scope.row.Th_Name!=''"
+                                @dblclick.stop="copytext(scope.row.Th_Name)"></span>
+                            <span v-else class="noname">(没有名字)</span>
+                            <div remark="电话">
+                                <icon>&#xe677</icon>
+                                <span v-html='showsearch(showmobi(scope.row),form.phone)'
+                                    @dblclick.stop="copytext(showmobi(scope.row))"></span>
+                            </div>
+                        </div>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="课程数" width="100">
+                    <template slot-scope="scope">
+                        <course_count :thid="scope.row.Th_ID"></course_count>
+                    </template>
+                </el-table-column>
+                <el-table-column label="身份证号">
+                    <template slot-scope="scope">
+                        <div title="身份证号">
+                            <icon>&#xe68f</icon>
+                            <span v-html='showsearch(scope.row.Th_IDCardNumber,form.idcard)'
+                                @dblclick.stop="copytext(scope.row.Th_IDCardNumber)"></span>
+                        </div>
+                        <div title="民族">
+                            <icon>&#xa04e</icon>
+                            <span v-if="scope.row.Th_Nation!=''">{{scope.row.Th_Nation}}</span>
+                            <span v-else class="null">(民族未知)</span>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="学历/职称" width="120">
+                    <template slot-scope="scope">
+                        <div title="学历">
+                            <icon>&#xe6112</icon>
+                            <education :value="scope.row.Th_Education" ctr="span"></education>
+                        </div>
+                        <div title="职称">
+                            <icon>&#xe81b</icon>
+                            {{scope.row.Ths_Name}}
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="年龄" width="120">
+                    <template slot-scope="scope">
+                        <template v-if="!timeisnull(scope.row.Th_Birthday) && scope.row.Th_Birthday<new Date()">
+                            <div title="年龄" v-if="scope.row.Th_Age>0">
+                                <icon>&#xe84d</icon>
+                                {{scope.row.Th_Age}} 岁
+                            </div>
+                            <div title="生日" v-if="!timeisnull(scope.row.Th_Birthday)">
+                                <icon>&#xe82c</icon>
+                                {{scope.row.Th_Birthday|date('yyyy-MM-dd')}}
+                            </div>
+                        </template>
+                    </template>
+                </el-table-column>
+                <el-table-column label="最后登录" width="120">
+                    <template slot-scope="scope">
+                        <template v-if="!timeisnull(scope.row.Th_LastTime)">
+                            <div title="时间">
+                                <icon>&#xe81a</icon>
+                                {{scope.row.Th_LastTime|date('HH:mm:ss')}}
+                            </div>
+                            <div title="日期">
+                                <icon>&#xe671</icon>
+                                {{scope.row.Th_LastTime|date('yyyy-MM-dd')}}
+                            </div>
+                        </template>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="账号">
+                    <template slot="header" slot-scope="scope">
+                        <el-tooltip class="item" effect="light" placement="top">
+                            <div slot="content">教师账号与学员账号共用，
+                                <br />可以理解为： 教师与学员都是账号的一个角色
+                            </div>
+                            <help>账号</help>
+                        </el-tooltip>
+                    </template>
+                    <template slot-scope="scope">
+                        <span @dblclick.stop="copytext(scope.row.Th_AccName)">{{scope.row.Th_AccName}}</span>
+                        <div>
+                            <span class="el-icon-loading" v-if="loadingid==scope.row.Th_ID"></span>
+                            <template v-else>
+                                <el-popconfirm v-if="scope.row.Th_IsPass" confirm-button-text='是的'
+                                    cancel-button-text='不用' icon="el-icon-info" icon-color="red" title="确定取消审核吗？"
+                                    @confirm="()=>{scope.row.Th_IsPass=false;changeState(scope.row);}">
+                                    <el-tag slot="reference">
+                                        <icon>&#xe6a1</icon>已审核
+                                    </el-tag>
+                                </el-popconfirm>
+                                <el-popconfirm v-else confirm-button-text='是的' cancel-button-text='不用'
+                                    icon="el-icon-info" icon-color="red" title="确定通过审核吗？"
+                                    @confirm="()=>{scope.row.Th_IsPass=true;changeState(scope.row);}">
+                                    <el-tag type="warning" slot="reference">
+                                        <icon>&#xe70e</icon>未审核
+                                    </el-tag>
+                                </el-popconfirm>
+                            </template>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="启用" width="100">
+                    <template slot-scope="scope">
+                        <span class="el-icon-loading" v-show="loadingid==scope.row.Th_ID"></span>
+                        <div>
+                            <el-switch v-model="scope.row.Th_IsUse" @change="changeState(scope.row)"
+                                active-color="#13ce66" inactive-color="#ff4949" v-show="loadingid!=scope.row.Th_ID"
+                                :active-text="scope.row.Th_IsUse ? '启用' : '禁用'">
+                            </el-switch>
+                        </div>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="操作" width="120" align="center">
+                    <template slot-scope="scope">
+                        <div>
+                            <el-button-group>
+                                <el-link type="info" plain icon="el-icon-collection" style="display: none;"
+                                    @click="openSubpage('courses',scope.row,'课程',600,400)">课程</el-link>
+                                <el-link type="success" plain icon="el-icon-unlock"
+                                    @click="openSubpage('resetPassword',scope.row,'重置密码',500,400,'e67b')">
+                                    重置密码</el-link>
+                            </el-button-group>
+                        </div>
+                        <div>
+                            <el-button-group>
+                                <el-link type="primary" plain icon="el-icon-edit"
+                                    @click='$refs.btngroup.modify(scope.row.Th_ID)'>修改</el-link>
+                                <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                                    icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Th_ID)">
+                                    <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                                    </el-link>
+                                </el-popconfirm>
+
+                            </el-button-group>
+                        </div>
+                    </template>
+                </el-table-column>
+            </el-table>         
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" 
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</body>
+
+</html>

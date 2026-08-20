@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title>试卷管理</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除" @add="btnadd" ref='btngroup' @delete="deleteData" path="../TestPaper/Modify"
+                width="820" height="600" :selects='selects' idkey='Tp_Id' table="datatables" :modal="false"></btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-input v-model.trim="form.search" clearable @clear="handleCurrentChange(1)" style="width:245px"
+                        placeholder="搜索"></el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+        <!-- 数据列表-->
+        <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%" stripe
+            @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Tp_Id">
+            <div slot="empty">
+                <span v-if="!loading">未查询到数据</span>
+            </div>
+            <el-table-column type="selection" width="35">
+            </el-table-column>
+            <el-table-column label="#" type="index" width="60" align="center">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="试卷">
+                <template slot-scope="scope">
+                    <span v-html="showsearch(scope.row.Tp_Name,form.search)" class="large"></span>
+                    <br />
+                    <el-tag type="info" title="难度等级"> {{scope.row.Tp_Diff}} - {{scope.row.Tp_Diff2}}</el-tag>
+                    <el-tag type="info" title="题量"> {{scope.row.Tp_Count}} 道题</el-tag>
+
+                    <el-tag type="primary" v-if="scope.row.Tp_IsFinal">
+                        <icon>&#xe816</icon>结课考试
+                    </el-tag>
+                    <el-switch v-model="scope.row.Tp_IsUse" @change="changeState(scope.row)" active-color="#13ce66"
+                        inactive-color="#ff4949" v-show="loadingid!=scope.row.Tp_Id"
+                        :active-text="scope.row.Tp_IsUse ? '启用' : '禁用'">
+                    </el-switch>
+                </template>
+            </el-table-column>
+            <el-table-column label="类型" align="center" width="120">
+                <template slot-scope="scope">
+                    <template v-if="scope.row.Tp_Type==1">
+                        固定试题
+                    </template>
+                    <template v-if="scope.row.Tp_Type==2" remark="随机试题">
+                        <div>
+                            随机试题
+                        </div>
+                        <el-tag type="success" v-if="scope.row.Tp_FromType==0">
+                            <icon>&#xe813</icon>按课程
+                        </el-tag>
+                        <el-tag type="warning" v-else>
+                            <icon>&#xe841</icon>按章节
+                        </el-tag>
+                    </template>
+                </template>
+            </el-table-column>
+            <el-table-column label="分数/限时" width="100">
+                <template slot-scope="scope">
+                    <div><span v-html="scope.row.Tp_PassScore" title="及格分"></span> /
+                        <span v-html="scope.row.Tp_Total" title="满分"></span> 分
+                    </div>
+                    <div>
+                        <icon>&#xe81a</icon> {{scope.row.Tp_Span}} 分钟
+                    </div>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作" width="100">
+                <template slot="header" slot-scope="scope">
+                    <el-dropdown @command="batchState">
+                        <span class="el-dropdown-link">
+                            操作<i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item :command="1">
+                                <icon>&#xa030</icon>批量启用
+                            </el-dropdown-item>
+                            <el-dropdown-item :command="0">
+                                <icon>&#xe7ad</icon>批量禁用
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </template>
+                <template slot-scope="scope">
+                    <div>
+                        <el-link type="primary" plain @click="viewResults(scope.row)">
+                            <icon>&#xe696</icon>成绩
+                            <result_count :ref="'result_count_'+scope.$index" :tpid="scope.row.Tp_Id"
+                                :index="scope.$index"></result_count>
+                        </el-link>
+                    </div>
+                    <el-dropdown @command="handleCommand" :tpid="scope.row.Tp_Id">
+                        <span class="el-dropdown-link">
+                            <icon>&#xa030</icon><span style="font-size: 12px">管理</span><i
+                                class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item command="preview">
+                                <el-link type="info" plain icon="el-icon-document" :underline="false">预览</el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item divided command="modify">
+                                <el-link type="primary" plain icon="el-icon-edit" :underline="false"> 修改 </el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="delete">
+                                <el-link type="danger" plain icon="el-icon-delete" :underline="false">删除 </el-link>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </template>
+            </el-table-column>
+        </el-table>
+
+
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-size="form.size"
+                :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</body>
+
+</html>

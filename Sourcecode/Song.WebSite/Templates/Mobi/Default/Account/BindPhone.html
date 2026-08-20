@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>绑定手机号</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <van-loading size="24px" type="spinner" v-if="loading">加载中...</van-loading>
+        <div class="context" v-else>
+            <account_header :account="account"></account_header>
+            <template v-if="islogin">
+                <card shadow>
+                    <card-title>
+                        <icon>&#xe66d</icon>手机号绑定
+                    </card-title>
+                    <card-content v-if="isbind">
+                        <van-cell>
+                            <template #title>
+                                {{account.Ac_MobiTel1}}
+                            </template>
+                            <template #default>
+                                <van-tag type="primary">已经绑定</van-tag>
+                            </template>
+
+                        </van-cell>
+                        <van-cell>
+                            <template #title>
+                                <span></span>
+                            </template>
+                            <template #default>
+
+                                <van-button type="warning" @click="phoneUnbind">
+                                    <icon>&#xe7ad</icon>取消绑定
+                                </van-button>
+                            </template>
+
+                        </van-cell>
+                    </card-content>
+                    <template v-else-if="!available">
+                        <van-cell>                           
+                            <template #default>
+                                <alert> 未开通短信接口，无法发送短信</alert>
+                            </template>
+                        </van-cell>                        
+                    </template>
+
+                    <!-- 未绑定-->
+                    <card-content v-else class="phonebind">
+                        <div prop="phone">
+                            <span>手机号</span>
+                            <input type="text" tabindex="1"  v-model.trim='form.phone' autocomplete="off" v-model.trim='form.phone'
+                                placeholder="手机号" />
+                            <span class="tips"></span>
+                        </div>
+                        <div prop="sms">
+                            <span>验证码</span>
+                            <input type="text" tabindex="1" autocomplete="off" v-model.trim='form.sms'
+                                placeholder="短信验证码" />
+                            <div class="sms_handler">
+                                <loading bubble v-if="loading_sms"></loading>
+                                <span v-else-if="sms_seconds>0">{{sms_seconds}}秒后重发</span>
+                                <span class="getsms" v-else @click="getsms">获取验证码</span>
+                            </div>
+                            <span class="tips"></span>
+                        </div>
+                        <van-cell>
+                            <template #title>
+                                <span></span>
+                            </template>
+                            <template #default>
+
+                                <van-button type="primary" @click="phonebind">
+                                    <icon>&#xe634</icon>确认绑定
+                                </van-button>
+                            </template>
+
+                        </van-cell>
+                    </card-content>
+                </card>
+
+            </template>
+            <card v-else>
+                <van-cell is-link>
+                    <template #title>
+                        <a icon="&#xe84d" :href="commonaddr('signin')">点击此处登录</a>
+                    </template>
+                </van-cell>
+
+            </card>
+
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

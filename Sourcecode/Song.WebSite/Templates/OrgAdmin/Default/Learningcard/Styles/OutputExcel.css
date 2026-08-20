@@ -1,0 +1,46 @@
+﻿@charset "utf-8";
+
+#vapp {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    line-height: 30px;
+    margin: 0px 20px 0px 20px;
+    width: calc(100% - 40px);
+}
+
+
+div.el-card:not(:first-child) {
+    margin-top: 10px !important;
+    flex: 1;
+}
+
+.el-card__header {
+    padding-right: 5px !important;
+}
+
+.el-card__body {
+    height: calc(100% - 45px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  
+}
+
+.el-card.files .clearfix {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 10px;
+}
+
+.el-card.files .el-card__body {
+    height: calc(100% - 90px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0px;
+}
+.el-card.files help{
+    display: block;
+    padding: 25px;
+}

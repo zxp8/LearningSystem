@@ -1,0 +1,80 @@
+﻿
+(function () {
+    $dom.load.css([
+        '/Utilities/Vant/Vant.css',
+        '/Utilities/ElementUi/index.css',
+        '/Utilities/styles/public.css',
+        $dom.path() + 'styles/public.css',
+        '/Utilities/Fonts/icon.css',
+        '/Utilities/Fonts/SvgIcons/svg.css',
+    ], $dom.selfresource);
+    //加载相关组件
+    window.$components = function (f) {
+        var arr = [];
+        //加载Vant
+        arr.push('/Utilities/Vant/vant.min.js');
+        arr.push('/Utilities/ElementUi/index.js');
+        $dom.load.js(arr, f);
+    };
+    window.$customize_componentjs = function (jsfile) {
+        let arr = [];       
+        return jsfile.concat(arr);
+    };
+    //加载必要的资源完成
+    //f:加载完成要执行的方法
+    //source:要加载的资源
+    window.$ready = function (f, source) {
+       //如果参数没有按顺序传，自动调整，例如原本第一个是方法，第二个是资源路径，调用时写反了也可以
+        var func = null, jsfile = [], cssfile = [];
+        func = Array.from(arguments).find(v => typeof v === 'function') || null;
+        //加载js与css
+        for (let i = 0; i < arguments.length; i++) {
+            const item = arguments[i];
+            if (typeof item === 'string') {
+                if (/\.js$/i.test(item)) jsfile.push(item);
+                if (/\.css$/i.test(item)) cssfile.push(item);
+            } else if (Array.isArray(item)) {
+                jsfile.push(...item.filter(s => /\.js$/i.test(s)));
+                cssfile.push(...item.filter(s => /\.css$/i.test(s)));
+            }
+        }
+        $dom.load.css(cssfile);
+        $dom.ready(function () {
+            $dom.corejs(function () {
+                $components(function () {
+                    window.$init_load(() => $dom.componentjs(window.$customize_componentjs(jsfile), func));
+                    window.$init_func();                    
+                });
+            });
+        });
+    };
+    //加载完成后的初始化方法
+    window.$init_func = function () {
+        //设置ElementUI的一些参数
+        Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
+        window.setTimeout(function () {
+            //关闭按钮的事件
+            $dom('button.el-button--close').click(function () {
+                if (window.top.$pagebox) window.top.$pagebox.shut($dom.trim(window.name));
+            });
+        }, 300);
+    };
+    //初始加载
+    window.$init_load = function (func) {
+        $api.bat(
+            $api.cache('Platform/PlatInfo:60'),
+            $api.get('Organization/Current')
+        ).then(([platinfo, org]) => {
+            //平台信息
+            window.platinfo = platinfo.data.result;
+            //机构信息与机构配置
+            window.org = org.data.result;
+            window.config = $api.organ(window.org).config;
+            document.title += ' - ' + window.org.Org_PlatformName;
+        }).catch(err => console.error(err)).finally(() => func());
+    };
+})();
+
+
+
+//console.log(arr);
